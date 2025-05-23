@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudyPlanner - Gestione Appelli</title>
+</head>
+<body>
+  <header>
+    <div class="container header-content">
+      <h1 class="logo">📘 StudyPlanner</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="login.html">Login</a>
+        <a href="request.html">Appelli</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <section class="request-form">
+      <h2>Professore - Richiesta Appello</h2>
+      <form>
+        <label for="course">Corso</label>
+        <input type="text" id="course" placeholder="Es. INF001 – Programmazione Web" required>
+        <label for="date">Data Appello</label>
+        <input type="date" id="date" required>
+        <label for="session">Sessione</label>
+        <select id="session">
+          <option>Invernale</option>
+          <option>Estiva</option>
+          <option>Autunnale</option>
+        </select>
+        <button type="submit">Invia Richiesta</button>
+      </form>
+    </section>
+    <section class="request-table">
+      <h2>Segreteria - Gestione Richieste</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Corso</th>
+            <th>Data</th>
+            <th>Sessione</th>
+            <th>Stato</th>
+            <th>Azioni</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>INF001 – Programmazione Web</td>
+            <td>2025-06-15</td>
+            <td>Estiva</td>
+            <td>In attesa</td>
+            <td>
+              <button class="approve">Approva</button>
+              <button class="reject">Rifiuta</button>
+            </td>
+          </tr>
+          <tr>
+            <td>INF002 – Basi di Dati</td>
+            <td>2025-07-10</td>
+            <td>Estiva</td>
+            <td>Approvato</td>
+            <td><em>—</em></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+  <footer>
+    <p>© 2025 StudyPlanner - Tutti i diritti riservati</p>
+  </footer>
+</body>
+</html>

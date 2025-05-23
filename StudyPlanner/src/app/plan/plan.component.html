@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudyPlanner - Piano di Studi</title>
+</head>
+<body>
+  <header>
+    <div class="container header-content">
+      <h1 class="logo">📘 StudyPlanner</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="login.html">Login</a>
+        <a href="plan.html">Piano Studi</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <section class="summary">
+      <h2>Il tuo Piano di Studi</h2>
+      <p>CFU Totali: <strong>18</strong> / 60</p>
+      <p>Esami selezionati: <strong>3</strong></p>
+    </section>
+    <section class="study-plan">
+      <h3>Seleziona gli esami</h3>
+      <form>
+        <div class="course">
+          <label>
+            <input type="checkbox" checked>
+            INF001 – Analisi Matematica 2 (12 CFU)
+          </label>
+          <p class="note">Propedeutico: Analisi 1</p>
+        </div>
+        <div class="course">
+          <label>
+            <input type="checkbox" checked>
+            INF002 – Programmazione Web (6 CFU)
+          </label>
+          <p class="note">Propedeutico: Basi di Dati</p>
+        </div>
+        <div class="course">
+          <label>
+            <input type="checkbox">
+            INF003 – Basi di Dati (6 CFU)
+          </label>
+        </div>
+        <div class="course">
+          <label>
+            <input type="checkbox">
+            INF004 – Ingegneria del Software (6 CFU)
+          </label>
+          <p class="note">Propedeutico: Programmazione Web</p>
+        </div>
+        <button type="submit">Salva Piano Studi</button>
+      </form>
+    </section>
+  </main>
+  <footer>
+    <p>© 2025 StudyPlanner - Tutti i diritti riservati</p>
+  </footer>
+</body>
+</html>
