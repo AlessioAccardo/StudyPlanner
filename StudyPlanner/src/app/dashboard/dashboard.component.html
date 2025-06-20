@@ -17,6 +17,7 @@
     </div>
   </header>
   <main class="container">
+    @if (auth.hasRole("student")){
     <section class="dashboard">
       <h2>Dashboard Studente</h2>
       <div class="riquadri">
@@ -34,6 +35,8 @@
         </div>
       </div>
     </section>
+    }
+    @if (auth.hasRole("professor")){
     <section class="dashboard">
       <h2>Dashboard Professore</h2>
       <div class="riquadri">
@@ -49,6 +52,7 @@
         </div>
       </div>
     </section>
+  }
   </main>
   <footer>
     <p> Studyplanner 2025 </p>
