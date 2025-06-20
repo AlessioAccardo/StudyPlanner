@@ -1,7 +1,5 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-
+import { Component,inject } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -10,5 +8,5 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-
+auth = inject(AuthService);
 }

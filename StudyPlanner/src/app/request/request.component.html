@@ -17,6 +17,7 @@
     </div>
   </header>
   <main class="container">
+    @if (auth.hasRole("professor")){
     <section class="request-form">
       <h2>Professore - Richiesta Appello</h2>
       <form>
@@ -33,6 +34,8 @@
         <button type="submit">Invia Richiesta</button>
       </form>
     </section>
+  }
+  @if (auth.hasRole("admin")){
     <section class="request-table">
       <h2>Segreteria - Gestione Richieste</h2>
       <table>
@@ -66,6 +69,7 @@
         </tbody>
       </table>
     </section>
+  }
   </main>
   <footer>
     <p> Studyplanner 2025 </p>

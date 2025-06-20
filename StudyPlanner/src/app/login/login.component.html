@@ -37,10 +37,12 @@
           <label for="reg-password">Password</label>
           <input type="password" id="reg-password" required>
           <label for="reg-role">Ruolo</label>
-          <select id="reg-role">
-            <option value="studente">Studente</option>
-            <option value="professore">Professore</option>
-            <option value="segreteria">Segreteria</option>
+          <select id="reg-role"
+          #roleSelect (change) = "onRoleChange(roleSelect.selectedIndex)"
+          class = "form-select">
+            @for(role of roles; track role){
+            <option> {{role}} </option>
+            }
           </select>
           <button type="submit">Registrati</button>
         </form>

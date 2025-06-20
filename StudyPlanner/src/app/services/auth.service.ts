@@ -1,40 +1,33 @@
-import { Injectable } from "@angular/core";
+import { Injectable, signal } from "@angular/core";
 
-type UserRole = "guest" | "student" | "professor" | "admin";
-
+export type UserRole = "student" | "professor" | "admin" | null;
+export const ALL_ROLES: UserRole[] = ["student", "professor", "admin"];
 @Injectable({
     providedIn: "root"
 })
-export class AuthService {
-    private isAuthenticated = false;
 
-    login() {
-        this.isAuthenticated = true;
+
+export class AuthService {
+    private _role = signal<UserRole>(null);
+
+    readonly userRole = this._role.asReadonly();
+    
+    private _loggedIn = signal(false);
+    readonly isLoggedIn = this._loggedIn.asReadonly();
+    readonly availableRoles: UserRole[] = ALL_ROLES;
+
+    login(role: UserRole) {
+        this._role.set(role);
+        this._loggedIn.set(true);
     }
 
     logout() {
-        this.isAuthenticated = false;
+        this._role.set(null);
+        this._loggedIn.set(false);
     }
 
-    isLoggedIn(): boolean {
-        return this.isAuthenticated;
+    hasRole(required: UserRole){
+        return this._role() === required;
     }
 
-    private currentUser: {role : UserRole} | null = null;
-
-    login_role(role: UserRole){
-        this.currentUser = {role};
-    }
-
-    logout_role(){
-        this.currentUser = null;
-    }
-
-    getRole(): UserRole {
-        return this.currentUser?.role || "guest";
-    }
-
-    hasRole(requiredRole: string): boolean {
-        return this.getRole() === requiredRole;
-    }
 }

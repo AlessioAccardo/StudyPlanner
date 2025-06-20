@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-request',
@@ -8,5 +9,5 @@ import { Component } from '@angular/core';
   standalone: true,
 })
 export class RequestComponent {
-
+  auth = inject(AuthService);
 }
