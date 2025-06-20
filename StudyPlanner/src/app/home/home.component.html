@@ -11,7 +11,7 @@
 <section class="search">
   <input
     type="text"
-    (searchText)="onSearch()"
+    (input)="getInputElement($event)"
     placeholder="Cerca per codice o nome esame..."
   />
   <button (click)="onSearch()">Cerca</button>
@@ -20,7 +20,7 @@
 <section class="esami">
   <h3>Esami Disponibili</h3>
   <ul>
-    @for (esame of filteredEsami; track esame) {
+    @for (esame of filteredEsami; track $index) {
       <li>
         {{ esame }}
       </li>

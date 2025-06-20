@@ -13,8 +13,7 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-  searchText = input<string>();
-  research: string = "";
+  searchText: string = "";
 
   esami: string[] = [
     'INF001 - Analisi Matematica II',
@@ -24,18 +23,20 @@ export class HomeComponent {
     'INF005 - Reti di Calcolatori'
   ];
 
-  filteredEsami: string[] = [...this.esami];
+  filteredEsami: string[] = [];
 
-  onSearch(): void {
-    const research = this.searchText.toString()
-    const text = this.research.toLowerCase().trim();
-    if (!text) {
-      // se la stringa di ricerca è vuota, ripristino tutti
-      this.filteredEsami = [...this.esami];
-    } else {
-      this.filteredEsami = this.esami.filter(esame =>
-        esame.toLowerCase().includes(text)
-      );
-    }
+
+  getInputElement(event: Event) {
+    this.searchText = (event.target as HTMLInputElement).value
+  }
+
+  onSearch() {
+    this.filteredEsami = [];
+    this.esami.forEach((esame) => {
+      if (esame.toLowerCase().trim().includes(this.searchText)) {
+        this.filteredEsami.push(esame);
+      }
+      return this.filteredEsami;
+    })
   }
 }
