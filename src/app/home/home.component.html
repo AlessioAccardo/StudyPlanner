@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StudyPlanner - Home</title>
-</head>
-<body>
-  <header>
+ <header>
     <div class="container header-content">
       <h1 class="logo"> StudyPlanner</h1>
       <nav>
@@ -26,18 +18,23 @@
       <h2>Organizza i tuoi esami universitari</h2>
       <p>Accedi al tuo piano di studi, iscriviti agli appelli e monitora i CFU in pochi click</p>
     </section>
-    <section class="search">
-      <input type="text" placeholder="Cerca per codice o nome esame...">
-      <button>Cerca</button>
-    </section>
-    <section class="esami">
-      <h3>Esami Disponibili</h3>
-      <ul>
-        <li><strong>INF001</strong> - Analisi Matematica II </li>
-        <li><strong>INF002</strong> -  Programmazione Web&Mobile </li>
-        <li><strong>INF003</strong> -  Basi di Dati</li>
-      </ul>
-    </section>
+<section class="search">
+  <input
+    type="text"
+    [(ngModel)]="searchText"
+    placeholder="Cerca per codice o nome esame..."
+  />
+  <button (click)="onSearch()">Cerca</button>
+</section>
+
+<section class="esami">
+  <h3>Esami Disponibili</h3>
+  <ul>
+    <li *ngFor="let esame of filteredEsami">
+      {{ esame }}
+    </li>
+  </ul>
+</section>
 
     <section class = "descrizione">
       <h3> Cosa offre la nostra piattaforma? </h3>
@@ -63,5 +60,3 @@
   <footer>
     <p> StudyPlanner 2025 </p>
   </footer>
-</body>
-</html>
