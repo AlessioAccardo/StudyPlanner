@@ -65,7 +65,6 @@ nav a {
 nav a:hover {
   text-decoration: underline;
 }
-
 /* Hero section */
 .hero {
   background-color: white;
@@ -106,6 +105,7 @@ nav a:hover {
 /* Sezioni generiche */
 .esami,
 .descrizione,
+.faq,
 .summary,
 .study-plan,
 .request-form,
@@ -119,6 +119,7 @@ nav a:hover {
 }
 .esami h3,
 .descrizione h3,
+.faq h3,
 .request-form h2,
 .request-table h2,
 .dashboard h2 {

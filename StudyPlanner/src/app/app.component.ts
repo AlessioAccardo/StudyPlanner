@@ -1,18 +1,16 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { FaqComponent } from './faq/faq.component';
-import { LoginComponent } from './login/login.component';
-import { PlanComponent } from './plan/plan.component';
-import { RequestComponent } from './request/request.component';
+import { Component} from '@angular/core';
+import { RouterOutlet} from '@angular/router';
+
+
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HomeComponent, DashboardComponent, FaqComponent, LoginComponent, PlanComponent, RequestComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
+  standalone: true,
 })
 export class AppComponent {
   title = 'StudyPlanner';
+
 }

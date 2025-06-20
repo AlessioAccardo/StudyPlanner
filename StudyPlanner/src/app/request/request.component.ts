@@ -4,7 +4,8 @@ import { Component } from '@angular/core';
   selector: 'app-request',
   imports: [],
   templateUrl: './request.component.html',
-  styleUrl: './request.component.scss'
+  styleUrl: './request.component.scss',
+  standalone: true,
 })
 export class RequestComponent {
 
