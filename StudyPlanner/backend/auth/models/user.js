@@ -19,16 +19,29 @@ class User {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        return new Promise((resolve, reject) => {    
-            db.run(
-                'INSERT INTO users (first_name, last_name, email, password, role) VALUES (?,?,?,?,?)',
-                [first_name, last_name, email, hashedPassword, role],
-                function(err) {
-                    if (err) reject(err);
-                    resolve({ id: this.lastID, first_name, last_name, email, role })
-                }
-            );
-        });
+        if (role == "studente") {
+            return new Promise((resolve, reject) => {    
+                db.run(
+                    'INSERT INTO users (first_name, last_name, email, password, role, credits, mean) VALUES (?,?,?,?,?,?,?)',
+                    [first_name, last_name, email, hashedPassword, role, 0, 0],
+                    function(err) {
+                        if (err) reject(err);
+                        resolve({ id: this.lastID, first_name, last_name, email, role })
+                    }
+                );
+            });
+        } else {
+            return new Promise((resolve, reject) => {    
+                db.run(
+                    'INSERT INTO users (first_name, last_name, email, password, role) VALUES (?,?,?,?,?)',
+                    [first_name, last_name, email, hashedPassword, role],
+                    function(err) {
+                        if (err) reject(err);
+                        resolve({ id: this.lastID, first_name, last_name, email, role })
+                    }
+                );
+            });
+        }
     }
 
     // ricerca utente per first_name

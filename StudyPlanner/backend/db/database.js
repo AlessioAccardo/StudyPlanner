@@ -1,5 +1,9 @@
+const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('./database.sqlite', (err) => {
+
+const dbFile = path.join(__dirname, 'database.sqlite');
+
+const db = new sqlite3.Database(dbFile, (err) => {
     if (err) {
         console.log(`Errore nella connessione al database`);
     } else {
@@ -47,7 +51,7 @@ const db = new sqlite3.Database('./database.sqlite', (err) => {
                 exam_code INTEGER NOT NULL,
                 student_id INTEGER NOT NULL,
                 grade INTEGER,
-                accepted BOOLEAN NOT NULL CHECK(approved IN (0,1)) DEFAULT 0,
+                accepted BOOLEAN NOT NULL CHECK(accepted IN (0,1)) DEFAULT 0,
                 PRIMARY KEY (exam_code, student_id)
                 FOREIGN KEY (exam_code) REFERENCES exams(code) ON DELETE CASCADE ON UPDATE NO ACTION,
                 FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE NO ACTION

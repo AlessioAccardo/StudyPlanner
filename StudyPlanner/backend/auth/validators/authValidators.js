@@ -3,13 +3,12 @@ const { body, validationResult } = require('express-validator');
 // controllo che i campi siano valorizzati per la registrazione
 
 const registerValidator = [
-    body('username').notEmpty().withMessage('Username é obbligatorio'),
     body('email').isEmail().withMessage('Email non valida'),
     body('password').isLength({ min: 6 }).withMessage('Password deve essere di almeno 6 caratteri')
 ];
 
 const loginValidator = [
-    body('username').notEmpty().withMessage('Username é obbligatorio'),
+    body('email').notEmpty().withMessage('email é obbligatoria'),
     body('password').notEmpty().withMessage('Password é obbligatoria')
 ];
 
