@@ -8,7 +8,7 @@ export const ALL_ROLES: UserRole[] = ["student", "professor", "admin"];
 
 
 export class AuthService {
-    private _role = signal<UserRole>(null);
+    public _role = signal<UserRole>(null);
 
     readonly userRole = this._role.asReadonly();
     
