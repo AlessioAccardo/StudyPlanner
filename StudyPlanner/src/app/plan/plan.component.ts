@@ -41,6 +41,20 @@ export class PlanComponent {
     }
   ];
 
+  searchText: string = '';
+
+  get esamiFiltrati() {
+    if (!this.searchText.trim()) return this.esami;
+    return this.esami.filter(e =>
+      `${e.codice} ${e.nome}`.toLowerCase().includes(this.searchText.toLowerCase())
+    );
+  }
+
+  onSearch(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.searchText = input.value;
+  }
+
   get esamiSelezionati() {
     return this.esami.filter(e => e.selezionato);
   }
@@ -50,7 +64,15 @@ export class PlanComponent {
   }
 
   salvaPiano(event: Event): void {
-    event.preventDefault(); 
+    event.preventDefault();
     alert(`Hai salvato ${this.esamiSelezionati.length} esami per un totale di ${this.cfuTotali} CFU.`);
+  }
+
+  aggiornaSelezione(event: Event, esameCodice: string) {
+    const input = event.target as HTMLInputElement;
+    const esame = this.esami.find(e => e.codice === esameCodice);
+    if (esame) {
+      esame.selezionato = input.checked;
+    }
   }
 }

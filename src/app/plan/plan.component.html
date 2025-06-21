@@ -18,17 +18,13 @@
 
   <section class="study-plan">
     <h3>Seleziona gli esami</h3>
-    <form (submit)="salvaPiano($event)">
-      <div class="course" *ngFor="let esame of esami">
-        <label>
-          <input type="checkbox" [(ngModel)]="esame.selezionato" name="{{esame.codice}}">
-          {{ esame.codice }} - {{ esame.nome }} ({{ esame.cfu }} CFU)
-        </label>
-        <p class="note" *ngIf="esame.note">{{ esame.note }}</p>
-      </div>
 
-      <button type="submit">Salva Piano Studi</button>
-    </form>
+    <label for="search">Cerca esame:</label>
+    <input type="text" id="search" placeholder="Es: INF001 o Analisi Matematica" (input)="aggiornaRicerca()" />
+
+    <div id="lista-esami"></div>
+
+    <button (click)="salvaPiano($event)">Salva Piano Studi</button>
   </section>
 </main>
 

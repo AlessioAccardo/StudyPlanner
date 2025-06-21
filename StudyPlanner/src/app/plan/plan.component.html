@@ -8,17 +8,32 @@
   <section class="study-plan">
     <h3>Seleziona gli esami</h3>
     <form (submit)="salvaPiano($event)">
-      @for (esame of esami; track esame.codice ) {
+      
+      <label for="search">Cerca esame:</label>
+      <input
+        id="searchBar"
+        type="text"
+        placeholder="Es: INF002 o Programmazione"
+        (input)="onSearch($event)"
+      />
+
+      @for (esame of esamiFiltrati; track esame.codice) {
         <div class="course">
-        <label>
-          <input type="checkbox" () name="{{esame.codice}}">
-          {{ esame.codice }} - {{ esame.nome }} ({{ esame.cfu }} CFU)
-        </label>
-        @if (esame.note) {
-          <p class="note">{{ esame.note }}</p>
-        } 
-       </div>
+          <label>
+            <input
+              type="checkbox"
+              [checked]="esame.selezionato"
+              (change)="aggiornaSelezione($event, esame.codice)"
+              name="{{ esame.codice }}"
+            />
+            {{ esame.codice }} - {{ esame.nome }} ({{ esame.cfu }} CFU)
+          </label>
+          @if (esame.note) {
+            <p class="note">{{ esame.note }}</p>
+          }
+        </div>
       }
+
       <button type="submit">Salva Piano Studi</button>
     </form>
   </section>

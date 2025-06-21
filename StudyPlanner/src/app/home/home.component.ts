@@ -25,18 +25,22 @@ export class HomeComponent {
 
   filteredEsami: string[] = [];
 
+  constructor() {
+    this.filteredEsami = this.esami; 
+  }
 
   getInputElement(event: Event) {
-    this.searchText = (event.target as HTMLInputElement).value
+    this.searchText = (event.target as HTMLInputElement).value;
   }
 
   onSearch() {
-    this.filteredEsami = [];
-    this.esami.forEach((esame) => {
-      if (esame.toLowerCase().trim().includes(this.searchText)) {
-        this.filteredEsami.push(esame);
-      }
-      return this.filteredEsami;
-    })
+    const query = this.searchText.toLowerCase().trim();
+    if (!query) {
+      this.filteredEsami = this.esami;
+    } else {
+      this.filteredEsami = this.esami.filter(esame =>
+        esame.toLowerCase().includes(query)
+      );
+    }
   }
 }
