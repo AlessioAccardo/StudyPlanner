@@ -241,16 +241,36 @@ footer {
 
 /* Gestione appelli (componente Request): Form e Tabella */
 
-.request-form button {
+.request-table form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  align-items: end;
+}
+.request-table label { font-weight: 600; }
+
+.request-table select{
+  width: 40%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.request-table button[type="submit"]:disabled {
+  padding: 0.75rem;
+  background-color: #ccc;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: not-allowed;
+}
+.request-table button[type="submit"]:not(:disabled) {
   padding: 0.75rem;
   background-color: #0077cc;
   color: white;
   border: none;
   border-radius: 0.375rem;
   cursor: pointer;
-}
-.request-form button:hover {
-  background-color: #005fa3;
 }
 
 .request-table table {

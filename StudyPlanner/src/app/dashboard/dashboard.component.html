@@ -1,22 +1,4 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StudyPlanner - Dashboard</title>
-</head>
-<body>
-  <header>
-    <div class="container header-content">
-      <h1 class="logo"> StudyPlanner</h1>
-      <nav>
-        <a href=" ">Home</a>
-        <a href="login">Login</a>
-        <a href="dashboard">Dashboard</a>
-      </nav>
-    </div>
-  </header>
-  <main class="container">
+<main class="container">
     @if (auth.hasRole("student")){
     <section class="dashboard">
       <h2>Dashboard Studente</h2>
@@ -54,8 +36,3 @@
     </section>
   }
   </main>
-  <footer>
-    <p> Studyplanner 2025 </p>
-  </footer>
-</body>
-</html>
