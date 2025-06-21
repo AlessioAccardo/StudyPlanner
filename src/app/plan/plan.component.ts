@@ -50,7 +50,7 @@ export class PlanComponent {
   }
 
   salvaPiano(event: Event): void {
-    event.preventDefault(); // evita ricarica pagina
+    event.preventDefault(); 
     alert(`Hai salvato ${this.esamiSelezionati.length} esami per un totale di ${this.cfuTotali} CFU.`);
   }
 }

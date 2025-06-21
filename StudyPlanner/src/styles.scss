@@ -104,8 +104,8 @@ nav a:hover {
 /* Sezioni generiche */
 .esami,
 .descrizione,
-.faq,
 .summary,
+.faq,
 .study-plan,
 .request-form,
 .request-table,
@@ -118,7 +118,6 @@ nav a:hover {
 }
 .esami h3,
 .descrizione h3,
-.faq h3,
 .request-form h2,
 .request-table h2,
 .dashboard h2 {
@@ -133,6 +132,28 @@ nav a:hover {
   padding: 0.5rem 0;
   border-bottom: 0.0625rem solid #eee;
 }
+
+/*Sezione faq*/
+.faq h1 {
+  font-size: 18px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+.faq-item h2 {
+  font-size: 16px;
+  margin: 0;
+}
+.faq-item p {
+  margin: 4px 0 0 12px;
+  font-size: 14px;
+}
+.faq-item strong {
+  font-weight: 600;
+}
+.faq-item em {
+  font-style: italic;
+}
+
 
 /* Slider (Carosello immagini nella home) */
 .slider {

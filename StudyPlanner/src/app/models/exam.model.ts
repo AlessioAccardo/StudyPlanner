@@ -10,4 +10,8 @@ export class Exam {
         public date: Date,
         public course_id: number       
     ){}
+
+
+    
+
 }
