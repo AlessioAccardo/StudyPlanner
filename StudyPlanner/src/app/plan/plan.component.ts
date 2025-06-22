@@ -23,14 +23,14 @@ export class PlanComponent {
       nome: 'Programmazione Web & Mobile',
       cfu: 9,
       selezionato: false,
-      note: 'Propedeutico: Basi di Dati'
+      note: ''
     },
     {
       codice: 'INF003',
       nome: 'Basi di Dati',
       cfu: 6,
       selezionato: false,
-      note: ''
+      note: 'Propedeutico: Basi di Dati'
     },
     {
       codice: 'INF004',
