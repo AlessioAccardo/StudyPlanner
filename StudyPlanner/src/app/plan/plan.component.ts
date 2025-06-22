@@ -30,7 +30,7 @@ export class PlanComponent {
       nome: 'Basi di Dati',
       cfu: 6,
       selezionato: false,
-      note: 'Propedeutico: Basi di Dati'
+      note: ""
     },
     {
       codice: 'INF004',
