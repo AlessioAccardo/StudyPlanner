@@ -1,20 +1,16 @@
-  <div class="slider">
+   <div class="slider">
       <img src="img1.png" class="slide" alt="Immagine 1">
       <img src="img2.png" class="slide" alt="Immagine 2">
       <img src="img3.png" class="slide" alt="Immagine 3">
   </div>
   
-<main class="container">
+  <main class="container">
     <section class="hero">
       <h2>Organizza i tuoi esami universitari</h2>
       <p>Accedi al tuo piano di studi, iscriviti agli appelli e monitora i CFU in pochi click</p>
     </section>
 <section class="search">
-  <input
-    type="text"
-    (input)="getInputElement($event)"
-    placeholder="Cerca per codice o nome esame..."
-  />
+  <input type="text" (input)="getInputElement($event)" placeholder="Cerca per codice o nome esame..."/>
   <button (click)="onSearch()">Cerca</button>
 </section>
 

@@ -8,15 +8,10 @@
   <section class="study-plan">
     <h3>Seleziona gli esami</h3>
     <form (submit)="salvaPiano($event)">
-      
-      <label for="search">Cerca esame:</label>
-      <input
-        id="searchBar"
-        type="text"
-        placeholder="Es: INF001 o Analisi Matematica"
-        (input)="onSearch($event)"
-      />
-
+    <section class = "search">
+      <input type="text" placeholder="Cerca esame per codice o nome esame..."(input)="onSearch($event)"/>
+    </section>
+    
       @for (esame of esamiFiltrati; track esame.codice) {
         <div class="course">
           <label>

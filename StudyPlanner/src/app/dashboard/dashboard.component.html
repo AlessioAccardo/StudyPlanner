@@ -20,15 +20,15 @@
             <td [class.completed]= "exam.completed" [class.failed] = "!exam.completed">{{ exam.completed ? 'Completato' : 'Non completato' }}</td>
             </tr>
             }
+            <tr>
+            <td> <strong>CFU Totali: {{ totalCfu }} / {{ maxCfu }}> </strong></td>
+            </tr>
+            <tr>
+             <td><strong>Percentuale Completamento: {{completePercentage.toFixed(2)}}% </strong></td>
+            </tr>
           </tbody>
         </table>
-        </div>
-        <div class="riquadro">
-          <p>CFU Totali: {{ totalCfu }} / {{ maxCfu }}</p>
-        <p>Percentuale Completamento: {{completePercentage.toFixed(2)}}%</p>
-        </div>
-
-
+      </div>
       </div>
     </section>
     }
