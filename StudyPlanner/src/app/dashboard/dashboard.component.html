@@ -1,38 +1,64 @@
 <main class="container">
-    @if (auth.hasRole("student")){
+    @if (auth.hasRole(null)){
     <section class="dashboard">
       <h2>Dashboard Studente</h2>
       <div class="riquadri">
-        <div class="riquadro">
-          <h3>Esami nel piano</h3>
-          <p>5</p>
-        </div>
-        <div class="riquadro">
-          <h3>CFU Totali</h3>
-          <p>36 / 60</p>
-        </div>
-        <div class="riquadro">
-          <h3>Completamento</h3>
-          <p>60%</p>
-        </div>
+        <div class = "riquadro">
+        <table>
+          <thead>
+            <tr>
+              <th>Esame</th>
+              <th>CFU</th>
+              <th>Completato</th>
+            </tr>
+          </thead>
+          <tbody>
+          @for (exam of studentExams; track exam) {
+            <tr>
+            <td>{{ exam.name }}</td>
+            <td>{{ exam.cfu }}</td>
+            <td [class.completed]= "exam.completed" [class.failed] = "!exam.completed">{{ exam.completed ? 'Completato' : 'Non completato' }}</td>
+            </tr>
+            }
+            <tr>
+            <td> <strong>CFU Totali: {{ totalCfu }} / {{ maxCfu }}> </strong></td>
+            </tr>
+            <tr>
+             <td><strong>Percentuale Completamento: {{completePercentage.toFixed(2)}}% </strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       </div>
     </section>
     }
-    @if (auth.hasRole("professor")){
+
+
+    @if (auth.hasRole(null)){
     <section class="dashboard">
       <h2>Dashboard Professore</h2>
       <div class="riquadri">
-        <div class="riquadro">
-          <h3>Programmazione Web & Mobile</h3>
-          <p>Promossi: 65%</p>
-          <p>Bocciati: 35%</p>
+        <div class = "riquadro">
+       <table>
+          <thead>
+            <tr>
+              <th>Esame</th>
+              <th>% Promossi</th>
+              <th>% Bocciati</th>
+            </tr>
+          </thead>
+          <tbody>
+          @for(stats of professorStats; track stats){
+            <tr>
+              <td>{{ stats.name }}</td>
+              <td class = "completed">{{ getPassPercentage(stats).toFixed(2)}}%</td>
+              <td class = "failed">{{ getFailPercentage(stats).toFixed(2)}}%</td>
+            </tr>
+           }
+          </tbody>
+            </table>
+          </div>
         </div>
-        <div class="riquadro">
-          <h3>Basi di Dati</h3>
-          <p>Promossi: 70%</p>
-          <p>Bocciati: 30%</p>
-        </div>
-      </div>
     </section>
   }
   </main>

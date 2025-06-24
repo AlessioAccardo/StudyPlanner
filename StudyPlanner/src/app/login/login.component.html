@@ -23,7 +23,7 @@
           <select id="reg-role"
           #roleSelect (change) = "onRoleChange(roleSelect.selectedIndex)"
           class = "form-select">
-            @for(role of roles; track role){
+          @for(role of roles; track role){
             <option> {{role}} </option>
             }
           </select>

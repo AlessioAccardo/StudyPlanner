@@ -156,35 +156,41 @@ nav a:hover {
 
 
 /* Slider (Carosello immagini nella home) */
+
 .slider {
-  position: relative;
-  width: 100%;
   /* altezza tra 30vh e 50vh in base allo schermo */
-  height: clamp(30vh, 40vw, 50vh);
+  aspect-ratio: 1900/750;
+  width: 100%; 
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  position: relative;
   overflow: hidden;
   margin-bottom: 2rem;
+
 }
 .slide {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  animation: fadeAnimation 8s infinite;
+  inset: 0;
+  animation: fade 17s infinite both ease-in-out;
 }
 .slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
 }
 
 /* Delay per le slide */
-.slide:nth-child(1) { animation-delay: 0s; }
-.slide:nth-child(2) { animation-delay: 4s; }
-
-@keyframes fadeAnimation {
-  0%, 50%, 100% { opacity: 0; }
-  10%, 40%      { opacity: 1; }
+@keyframes fade {
+  0%   { opacity: 0; z-index: 1; }
+  7% { opacity: 1; z-index: 2; }   /* fade-in finito */
+  27% { opacity: 1; z-index: 2; }  /* visibile */
+  33% { opacity: 0; z-index: 1; }  /* fade-out finito */
+  100% { opacity: 0; z-index: 1; }
 }
+.slide:nth-child(1) { animation-delay: 0s;  }
+.slide:nth-child(2) { animation-delay: 5s;  }
+.slide:nth-child(3) { animation-delay: 10s;  }
 
 /* Footer */
 footer {
@@ -301,7 +307,7 @@ footer {
 .riquadri {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 .riquadro {
   flex: 1 1 15rem;
@@ -309,6 +315,16 @@ footer {
   border-left: 0.375rem solid #0077cc;
   padding: 1.5rem;
   border-radius: 0.375rem;
+}
+.riquadro table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 1rem 0.5rem;
+}
+.riquadro table th, td {
+  padding: 0.75 rem;
+  text-align: left;
 }
 .riquadro h3 {
   margin-bottom: 0.5rem;
@@ -319,6 +335,14 @@ footer {
   margin: 0.3rem 0;
 }
 
+ .completed {
+      color: green;
+      font-weight: bold;
+    }
+    .failed {
+      color: red;
+      font-weight: bold;
+    }
 /* Button del componente plan */
 .study-plan button {
   padding: 0.75rem;
@@ -333,15 +357,14 @@ footer {
 }
 
 
-/* Responsive */
+/* Barra di ricerca responsive */
 @media (max-width: 48rem) {
   .header-content { flex-direction: column; text-align: center; }
   .search { flex-direction: column; align-items: center; }
-  .search input { width: 100%; }
+  .search input { width: 100% }
 }
 
-/* Barra di ricerca nel piano di studi */
-input[type="text"] {
+ .search input[type="text"] {
   padding: 10px;
   margin: 15px 0;
   width: 100%;
@@ -350,7 +373,9 @@ input[type="text"] {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
-}
+  }
+
+
 
 /* Checkbox ed etichette */
 .course {
