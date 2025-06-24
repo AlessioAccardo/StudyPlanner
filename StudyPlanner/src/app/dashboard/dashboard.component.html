@@ -1,64 +1,78 @@
-<main class="container">
-    @if (auth.hasRole(null)){
+<main class="container"> 
+  @if (auth.hasRole(null)) {
     <section class="dashboard">
       <h2>Dashboard Studente</h2>
       <div class="riquadri">
-        <div class = "riquadro">
-        <table>
-          <thead>
-            <tr>
-              <th>Esame</th>
-              <th>CFU</th>
-              <th>Completato</th>
-            </tr>
-          </thead>
-          <tbody>
-          @for (exam of studentExams; track exam) {
-            <tr>
-            <td>{{ exam.name }}</td>
-            <td>{{ exam.cfu }}</td>
-            <td [class.completed]= "exam.completed" [class.failed] = "!exam.completed">{{ exam.completed ? 'Completato' : 'Non completato' }}</td>
-            </tr>
-            }
-            <tr>
-            <td> <strong>CFU Totali: {{ totalCfu }} / {{ maxCfu }}> </strong></td>
-            </tr>
-            <tr>
-             <td><strong>Percentuale Completamento: {{completePercentage.toFixed(2)}}% </strong></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+        <div class="riquadro">
+          <table>
+            <thead>
+              <tr>
+                <th>Esame</th>
+                <th>CFU</th>
+                <th>Completato</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (exam of studentExams; track exam) {
+                <tr>
+                  <td>{{ exam.name }}</td>
+                  <td>{{ exam.cfu }}</td>
+                  <td [class.completed]="exam.completed" [class.failed]="!exam.completed">
+                    {{ exam.completed ? 'Completato' : 'Non completato' }}
+                  </td>
+                </tr>
+              }
+              <tr>
+                <td><strong>CFU Totali: {{ totalCfu }} / {{ maxCfu }}</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Percentuale Completamento: {{ completePercentage.toFixed(2) }}%</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
-    }
+  }
 
-
-    @if (auth.hasRole(null)){
+  @if (auth.hasRole(null)) {
     <section class="dashboard">
       <h2>Dashboard Professore</h2>
       <div class="riquadri">
-        <div class = "riquadro">
-       <table>
-          <thead>
-            <tr>
-              <th>Esame</th>
-              <th>% Promossi</th>
-              <th>% Bocciati</th>
-            </tr>
-          </thead>
-          <tbody>
-          @for(stats of professorStats; track stats){
-            <tr>
-              <td>{{ stats.name }}</td>
-              <td class = "completed">{{ getPassPercentage(stats).toFixed(2)}}%</td>
-              <td class = "failed">{{ getFailPercentage(stats).toFixed(2)}}%</td>
-            </tr>
-           }
-          </tbody>
-            </table>
-          </div>
+        <div class="riquadro">
+          <table>
+            <thead>
+              <tr>
+                <th>Esame</th>
+                <th>% Promossi</th>
+                <th>% Bocciati</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (stats of professorStats; track stats) {
+                <tr>
+                  <td>{{ stats.name }}</td>
+                  <td class="completed">{{ getPassPercentage(stats).toFixed(2) }}%</td>
+                  <td class="failed">{{ getFailPercentage(stats).toFixed(2) }}%</td>
+                </tr>
+              }
+            </tbody>
+          </table>
         </div>
+
+        <div class="riquadro">
+          <h3>Richieste Esami</h3>
+          <ul>
+            @for (richiesta of richiesteEsami; track richiesta.codice) {
+              <li>
+                {{ richiesta.codice }} - {{ richiesta.nome }} ({{ richiesta.cfu }} CFU)
+                <button (click)="confermaAzione('accettare', richiesta)">Accetta</button>
+                <button (click)="confermaAzione('rifiutare', richiesta)">Rifiuta</button>
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
     </section>
   }
-  </main>
+</main>
