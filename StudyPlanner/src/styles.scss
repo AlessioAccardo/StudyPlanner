@@ -41,29 +41,42 @@ p, li, label {
 
 /* Header */
 header {
-  background-color: #0077cc;
-  color: white;
+  position: relative;
+  background: linear-gradient(120deg, #006bb3, #00c6ff, #0099ff);
+  color: #fff;
   padding: 1.5rem 0;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  z-index: 100;
 }
 .header-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 1rem;
+
 }
 .logo {
-  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  color: #ffffff;
+  text-shadow:
+  -1px -1px 0 rgba(255,255,255,0.2),
+   1px  1px 0 rgba(0,0,0,0.2);
 }
+
+
 nav a {
   color: white;
   margin-left: 1.25rem;
   text-decoration: none;
+  font-size: 20px;
   font-weight: bold;
 }
 nav a:hover {
   text-decoration: underline;
 }
+
 /* Hero section */
 .hero {
   background-color: white;
@@ -160,9 +173,8 @@ nav a:hover {
 .slider {
   /* altezza tra 30vh e 50vh in base allo schermo */
   aspect-ratio: 1900/750;
-  width: 100%; 
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
+  width: 1900; 
+  height: 750;
   position: relative;
   overflow: hidden;
   margin-bottom: 2rem;
@@ -170,34 +182,30 @@ nav a:hover {
 }
 .slide {
   position: absolute;
-  inset: 0;
-  animation: fade 17s infinite both ease-in-out;
+  width: 100%;
+  height: 100%;
+  animation: fadeAnimation 8s infinite;
 }
 .slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
 }
 
 /* Delay per le slide */
-@keyframes fade {
-  0%   { opacity: 0; z-index: 1; }
-  7% { opacity: 1; z-index: 2; }   /* fade-in finito */
-  27% { opacity: 1; z-index: 2; }  /* visibile */
-  33% { opacity: 0; z-index: 1; }  /* fade-out finito */
-  100% { opacity: 0; z-index: 1; }
-}
-.slide:nth-child(1) { animation-delay: 0s;  }
-.slide:nth-child(2) { animation-delay: 5s;  }
-.slide:nth-child(3) { animation-delay: 10s;  }
+.slide:nth-child(1) { animation-delay: 0s; }
+.slide:nth-child(2) { animation-delay: 4s; }
 
+@keyframes fadeAnimation {
+  0%, 50%, 100% { opacity: 0; }
+  10%, 40%      { opacity: 1; }
+}
 /* Footer */
 footer {
-  background-color: #0077cc;
-  color: white;
-  text-align: center;
+  background: linear-gradient(120deg, #006bb3, #00c6ff, #0099ff);
+  color: #fff;
   padding: 1rem 0;
+  text-align: center;
   margin-top: auto;
 }
 
