@@ -40,7 +40,7 @@ const db = new sqlite3.Database(dbFile, (err) => {
                 max_students INTEGER,
                 enrolled_students INTEGER,
                 professor_id INTEGER NOT NULL,
-                approved BOOLEAN NOT NULL CHECK(approved IN (0,1)) DEFAULT 0,
+                approved BOOLEAN CHECK(approved IN (0,1)),
                 date DATETIME NOT NULL,
                 course_id INT NOT NULL,
                 FOREIGN KEY (professor_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE NO ACTION,
@@ -51,7 +51,7 @@ const db = new sqlite3.Database(dbFile, (err) => {
                 exam_code INTEGER NOT NULL,
                 student_id INTEGER NOT NULL,
                 grade INTEGER,
-                accepted BOOLEAN NOT NULL CHECK(accepted IN (0,1)) DEFAULT 0,
+                accepted BOOLEAN CHECK(accepted IN (0,1)),
                 PRIMARY KEY (exam_code, student_id)
                 FOREIGN KEY (exam_code) REFERENCES exams(code) ON DELETE CASCADE ON UPDATE NO ACTION,
                 FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE NO ACTION
