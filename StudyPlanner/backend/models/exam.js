@@ -1,7 +1,7 @@
 const db = require('../db/database');
 
 class Exam {
-    async getAllExams() {
+    async getAll() {
         return new Promise((resolve, reject) => {
             db.all('SELECT * FORM exams', [], (err, rows) => {
                 if (err) reject(err);
@@ -10,7 +10,7 @@ class Exam {
         });
     }
 
-    async getExamFromCode(code) {
+    async getByCode(code) {
         return new Promise((resolve, reject) => {
             db.get('SELECT * FROM exams WHERE id = ?', [code], (err, row) => {
                 if (err) reject(err);
@@ -19,7 +19,7 @@ class Exam {
         });
     }
 
-    async getExamFromName(name) {
+    async getByName(name) {
         return new Promise((resolve, reject) => {
             db.all('SELECT * FROM exams WHERE name = ?', [name], (err, rows) => {
                 if (err) reject(err);
@@ -28,16 +28,16 @@ class Exam {
         });
     }
 
-    async getExamFromProfessorId(id) {
+    async getByProfessorId(id) {
         return new Promise((resolve, reject) => {
             db.all('SELECT * FROM exams WHERE professor_id = ?', [id], (err, rows) => {
-                if (err) return (err);
+                if (err) reject(err);
                 resolve(rows);
             });
         });
     }
 
-    async getExamFromProfessorName(first_name, last_name) {
+    async getByProfessorName(first_name, last_name) {
         return new Promise((resolve, reject) => {
             db.all(`
                 SELECT u.first_name, u.last_name, e.code
@@ -51,7 +51,7 @@ class Exam {
         })
     }
 
-    async createExam(name, credits, professor_id, date, course_id) {
+    async create(name, credits, professor_id, date, course_id) {
         return new Promise((resolve, reject) => {
             db.run('INSERT INTO exams (name, credits, professor_id, date, course_id) VALUES (?,?,?,?,?)', [name, credits, professor_id, date, course_id], (err) => {
                 if (err) reject(err);
@@ -60,41 +60,35 @@ class Exam {
         });
     }
 
-
-    //funzione di inserimento dei risultati per ogni esame
-    async createExamResults(exam_code, student_id, grade){ 
+    async requested() {
         return new Promise((resolve, reject) => {
-            db.run('INSERT INTO examsResults(exam_code, student_id, grade) VALUES (?,?,?)', [exam_code, student_id, grade], (err) => {
-                if(err) reject(err);
-                resolve({exam_code, student_id, grade});
+            db.all(`SELECT * FROM exams WHERE accepted IS NULL`, [], (err, rows) => {
+                if (err) reject (err);
+                resolve(rows);
             });
-        });
-        }
-    
-
-    //funzione per i risultati di un singolo studente se il risultato è stato accettato (esame completato)
-    async getAcceptedResultsByStudent(student_id) {
-        return new Promise((resolve, reject) => {
-             db.all( 
-                'SELECT exam_code, grade FROM examResults WHERE student_id = ? AND accepted = 0', [student_id], (err, rows) => {
-                    if (err) return reject(err);
-                     resolve(rows)
-        });
-    });
-}
-
-    //funzione per tutti i risultati di un esame
-    async getExamResultsFromExam(exam_code) {
-        return new Promise((resolve, reject) => {
-            db.all(
-                'SELECT student_id, grade, accepted FROM examResults WHERE exam_code == ?',
-                [exam_code],
-                (err, rows) => {
-                    if(err) return reject(err);
-                    resolve(rows);
-                }
-            );
         });
     }
 
+    async accept(code, approved) {
+        return new Promise((resolve, reject) => {
+            db.run('UPDATE exams SET approved = ? WHERE code = ?', [approved, code], (err) => {
+                if (err) reject(err);
+            });
+        });
+    }
 }
+
+module.exports = {
+    getAll,
+    getByName,
+    getByCode,
+    getByProfessorId,
+    getByProfessorName,
+    create,
+    requested,
+    accept
+}
+
+
+
+
