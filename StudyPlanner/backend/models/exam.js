@@ -1,8 +1,7 @@
-const { rejects } = require('assert');
 const db = require('../db/database');
 
 class Exam {
-    async getAllExams() {
+    async getAll() {
         return new Promise((resolve, reject) => {
             db.all('SELECT * FORM exams', [], (err, rows) => {
                 if (err) reject(err);
@@ -11,7 +10,7 @@ class Exam {
         });
     }
 
-    async getExamFromCode(code) {
+    async getByCode(code) {
         return new Promise((resolve, reject) => {
             db.get('SELECT * FROM exams WHERE id = ?', [code], (err, row) => {
                 if (err) reject(err);
@@ -20,7 +19,7 @@ class Exam {
         });
     }
 
-    async getExamFromName(name) {
+    async getByName(name) {
         return new Promise((resolve, reject) => {
             db.all('SELECT * FROM exams WHERE name = ?', [name], (err, rows) => {
                 if (err) reject(err);
@@ -29,16 +28,16 @@ class Exam {
         });
     }
 
-    async getExamFromProfessorId(id) {
+    async getByProfessorId(id) {
         return new Promise((resolve, reject) => {
             db.all('SELECT * FROM exams WHERE professor_id = ?', [id], (err, rows) => {
-                if (err) return (err);
+                if (err) reject(err);
                 resolve(rows);
             });
         });
     }
 
-    async getExamFromProfessorName(first_name, last_name) {
+    async getByProfessorName(first_name, last_name) {
         return new Promise((resolve, reject) => {
             db.all(`
                 SELECT u.first_name, u.last_name, e.code
@@ -52,7 +51,7 @@ class Exam {
         })
     }
 
-    async createExam(name, credits, professor_id, date, course_id) {
+    async create(name, credits, professor_id, date, course_id) {
         return new Promise((resolve, reject) => {
             db.run('INSERT INTO exams (name, credits, professor_id, date, course_id) VALUES (?,?,?,?,?)', [name, credits, professor_id, date, course_id], (err) => {
                 if (err) reject(err);
@@ -60,4 +59,36 @@ class Exam {
             });
         });
     }
+
+    async requested() {
+        return new Promise((resolve, reject) => {
+            db.all(`SELECT * FROM exams WHERE accepted IS NULL`, [], (err, rows) => {
+                if (err) reject (err);
+                resolve(rows);
+            });
+        });
+    }
+
+    async accept(code, approved) {
+        return new Promise((resolve, reject) => {
+            db.run('UPDATE exams SET approved = ? WHERE code = ?', [approved, code], (err) => {
+                if (err) reject(err);
+            });
+        });
+    }
 }
+
+module.exports = {
+    getAll,
+    getByName,
+    getByCode,
+    getByProfessorId,
+    getByProfessorName,
+    create,
+    requested,
+    accept
+}
+
+
+
+
