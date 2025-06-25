@@ -7,6 +7,8 @@ interface StudentExam {
   cfu: number;
   completed: boolean;
   note: string;
+  voto?: number;               
+  votoAccettato?: boolean;       
 }
 
 interface ProfessorExamStats {
@@ -14,14 +16,6 @@ interface ProfessorExamStats {
   name: string;
   passed: number;
   failed: number;
-}
-
-interface RichiestaEsame {
-  codice: string;
-  nome: string;
-  cfu: number;
-  selezionato: boolean;
-  note: string;
 }
 
 @Component({
@@ -34,40 +28,8 @@ interface RichiestaEsame {
 export class DashboardComponent implements OnInit {
   auth = inject(AuthService);
 
-  tuttiGliEsami: RichiestaEsame[] = [
-    {
-      codice: 'INF001',
-      nome: 'Analisi Matematica II',
-      cfu: 12,
-      selezionato: false,
-      note: 'Propedeutico: Analisi Matematica I'
-    },
-    {
-      codice: 'INF002',
-      nome: 'Programmazione Web & Mobile',
-      cfu: 9,
-      selezionato: false,
-      note: ''
-    },
-    {
-      codice: 'INF003',
-      nome: 'Basi di Dati',
-      cfu: 6,
-      selezionato: false,
-      note: ''
-    },
-    {
-      codice: 'INF004',
-      nome: 'Ingegneria del Software',
-      cfu: 6,
-      selezionato: false,
-      note: 'Propedeutico: Programmazione Web & Mobile'
-    }
-  ];
-
   studentExams: StudentExam[] = [];
   professorStats: ProfessorExamStats[] = [];
-  richiesteEsami: RichiestaEsame[] = [];
 
   maxCfu = 0;
   totalCfu = 0;
@@ -75,8 +37,8 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.studentExams = [
-      { id: "INF001", name: "Analisi Matematica II", cfu: 12, completed: true, note: "Propedeutico: Analisi Matematica I" },
-      { id: "INF002", name: "Programmazione Web & Mobile", cfu: 9, completed: true, note: "" },
+      { id: "INF001", name: "Analisi Matematica II", cfu: 12, completed: true, note: "Propedeutico: Analisi Matematica I", voto: 28, votoAccettato: undefined },
+      { id: "INF002", name: "Programmazione Web & Mobile", cfu: 9, completed: true, note: "", voto: 30, votoAccettato: undefined },
       { id: "INF003", name: "Basi di Dati", cfu: 6, completed: false, note: "" }
     ];
 
@@ -85,7 +47,6 @@ export class DashboardComponent implements OnInit {
       { id: "INF002", name: "Programmazione Web & Mobile", passed: 30, failed: 50 }
     ];
 
-    this.richiesteEsami = [...this.tuttiGliEsami];
     this.calculateStudentMetrics();
   }
 
@@ -97,6 +58,25 @@ export class DashboardComponent implements OnInit {
     this.completePercentage = this.maxCfu > 0 ? (this.totalCfu / this.maxCfu) * 100 : 0;
   }
 
+  accettaVoto(exam: StudentExam): void {
+  if (confirm(`Accetti il voto ${exam.voto} per l'esame ${exam.name}?`)) {
+    exam.votoAccettato = true;
+    exam.completed = true;
+    this.calculateStudentMetrics();
+    alert('Voto accettato con successo!');
+  }
+}
+
+rifiutaVoto(exam: StudentExam): void {
+  if (confirm(`Vuoi rifiutare il voto ${exam.voto} per l'esame ${exam.name}?`)) {
+    exam.votoAccettato = false;
+    exam.completed = false;
+    exam.voto = undefined; 
+    this.calculateStudentMetrics();
+    alert('Voto rifiutato.');
+  }
+}
+
   getPassPercentage(stats: ProfessorExamStats): number {
     const total = stats.passed + stats.failed;
     return total > 0 ? (stats.passed / total) * 100 : 0;
@@ -106,27 +86,5 @@ export class DashboardComponent implements OnInit {
     const total = stats.passed + stats.failed;
     return total > 0 ? (stats.failed / total) * 100 : 0;
   }
-
-  confermaAzione(tipo: 'accettare' | 'rifiutare', esame: RichiestaEsame): void {
-    const conferma = confirm(`Vuoi veramente ${tipo} l'esame ${esame.nome}?`);
-    if (!conferma) return;
-
-    this.richiesteEsami = this.richiesteEsami.filter(e => e.codice !== esame.codice);
-
-    if (tipo === 'accettare') {
-      const giàPresente = this.studentExams.some(e => e.id === esame.codice);
-      if (!giàPresente) {
-        this.studentExams.push({
-          id: esame.codice,
-          name: esame.nome,
-          cfu: esame.cfu,
-          completed: true,
-          note: esame.note
-        });
-        this.calculateStudentMetrics();
-      }
-    }
-
-    alert(`Esame ${tipo === 'accettare' ? 'accettato' : 'rifiutato'} con successo.`);
-  }
 }
+

@@ -10,6 +10,8 @@
                 <th>Esame</th>
                 <th>CFU</th>
                 <th>Completato</th>
+                <th>Voto</th>
+                <th>Accetta voto</th>
               </tr>
             </thead>
             <tbody>
@@ -20,13 +22,28 @@
                   <td [class.completed]="exam.completed" [class.failed]="!exam.completed">
                     {{ exam.completed ? 'Completato' : 'Non completato' }}
                   </td>
+                  <td>
+                    {{ exam.voto !== undefined ? exam.voto : '-' }}
+                  </td>
+                  <td>
+                    @if (exam.voto !== undefined && exam.votoAccettato === undefined) {
+                      <button (click)="accettaVoto(exam)">Accetta</button>
+                      <button (click)="rifiutaVoto(exam)">Rifiuta</button>
+                    }
+                    @else if (exam.votoAccettato === true) {
+                      <span style="color: green;">Accettato</span>
+                    }
+                    @else if (exam.votoAccettato === false) {
+                      <span style="color: red;">Rifiutato</span>
+                    }
+                  </td>
                 </tr>
               }
               <tr>
-                <td><strong>CFU Totali: {{ totalCfu }} / {{ maxCfu }}</strong></td>
+                <td colspan="5"><strong>CFU Totali: {{ totalCfu }} / {{ maxCfu }}</strong></td>
               </tr>
               <tr>
-                <td><strong>Percentuale Completamento: {{ completePercentage.toFixed(2) }}%</strong></td>
+                <td colspan="5"><strong>Percentuale Completamento: {{ completePercentage.toFixed(2) }}%</strong></td>
               </tr>
             </tbody>
           </table>
@@ -58,19 +75,6 @@
               }
             </tbody>
           </table>
-        </div>
-
-        <div class="riquadro">
-          <h3>Richieste Esami</h3>
-          <ul>
-            @for (richiesta of richiesteEsami; track richiesta.codice) {
-              <li>
-                {{ richiesta.codice }} - {{ richiesta.nome }} ({{ richiesta.cfu }} CFU)
-                <button (click)="confermaAzione('accettare', richiesta)">Accetta</button>
-                <button (click)="confermaAzione('rifiutare', richiesta)">Rifiuta</button>
-              </li>
-            }
-          </ul>
         </div>
       </div>
     </section>
