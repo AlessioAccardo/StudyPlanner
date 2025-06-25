@@ -52,12 +52,29 @@ const db = new sqlite3.Database(dbFile, (err) => {
                 student_id INTEGER NOT NULL,
                 grade INTEGER,
                 accepted BOOLEAN CHECK(accepted IN (0,1)),
-                PRIMARY KEY (exam_code, student_id)
+                PRIMARY KEY (exam_code, student_id),
                 FOREIGN KEY (exam_code) REFERENCES exams(code) ON DELETE CASCADE ON UPDATE NO ACTION,
                 FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE NO ACTION
             )`);
-        })
+            
+            db.run(`CREATE TABLE IF NOT EXISTS studyPlan (
+                student_id INTEGER,
+                course_id INTEGER,
+                grade INTEGER,
+                PRIMARY KEY (student_id, course_id),
+                FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE NO ACTION,
+                FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE ON UPDATE NO ACTION
+            )`);
+
+            db.run(`CREATE TABLE IF NOT EXISTS enrolledStudents(
+                student_id INTEGER,
+                exam_code INTEGER,
+                PRIMARY KEY (student_id, exam_code),
+                FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE NO ACTION,
+                FOREIGN KEY (exam_code) REFERENCES exams(code)
+            )`);
+        });
     }
-})
+});
 
 module.exports = db;

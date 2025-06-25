@@ -19,24 +19,26 @@ class User {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
+        // caso in cui sia studente
         if (role == "studente") {
             return new Promise((resolve, reject) => {    
                 db.run(
                     'INSERT INTO users (first_name, last_name, email, password, role, credits, mean) VALUES (?,?,?,?,?,?,?)',
                     [first_name, last_name, email, hashedPassword, role, 0, 0],
                     function(err) {
-                        if (err) reject(err);
+                        if (err) return reject(err);
                         resolve({ id: this.lastID, first_name, last_name, email, role })
                     }
                 );
             });
+        // caso in cui non sia studente
         } else {
             return new Promise((resolve, reject) => {    
                 db.run(
                     'INSERT INTO users (first_name, last_name, email, password, role) VALUES (?,?,?,?,?)',
                     [first_name, last_name, email, hashedPassword, role],
                     function(err) {
-                        if (err) reject(err);
+                        if (err) return reject(err);
                         resolve({ id: this.lastID, first_name, last_name, email, role })
                     }
                 );
@@ -45,22 +47,20 @@ class User {
     }
 
     // ricerca utente per first_name
-
     static async findByFName(first_name) {
         return new Promise((resolve, reject) => {
             db.all('SELECT * FROM users WHERE first_name = ?', [first_name], (err, rows) => {
-                if (err) reject(err);
+                if (err) return reject(err);
                 resolve(rows);
             });
         });
     }
 
     // ricerca per last_name
-
     static async findByLName(last_name) {
         return new Promise((resolve, reject) => {
             db.all('SELECT * FROM users WHERE last_name = ?', [last_name], (err, rows) => {
-                if (err) reject(err);
+                if (err) return reject(err);
                 resolve(rows);
             });
         });
@@ -69,7 +69,7 @@ class User {
     static async findById(id) {
         return new Promise((resolve, reject) => {
             db.get('SELECT id, first_name, last_name, email FROM users WHERE id = ?', [id], (err, row) => {
-                if (err) reject(err);
+                if (err) return reject(err);
                 resolve(row);
             });
         });
@@ -78,7 +78,7 @@ class User {
     static async findByEmail(email) {
         return new Promise((resolve, reject) => {
             db.get('SELECT id FROM users where email = ?', [email], (err, row) => {
-                if (err) reject(err);
+                if (err) return reject(err);
                 resolve(row);
             });
         });

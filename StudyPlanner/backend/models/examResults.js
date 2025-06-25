@@ -6,7 +6,7 @@ class ExamResults {
         return new Promise((resolve, reject) => {
             db.run('INSERT INTO examsResults(student_id, grade) VALUES (?,?)', [student_id, grade],
                 function(err) {
-                if(err) reject(err);
+                if(err) return reject(err);
                 resolve({ id: this.lastID, student_id, grade});
             });
         });
