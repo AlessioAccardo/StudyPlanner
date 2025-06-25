@@ -1,0 +1,12 @@
+p {
+    margin-top: 1rem;
+}
+a {
+    color: #0077cc;
+    cursor: pointer;
+    transition: opacity 0.4s ease;
+}
+
+a:hover {
+    opacity: 0.7;
+}

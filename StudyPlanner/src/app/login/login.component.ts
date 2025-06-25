@@ -9,11 +9,13 @@ import { AuthService, UserRole } from '../services/auth.service';
   standalone: true,
 })
 export class LoginComponent implements OnInit {
+
   roles: UserRole[];
   selectedRole: UserRole; //guest di default
-  constructor(
-    private authService: AuthService,
-  ){
+  
+  display: boolean = false;
+
+  constructor(private authService: AuthService) {
     this.roles =  this.authService.availableRoles;
     this.selectedRole = this.roles[0]; 
   }
@@ -26,6 +28,9 @@ export class LoginComponent implements OnInit {
     this.selectedRole = this.roles[index];
   }
 
+  toggle() {
+    this.display = !this.display;
+  }
 
   ngOnInit(){
   }
