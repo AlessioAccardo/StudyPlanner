@@ -350,10 +350,28 @@ footer {
       color: green;
       font-weight: bold;
     }
-    .failed {
+  .failed {
       color: red;
       font-weight: bold;
     }
+
+  .riquadro .buttonAccetta {
+  padding: 0.4rem;
+  background-color: green;
+  color: white;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  }
+
+  .riquadro .buttonRifiuta{
+    padding: 0.4rem;
+  background-color: red;
+  color: white;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  }
+
+
 /* Button del componente plan */
 .study-plan button {
   padding: 0.75rem;

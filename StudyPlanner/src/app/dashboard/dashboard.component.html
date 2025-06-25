@@ -27,14 +27,14 @@
                   </td>
                   <td>
                     @if (exam.voto !== undefined && exam.votoAccettato === undefined) {
-                      <button (click)="accettaVoto(exam)">Accetta</button>
-                      <button (click)="rifiutaVoto(exam)">Rifiuta</button>
+                      <button class = "buttonAccetta" (click)="accettaVoto(exam)">Accetta</button>
+                      <button class = "buttonRifiuta" (click)="rifiutaVoto(exam)">Rifiuta</button>
                     }
                     @else if (exam.votoAccettato === true) {
-                      <span style="color: green;">Accettato</span>
+                      <td class = "completed">Accettato</td>
                     }
                     @else if (exam.votoAccettato === false) {
-                      <span style="color: red;">Rifiutato</span>
+                      <td class = "failed">Rifiutato</td>
                     }
                   </td>
                 </tr>
