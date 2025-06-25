@@ -1,46 +1,91 @@
-const exam = require('../models/exam');
+const Exam = require('../models/exam');
 
 class ExamController {
-    async getAll(req, res, next) {
+    static async getAll(req, res, next) {
         try {
-            const list = await esami.getAll();
-            res.json(list);
+            const list = await Exam.getAllExams();
+            if (!list || list.length === 0) return res.status(404).json({ message: 'Esami non trovati'});
+            res.status(200).json(list);
         } catch (err) {
             next(err);
         }
     }
 
-    async getByCode(req, res, next) {
+    static async getByCode(req, res, next) {
         try {
-        const { code } = req.params;
-        const exam = await esami.getByCode(code);
-        if (!exam) return res.status(404).json({ message: 'Esame non trovato'});
-        res.json(exam);
+            const { code } = req.params;
+            const examRow = await Exam.getExamByCode(code);
+            if (!examRow) return res.status(404).json({ message: 'Esame non trovato'});
+            res.status(200).json(examRow);
         } catch (err) {
             next(err);
         }
     }
 
-    async getByName(req, res, next) {
+    static async getByName(req, res, next) {
         try {
             const { name } = req.params;
-            const exam = await esami.getByName(name);
-            if (!exam) return res.status(404).json({ message: 'Esame non trovato'});
+            const examRows = await Exam.getExamsByName(name);
+            if (!examRows || examRows.length === 0) return res.status(404).json({ message: 'Esami non trovati'});
+            res.status(200).json(examRows);
         } catch (err) {
             next(err);
         }
     }
 
-    async getByProfessorId(req, res, next) {
+    static async getByProfessorId(req, res, next) {
         try {
             const { professor_id } = req.params;
-            const exams = await exam.getByProfessorId(professor_id);
-            res.json(exams);
+            const examRows = await Exam.getExamsByProfessorId(professor_id);
+            if (!examRows || examRows.length === 0) return res.status(404).json({ message: 'Esami non trovati'});
+            res.status(200).json(examRows);
         } catch (err) {
             next(err);
         }
     }
 
+    static async getByProfessorName(req, res, next) {
+        try {
+            const { first_name, last_name } = req.params
+            const examRows = await Exam.getExamsByProfessorName(first_name, last_name);
+            if (!examRows || examRows.length === 0) return res.status(404).json({ message: 'Esami non trovati'});
+            res.status(200).json(examRows);
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    static async create(req, res, next) {
+        try {
+            const { name, credits, professor_id, date, course_id } = req.body;
+            const creatingExam = await Exam.createExam(name, credits, professor_id, date, course_id);
+            res.status(201).json(creatingExam);
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    static async requested(req, res, next) {
+        try {
+            const list = await Exam.examsRequested();
+            if (!list || list.length === 0) return res.status(404).json({ message: 'Esami in attesa di approvazione non troviati' });
+            res.status(200).json(list);
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    static async approve(req, res, next) {
+        try {
+            const { code, approved } = req.body;
+            const updatingExam = await Exam.approveExam(code, approved);
+            res.status(201).json(updatingExam);
+        } catch (err) {
+            next(err);
+        }
+    }
 }
+
+module.exports = ExamController;
 
 
