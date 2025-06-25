@@ -58,8 +58,10 @@ export class DashboardComponent implements OnInit {
     this.completePercentage = this.maxCfu > 0 ? (this.totalCfu / this.maxCfu) * 100 : 0;
   }
 
-  accettaVoto(exam: StudentExam): void {
-  if (confirm(`Accetti il voto ${exam.voto} per l'esame ${exam.name}?`)) {
+accettaVoto(exam: StudentExam): void {
+  if (
+    confirm(`Vuoi accettare il voto di ${exam.name} - ${exam.cfu} CFU?`)
+  ) {
     exam.votoAccettato = true;
     exam.completed = true;
     this.calculateStudentMetrics();
@@ -68,12 +70,13 @@ export class DashboardComponent implements OnInit {
 }
 
 rifiutaVoto(exam: StudentExam): void {
-  if (confirm(`Vuoi rifiutare il voto ${exam.voto} per l'esame ${exam.name}?`)) {
+  if (
+    confirm(`Vuoi rifiutare il voto di ${exam.name} - ${exam.cfu} CFU?`)
+  ) {
     exam.votoAccettato = false;
     exam.completed = false;
-    exam.voto = undefined; 
     this.calculateStudentMetrics();
-    alert('Voto rifiutato.');
+    alert('Voto rifiutato con successo!');
   }
 }
 
