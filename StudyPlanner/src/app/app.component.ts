@@ -10,18 +10,10 @@ import { CommonModule } from '@angular/common';
   styleUrl: './app.component.scss',
   standalone: true,
 })
-export class AppComponent implements OnInit{
+export class AppComponent {
   title = 'SessionManager';
 
   constructor(private auth: AuthService, private router: Router) {}
-
-  ngOnInit(): void {
-      effect(() => {
-        if (!this.isLoggedIn) {
-          this.router.navigate(['/login']);
-        }
-      });
-  }
 
   get isLoggedIn(): boolean {
     return this.auth.isLoggedIn();

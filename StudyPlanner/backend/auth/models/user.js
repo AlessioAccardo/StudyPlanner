@@ -49,6 +49,26 @@ class User {
     static async comparePassword(candidatePassword, hash) {
         return bcrypt.compare(candidatePassword, hash);
     }
+
+        // ricerca per ID
+    static async findById(id) {
+        return new Promise((resolve, reject) => {
+            db.get('SELECT * FROM users WHERE id = ?', [id], (err, row) => {
+                if (err) return reject(err);
+                resolve(row);
+            });
+        });
+    }
+
+    // ricerca per email
+    static async findByEmail(email) {
+        return new Promise((resolve, reject) => {
+            db.get('SELECT * FROM users where email = ?', [email], (err, row) => {
+                if (err) return reject(err);
+                resolve(row);
+            });
+        });
+    }
 }
 
 module.exports = User;
