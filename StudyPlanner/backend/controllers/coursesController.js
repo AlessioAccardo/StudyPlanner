@@ -23,7 +23,7 @@ class CoursesController {
 
     static async getByProfessorId(req, res, next) {
         try {
-            const { professor_id } = req.params;
+            const { professor_id } = req.query;
             const list = await Courses.getCoursesByProfessorId(professor_id);
             if (!list || list.length === 0) return res.status(404).json({ message: 'Corsi non trovati'});
             res.status(200).json(list);
@@ -32,9 +32,9 @@ class CoursesController {
         }
     }
 
-    static async getByFullProfessorName(req, res, next) {
+    static async getByProfessorFullName(req, res, next) {
         try {
-            const { first_name, last_name } = req.params
+            const { first_name, last_name } = req.query;
             const list = await Courses.getCourseByProfessorFullName(first_name, last_name);
             if (!list || list.length === 0) return res.status(404).json({ message: 'Corsi non trovati'});
             res.status(200).json(list);
@@ -56,7 +56,7 @@ class CoursesController {
 
     static async getByName(req, res, next) {
         try {
-            const { name } = req.params;
+            const { name } = req.query;
             const list = await Courses.getCourseByName(name);
             if (!list || list.length === 0) return res.status(404).json({ message: 'Corsi non trovati'});
             res.status(200).json(list);

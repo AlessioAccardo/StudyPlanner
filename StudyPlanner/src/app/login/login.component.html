@@ -23,13 +23,14 @@
             <label for="reg-password">Password</label>
             <input type="password" id="reg-password" required>
             <label for="reg-role">Ruolo</label>
+            <!--
             <select id="reg-role"
             #roleSelect (change) = "onRoleChange(roleSelect.selectedIndex)"
             class = "form-select">
             @for(role of roles; track role){
               <option> {{role}} </option>
-              }
-            </select>
+          } 
+            </select>-->
             <button type="submit">Registrati</button>
             <p>Hai già un account? <a (click)="toggle()">Accedi</a></p>
           </form>

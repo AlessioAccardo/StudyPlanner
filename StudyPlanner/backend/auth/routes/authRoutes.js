@@ -15,4 +15,7 @@ router.post('/verify', AuthController.verify);
 // Logout
 router.post('/logout', AuthController.logout)
 
+// Route per ottenere i dati dell'utente
+router.get('/me', AuthController.me);
+
 module.exports = router;

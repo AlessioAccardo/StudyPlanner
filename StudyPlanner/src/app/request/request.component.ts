@@ -1,5 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../services/auth/auth.service';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
@@ -37,7 +37,7 @@ export class RequestComponent implements OnInit {
       session: ['Estiva', Validators.required],
     });
 
-    if (this.auth.hasRole('admin')) {
+    if (this.auth.role() === 'admin') {
       this.loadRequests();
     }
   }

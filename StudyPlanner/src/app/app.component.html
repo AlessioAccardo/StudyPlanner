@@ -4,15 +4,15 @@
       <nav>
         <a href = " "> Home </a>
         <a href= "login">Login</a>
-        @if (auth.hasRole("student")){
+        @if (role === 'studente'){
         <a href = "dashboard">Dashboard</a>
         <a href = "plan"> Piano di studi</a>
         }
-        @if (auth.hasRole("professor")){
+        @if (role === 'professore'){
         <a href = "dashboard">Dashboard</a>
         <a href = "request"> Richieste</a>
         }
-         @if (auth.hasRole("admin")){
+         @if (role === 'admin'){
         <a href = " "> Home </a>
         <a href= "login">Login</a>
         <a href = "request"> Richieste</a>

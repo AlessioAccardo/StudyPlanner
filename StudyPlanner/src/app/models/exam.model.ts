@@ -1,14 +1,14 @@
 export class Exam {
     constructor(
-        public code: number,
-        public name: string,
-        public credits: number,
-        public max_students: number,
-        public enrolled_students: number,
-        public professor_id: number,
-        public approved: boolean,
-        public date: Date,
-        public course_id: number       
+        code: number,
+        name: string,
+        credits: number,
+        max_students: number,
+        enrolled_students: number,
+        professor_id: number,
+        approved: boolean,
+        date: Date,
+        course_id: number       
     ){}
 
 

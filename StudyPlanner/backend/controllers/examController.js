@@ -46,7 +46,8 @@ class ExamController {
 
     static async getByProfessorName(req, res, next) {
         try {
-            const { first_name, last_name } = req.params
+            const { first_name, last_name } = req.query;
+            if (!first_name || !last_name) return res.status(400).json({ message: 'Devi fornire first_name e last_name' });
             const examRows = await Exam.getExamsByProfessorName(first_name, last_name);
             if (!examRows || examRows.length === 0) return res.status(404).json({ message: 'Esami non trovati'});
             res.status(200).json(examRows);
