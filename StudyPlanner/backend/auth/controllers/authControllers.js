@@ -1,4 +1,5 @@
 const AuthService = require('../services/authServices');
+const jwt = require('jsonwebtoken');
 
 class AuthController {
     static async register(req, res) {
@@ -50,20 +51,71 @@ class AuthController {
             res.status(401).json({
                 success: false,
                 message: error.message
-            })
+            });
         }
     }
 
     static logout(req, res) {
-        const token = req.headers['authorization']?.split(' ')[1];
-        if (token) {
-            AuthService.logoutUser(token);
+        try {
+            const token = req.headers['authorization']?.split(' ')[1];
+            if (token) {
+                AuthService.logoutUser(token);
+            }
+            res.json({
+                success: true,
+                message: "Logout effettuato correttamente"
+            });
+        } catch (err) {
+            res.status(401).json({
+                success: false,
+                message: error.message
+            });
         }
-        res.json({
-            success: true,
-            message: "Logout effettuato correttamente"
-        });
     }
+
+    static async me(req, res) {
+        try {
+            const token = req.headers['authorization']?.split(' ')[1];
+
+            if (!token) {
+                return res.status(401).json({
+                    success: false,
+                    message: 'Token mancante'
+                });
+            }
+
+            if (AuthService.isTokenBlackListed(token)) {
+                return res.status(401).json({
+                    success: false,
+                    message: 'Token non valido'
+                });
+            }
+
+            const payload = jwt.verify(token, process.env.JWT_SECRET);
+            const user = await AuthService.verifyUser(payload.id);
+
+            if (!user) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'Utente non trovato'
+                });
+            }
+
+            const { password, ...safeUser } = user;
+
+            return res.json({
+                success: true,
+                data: safeUser
+            });
+
+        } catch (err) {
+            return res.status(401).json({
+                success: false,
+                message: 'Token non valido o scaduto'
+            });
+        }
+    }
+
 }
 
 module.exports = AuthController;

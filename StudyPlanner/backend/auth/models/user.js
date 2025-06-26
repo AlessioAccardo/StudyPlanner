@@ -46,44 +46,6 @@ class User {
         }
     }
 
-    // ricerca utente per first_name
-    static async findByFName(first_name) {
-        return new Promise((resolve, reject) => {
-            db.all('SELECT * FROM users WHERE first_name = ?', [first_name], (err, rows) => {
-                if (err) return reject(err);
-                resolve(rows);
-            });
-        });
-    }
-
-    // ricerca per last_name
-    static async findByLName(last_name) {
-        return new Promise((resolve, reject) => {
-            db.all('SELECT * FROM users WHERE last_name = ?', [last_name], (err, rows) => {
-                if (err) return reject(err);
-                resolve(rows);
-            });
-        });
-    }
-
-    static async findById(id) {
-        return new Promise((resolve, reject) => {
-            db.get('SELECT id, first_name, last_name, email FROM users WHERE id = ?', [id], (err, row) => {
-                if (err) return reject(err);
-                resolve(row);
-            });
-        });
-    }
-
-    static async findByEmail(email) {
-        return new Promise((resolve, reject) => {
-            db.get('SELECT id FROM users where email = ?', [email], (err, row) => {
-                if (err) return reject(err);
-                resolve(row);
-            });
-        });
-    }
-
     static async comparePassword(candidatePassword, hash) {
         return bcrypt.compare(candidatePassword, hash);
     }

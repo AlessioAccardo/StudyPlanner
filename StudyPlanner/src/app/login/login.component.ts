@@ -1,5 +1,5 @@
-import { Component, OnInit} from '@angular/core';
-import { AuthService, UserRole } from '../services/auth.service';
+import { Component, inject} from '@angular/core';
+import { AuthService, UserRole } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -8,31 +8,16 @@ import { AuthService, UserRole } from '../services/auth.service';
   styleUrl: './login.component.scss',
   standalone: true,
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
-  roles: UserRole[];
-  selectedRole: UserRole; //guest di default
+  
   
   display: boolean = false;
-
-  constructor(private authService: AuthService) {
-    this.roles =  this.authService.availableRoles;
-    this.selectedRole = this.roles[0]; 
-  }
-
-  login() {
-    this.authService.login(this.selectedRole);
-  }
-
-  onRoleChange(index: number){
-    this.selectedRole = this.roles[index];
-  }
 
   toggle() {
     this.display = !this.display;
   }
 
-  ngOnInit(){
-  }
+
 
 }

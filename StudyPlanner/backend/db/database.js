@@ -37,11 +37,10 @@ const db = new sqlite3.Database(dbFile, (err) => {
                 code INTEGER PRIMARY KEY AUTOINCREMENT,
                 name VARCHAR(255) NOT NULL,
                 credits INTEGER NOT NULL,
-                max_students INTEGER,
-                enrolled_students INTEGER,
+                enrolled_students INTEGER NOT NULL DEFAULT 0,
                 professor_id INTEGER NOT NULL,
-                approved BOOLEAN CHECK(approved IN (0,1)),
-                date DATETIME NOT NULL,
+                approved INTEGER CHECK(approved IN (0,1)),
+                date TEXT NOT NULL,
                 course_id INT NOT NULL,
                 FOREIGN KEY (professor_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE NO ACTION,
                 FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE ON UPDATE NO ACTION
@@ -51,7 +50,7 @@ const db = new sqlite3.Database(dbFile, (err) => {
                 exam_code INTEGER NOT NULL,
                 student_id INTEGER NOT NULL,
                 grade INTEGER,
-                accepted BOOLEAN CHECK(accepted IN (0,1)),
+                accepted INTEGER CHECK(accepted IN (0,1)),
                 PRIMARY KEY (exam_code, student_id),
                 FOREIGN KEY (exam_code) REFERENCES exams(code) ON DELETE CASCADE ON UPDATE NO ACTION,
                 FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE NO ACTION

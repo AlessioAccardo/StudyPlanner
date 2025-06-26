@@ -3,7 +3,7 @@ const db = require('../db/database');
 class Exam {
     static async getAllExams() {
         return new Promise((resolve, reject) => {
-            db.all('SELECT * FORM exams', [], (err, rows) => {
+            db.all('SELECT * FROM exams', [], (err, rows) => {
                 if (err) return reject(err);
                 resolve(rows);
             });
