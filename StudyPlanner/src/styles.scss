@@ -425,7 +425,7 @@ footer {
 }
 
 
-/*Pagina 404*/
+/*Pagina 404 e pagina no-role*/
 .error-container {
   text-align: center;
   padding: 2rem;
@@ -436,12 +436,21 @@ footer {
 }
 
 .error-container h1 {
-  font-size: 8rem;
+  font-size: 3rem;
   color: white;
   letter-spacing: 4px;
   margin-bottom: 1rem;
   animation: popIn 0.6s ease-out both;
 }
+
+.error-container h2 {
+  font-size: 4rem;
+  color: white;
+  letter-spacing: 4px;
+  margin-bottom: 1rem;
+  animation: popIn 0.6s ease-out both;
+}
+
 
 .error-container p {
   font-size: 1.25rem;
@@ -478,7 +487,15 @@ footer {
   .error-container h1 {
     font-size: 5rem;
   }
+
+  .error-container h2 {
+    font-size: 2rem;
+  }
   .error-container p {
+    font-size: 1rem;
+  }
+
+  .error-container a {
     font-size: 1rem;
   }
 }
