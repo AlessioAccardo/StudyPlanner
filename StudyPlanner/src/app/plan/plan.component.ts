@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { ExamService } from '../services/exam.service';
-import { Exam } from '../services/exam.service';
+import { Component, inject } from '@angular/core';
+import { AuthService } from '../services/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-plan',
@@ -9,26 +9,53 @@ import { Exam } from '../services/exam.service';
   templateUrl: './plan.component.html',
   styleUrl: './plan.component.scss'
 })
-export class PlanComponent implements OnInit{
+export class PlanComponent {
+  auth = inject(AuthService);
+  router = inject(Router);
 
-  esami: Exam[] = [];
-
-  constructor(public examService: ExamService) {}
-
-  ngOnInit() {
-      this.examService.getExamByProfessorId(1).subscribe((data:Exam[]) => {
-      console.log(data);
-      this.esami = data;
-    });
-  }
-   
+  esami = [
+    {
+      codice: 'INF001',
+      nome: 'Analisi Matematica II',
+      cfu: 12,
+      selezionato: false,
+      note: 'Propedeutico: Analisi Matematica I'
+    },
+    {
+      codice: 'INF002',
+      nome: 'Programmazione Web & Mobile',
+      cfu: 9,
+      selezionato: false,
+      note: ''
+    },
+    {
+      codice: 'INF003',
+      nome: 'Basi di Dati',
+      cfu: 6,
+      selezionato: false,
+      note: ""
+    },
+    {
+      codice: 'INF004',
+      nome: 'Ingegneria del Software',
+      cfu: 6,
+      selezionato: false,
+      note: 'Propedeutico: Programmazione Web & Mobile'
+    }
+  ];
 
   searchText: string = '';
+
+  constructor() {
+    if (!this.auth.role || this.auth.role() !== "student") {
+      this.router.navigate(['/page-not-found']); 
+    }
+  }
 
   get esamiFiltrati() {
     if (!this.searchText.trim()) return this.esami;
     return this.esami.filter(e =>
-      `${e.code} ${e.name}`.toLowerCase().includes(this.searchText.toLowerCase())
+      `${e.codice} ${e.nome}`.toLowerCase().includes(this.searchText.toLowerCase())
     );
   }
 
@@ -42,7 +69,7 @@ export class PlanComponent implements OnInit{
   }
 
   get cfuTotali(): number {
-    return this.esamiSelezionati.reduce((tot, e) => tot + e.credits, 0);
+    return this.esamiSelezionati.reduce((tot, e) => tot + e.cfu, 0);
   }
 
   salvaPiano(event: Event): void {
@@ -50,9 +77,9 @@ export class PlanComponent implements OnInit{
     alert(`Hai salvato ${this.esamiSelezionati.length} esami per un totale di ${this.cfuTotali} CFU.`);
   }
 
-  aggiornaSelezione(event: Event, esameCodice: number) {
+  aggiornaSelezione(event: Event, esameCodice: string) {
     const input = event.target as HTMLInputElement;
-    const esame = this.esami.find(e => e.code === esameCodice);
+    const esame = this.esami.find(e => e.codice === esameCodice);
     if (esame) {
       esame.selezionato = input.checked;
     }
