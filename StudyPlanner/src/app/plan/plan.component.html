@@ -11,7 +11,7 @@
     <section class = "search">
       <input type="text" placeholder="Cerca esame per codice o nome esame..."(input)="onSearch($event)"/>
     </section>    
-      @for (esame of esamiFiltrati; track esame.code) {
+      @for (esame of esami; track esame.code) {
         <div class="course">
           <label>
             <input
