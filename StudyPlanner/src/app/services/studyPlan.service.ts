@@ -10,5 +10,11 @@ export interface StudyPlan {
 
 @Injectable({ providedIn: 'root'})
 export class StudyPlan {
-    private apiUrl = 'http://localhost:3000/api/studyPlan'
+    private apiUrl = 'http://localhost:3000/api/studyPlan';
+
+    constructor(private http: HttpClient) {}
+
+    getByStudentId(id: number): Observable<StudyPlan[]>{
+        return this.http.get<StudyPlan[]>(this.apiUrl)
+    }
 }

@@ -11,7 +11,7 @@ export interface Exam {
     approved: boolean | null;
     date: string;
     course_id: number;
-    selezionato: boolean
+    selezionato: boolean | null
 }
 
 @Injectable({ providedIn: 'root' })

@@ -5,6 +5,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { PlanComponent } from './plan/plan.component';
 import { RequestComponent } from './request/request.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { CoursesComponent } from './courses/courses.component';
 import { NoRoleComponent } from './no-role/no-role.component';   
 
 export const routes: Routes = [
@@ -15,5 +16,6 @@ export const routes: Routes = [
     { path: "plan", component: PlanComponent, data: {label: "plan", roles:["student"]}},
     { path: "request", component: RequestComponent, data:{label: "request", roles:["admin"]}},
     { path: "no-role", component: NoRoleComponent },         
-    { path: "**", component: PageNotFoundComponent }         
+    { path: "courses", component: CoursesComponent, data: {label: "courses", roles: ["student", "professor", "admin"]}},
+    { path: "**", component: PageNotFoundComponent }    // wild card routing: se nessuna route sopra matcha con la url richiesta allora attiva questo path
 ];

@@ -8,14 +8,8 @@ router.get('/', coursesCtrl.getAll);
 // GET by course id
 router.get('/:id', coursesCtrl.getById);
 
-// GET by course name
-router.get('/search', coursesCtrl.getByName);
-
-// GET by professor id
-router.get('/search', coursesCtrl.getByProfessorId);
-
-// GET by professor full name
-router.get('/search', coursesCtrl.getByProfessorFullName);
+// GET by course name, professor id o professor full name
+router.get('/search', coursesCtrl.search);
 
 // POST to create a course
 router.post('/', coursesCtrl.create);
