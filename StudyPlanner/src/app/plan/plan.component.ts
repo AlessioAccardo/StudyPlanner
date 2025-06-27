@@ -31,7 +31,7 @@ export class PlanComponent implements OnInit{
       console.log(data);
       this.esami = data;
     });
-    //this.loadStudyPlan();
+    this.loadStudyPlan();
   }
    
 
@@ -61,12 +61,6 @@ export class PlanComponent implements OnInit{
     this.studyPlanService.getByStudentId(this.student_id).subscribe((data) => {
       this.studyPlan = data
     });
-  }
-
-  salvaPiano(event: Event): void {
-    event.preventDefault();
-
-    alert(`Hai salvato ${this.esamiSelezionati.length} esami per un totale di ${this.cfuTotali} CFU.`);
   }
 
   aggiornaSelezione(event: Event, esameCodice: number) {

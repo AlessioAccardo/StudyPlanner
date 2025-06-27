@@ -6,7 +6,7 @@ import { StudyPlanService, StudyPlan } from '../services/studyPlan.service';
   selector: 'app-courses',
   imports: [],
   templateUrl: './courses.component.html',
-  styleUrl: './courses.component.scss'
+  styleUrls: ['./courses.component.scss']
 })
 export class CoursesComponent implements OnInit {
   courses: Courses[] = [];
@@ -22,10 +22,9 @@ export class CoursesComponent implements OnInit {
     });
   }
   
-  salvaPiano(courseId: number): void {
-    console.log(courseId);
+  salvaPiano(courseId: number) {
     const plan: StudyPlan = {
-      student_id: this.student_id,
+      student_id: 2,
       course_id: courseId,
       grade: null
     };

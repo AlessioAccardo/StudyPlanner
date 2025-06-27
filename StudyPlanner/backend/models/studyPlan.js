@@ -3,7 +3,12 @@ const db = require('../db/database');
 class studyPlan {
     static async getStudyPlanByStudentId(student_id) {
         return new Promise((resolve, reject) => {
-            db.all('SELECT course_id FROM studyPlan WHERE student_id = ?', [student_id], (err, rows) => {
+            db.all(`
+                SELECT s.student_id, s.course_id, c.name
+                FROM studyPlan AS s
+                JOIN courses AS c ON c.id = s.course_id 
+                WHERE student_id = ?
+                `, [student_id], (err, rows) => {
                 if (err) return reject(err);
                 resolve(rows);
             });

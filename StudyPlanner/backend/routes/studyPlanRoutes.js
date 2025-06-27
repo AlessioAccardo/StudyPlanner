@@ -3,7 +3,7 @@ const router = express.Router();
 const studyPlanCtrl = require('../controllers/studyPlanController');
 
 // GET by student id
-router.get('/student/:id', studyPlanCtrl.getByStudentId);
+router.get('/student/:student_id', studyPlanCtrl.getByStudentId);
 
 // GET by student full name
 router.get('/search', studyPlanCtrl.getByStudentFullName);
