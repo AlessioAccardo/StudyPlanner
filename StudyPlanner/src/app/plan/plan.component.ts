@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { ExamService, Exam } from '../services/exam.service';
 import { AuthService } from '../services/auth/auth.service';
 import { Router } from '@angular/router';
+import { StudyPlan, StudyPlanService } from '../services/studyPlan.service';
 
 @Component({
   selector: 'app-plan',
@@ -16,18 +17,21 @@ export class PlanComponent implements OnInit{
   router = inject(Router);
 
   esami: Exam[] = [];
+  studyPlan: StudyPlan[] = []
+  student_id = 2;
 
-  constructor(public examService: ExamService) {
+  constructor(public examService: ExamService, public studyPlanService: StudyPlanService) {
     //if (!this.auth.role || this.auth.role() !== "studente") {
     //  this.router.navigate(['/page-not-found']); 
     //}
   }
 
   ngOnInit() {
-      this.examService.getExamByProfessorId(1).subscribe((data:Exam[]) => {
+    this.examService.getExamByProfessorId(1).subscribe((data:Exam[]) => {
       console.log(data);
       this.esami = data;
     });
+    //this.loadStudyPlan();
   }
    
 
@@ -53,8 +57,15 @@ export class PlanComponent implements OnInit{
     return this.esamiSelezionati.reduce((tot, e) => tot + e.credits, 0);
   }
 
+  private loadStudyPlan() {
+    this.studyPlanService.getByStudentId(this.student_id).subscribe((data) => {
+      this.studyPlan = data
+    });
+  }
+
   salvaPiano(event: Event): void {
     event.preventDefault();
+
     alert(`Hai salvato ${this.esamiSelezionati.length} esami per un totale di ${this.cfuTotali} CFU.`);
   }
 

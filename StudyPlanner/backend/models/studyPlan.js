@@ -37,6 +37,15 @@ class studyPlan {
             });
         });
     }
+
+    static async create(student_id, course_id, grade) {
+        return new Promise((resolve, reject) => {
+            db.run('INSERT INTO studyPlan(student_id, course_id, grade) VALUES (?,?,?)', [student_id, course_id, grade], function(err) {
+                if (err) return reject(err);
+                resolve({ student_id, course_id, grade });
+            });
+        });
+    }
 }
 
 module.exports = studyPlan;

@@ -8,4 +8,7 @@ router.get('/student/:id', studyPlanCtrl.getByStudentId);
 // GET by student full name
 router.get('/search', studyPlanCtrl.getByStudentFullName);
 
+// POST to create a studyplan
+router.post('/', studyPlanCtrl.create);
+
 module.exports = router;

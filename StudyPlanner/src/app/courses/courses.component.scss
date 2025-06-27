@@ -1,0 +1,31 @@
+/* tuo-componente.component.css */
+
+.course-row {
+  /* --- Stili per rendere i <li> orizzontali --- */
+  display: flex;         /* 1. Applica il layout Flexbox */
+  gap: 20px;             /* 2. Aggiunge spazio tra gli elementi li */
+  align-items: center;   /* 3. (Opzionale) Allinea verticalmente gli elementi al centro */
+
+  /* --- Stili per pulizia e aspetto --- */
+  list-style-type: none; /* Rimuove i pallini della lista */
+  padding: 10px;         /* Aggiunge spazio interno */
+  margin: 0 0 10px 0;    /* Aggiunge un margine inferiore per separare le righe */
+  border: 1px solid #ccc; /* (Opzionale) Aggiunge un bordo per vedere meglio ogni riga */
+  border-radius: 5px;    /* (Opzionale) Arrotonda gli angoli */
+  max-width: 30rem;
+}
+
+/* (Opzionale) Puoi anche dare uno stile agli elementi interni se vuoi */
+.course-row li {
+  /* Esempio: assegna una larghezza minima per un migliore allineamento */
+  min-width: 100px;
+}
+
+button {
+    color: white;
+    background-color: blue;
+    width: 8rem;
+    height: 2rem;
+    border: 1px solid blue;
+    border-radius: 5px;
+}

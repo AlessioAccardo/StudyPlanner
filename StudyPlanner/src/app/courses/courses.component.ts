@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CoursesService, Courses } from '../services/courses.service';
+import { StudyPlanService, StudyPlan } from '../services/studyPlan.service';
 
 @Component({
   selector: 'app-courses',
@@ -7,14 +8,38 @@ import { CoursesService, Courses } from '../services/courses.service';
   templateUrl: './courses.component.html',
   styleUrl: './courses.component.scss'
 })
-export class CoursesComponent {
+export class CoursesComponent implements OnInit {
   courses: Courses[] = [];
+  studyPlan: StudyPlan[] = [];
+
+  student_id = 2;
   
-  constructor(public coursesService: CoursesService) {}
+  constructor(public coursesService: CoursesService, public studyPlanService: StudyPlanService) {}
 
   ngOnInit() {
     this.coursesService.getAll().subscribe((data) => {
       this.courses = data;
-    })
+    });
   }
+  
+  salvaPiano(courseId: number): void {
+    console.log(courseId);
+    const plan: StudyPlan = {
+      student_id: this.student_id,
+      course_id: courseId,
+      grade: null
+    };
+
+    this.studyPlanService.create(plan).subscribe({
+      next: created => {
+        this.studyPlan.push(created);
+        alert(`Corso ${created.course_id} aggiunto al piano dello studente ${created.student_id}.`);
+      },
+      error: err => {
+        console.log(err);
+        alert('Si è verificato un errore durante il salvataggio del piano.');
+      }
+    });
+  }
+
 }

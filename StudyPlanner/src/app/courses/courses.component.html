@@ -1,7 +1,11 @@
-@for(course of courses; track course.id) {
-    <ul>
-        <li>{{ course.id }}</li>
-        <li>{{ course.name }}</li>
-        <li>{{ course.professor_id }}</li>
+<div>
+  @for (course of courses; track course.id) {
+    <ul class="course-row">
+      <li>{{ course.id }}</li>
+      <li>{{ course.name }}</li>
+      <li>{{ course.professor_id }}</li>
+      <button (click)="salvaPiano(course.id)">Aggiungi</button>
     </ul>
-}
+    
+  }
+</div>
