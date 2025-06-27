@@ -10,22 +10,18 @@
     <form (submit)="salvaPiano($event)">
     <section class = "search">
       <input type="text" placeholder="Cerca esame per codice o nome esame..."(input)="onSearch($event)"/>
-    </section>
-    
-      @for (esame of esamiFiltrati; track esame.codice) {
+    </section>    
+      @for (esame of esamiFiltrati; track esame.code) {
         <div class="course">
           <label>
             <input
               type="checkbox"
               [checked]="esame.selezionato"
-              (change)="aggiornaSelezione($event, esame.codice)"
-              name="{{ esame.codice }}"
+              (change)="aggiornaSelezione($event, esame.code)"
+              name="{{ esame.code }}"
             />
-            {{ esame.codice }} - {{ esame.nome }} ({{ esame.cfu }} CFU)
+            ID: {{ esame.code }} - NOME: {{ esame.code }} ({{ esame.credits }} CFU)
           </label>
-          @if (esame.note) {
-            <p class="note">{{ esame.note }}</p>
-          }
         </div>
       }
 

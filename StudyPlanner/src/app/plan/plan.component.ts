@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ExamService } from '../services/exam.service';
+import { Exam } from '../services/exam.service';
 
 @Component({
   selector: 'app-plan',
@@ -7,44 +9,26 @@ import { Component } from '@angular/core';
   templateUrl: './plan.component.html',
   styleUrl: './plan.component.scss'
 })
-export class PlanComponent {
-  esami = [
-    {
-      codice: 'INF001',
-      nome: 'Analisi Matematica II',
-      cfu: 12,
-      selezionato: false,
-      note: 'Propedeutico: Analisi Matematica I'
-    },
-    {
-      codice: 'INF002',
-      nome: 'Programmazione Web & Mobile',
-      cfu: 9,
-      selezionato: false,
-      note: ''
-    },
-    {
-      codice: 'INF003',
-      nome: 'Basi di Dati',
-      cfu: 6,
-      selezionato: false,
-      note: ""
-    },
-    {
-      codice: 'INF004',
-      nome: 'Ingegneria del Software',
-      cfu: 6,
-      selezionato: false,
-      note: 'Propedeutico: Programmazione Web & Mobile'
-    }
-  ];
+export class PlanComponent implements OnInit{
+
+  esami: Exam[] = [];
+
+  constructor(public examService: ExamService) {}
+
+  ngOnInit() {
+      this.examService.getExamByProfessorId(1).subscribe((data:Exam[]) => {
+      console.log(data);
+      this.esami = data;
+    });
+  }
+   
 
   searchText: string = '';
 
   get esamiFiltrati() {
     if (!this.searchText.trim()) return this.esami;
     return this.esami.filter(e =>
-      `${e.codice} ${e.nome}`.toLowerCase().includes(this.searchText.toLowerCase())
+      `${e.code} ${e.name}`.toLowerCase().includes(this.searchText.toLowerCase())
     );
   }
 
@@ -58,7 +42,7 @@ export class PlanComponent {
   }
 
   get cfuTotali(): number {
-    return this.esamiSelezionati.reduce((tot, e) => tot + e.cfu, 0);
+    return this.esamiSelezionati.reduce((tot, e) => tot + e.credits, 0);
   }
 
   salvaPiano(event: Event): void {
@@ -66,9 +50,9 @@ export class PlanComponent {
     alert(`Hai salvato ${this.esamiSelezionati.length} esami per un totale di ${this.cfuTotali} CFU.`);
   }
 
-  aggiornaSelezione(event: Event, esameCodice: string) {
+  aggiornaSelezione(event: Event, esameCodice: number) {
     const input = event.target as HTMLInputElement;
-    const esame = this.esami.find(e => e.codice === esameCodice);
+    const esame = this.esami.find(e => e.code === esameCodice);
     if (esame) {
       esame.selezionato = input.checked;
     }

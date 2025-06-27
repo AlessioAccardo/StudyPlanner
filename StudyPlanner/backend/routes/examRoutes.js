@@ -12,7 +12,7 @@ router.get('/:code', examCtrl.getByCode);
 router.get('/:name', examCtrl.getByName);
 
 // GET by professor id
-router.get('/:professor_id', examCtrl.getByProfessorId);
+router.get('/professor/:professor_id', examCtrl.getByProfessorId);
 
 // GET by professor full name
 router.get('/search', examCtrl.getByProfessorName);

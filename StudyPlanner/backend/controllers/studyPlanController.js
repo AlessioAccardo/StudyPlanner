@@ -14,7 +14,7 @@ class StudyPlanController {
 
     static async getByStudentFullName(req, res, next) {
         try {
-            const { first_name, last_name } = req.params;
+            const { first_name, last_name } = req.query;
             const list = await StudyPlan.getStudyPlanByStudentFullName(first_name, last_name);
             if (!list || list.length === 0) return res.status(404).json({ message: 'StudyPlan non trovato'});
             res.status(200).json(list);
