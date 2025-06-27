@@ -42,8 +42,7 @@ export class RequestComponent implements OnInit {
     }
   }
 
-onSubmit(){                                                                         //bisogna aggiungere la tabella delle Richieste nel backend e puntare a quella per effettuare la richiesta
-    if (this.requestForm.invalid) return;
+onSubmit(){                                                                         
     const payload: Partial<ExamRequest> = this.requestForm.value;
 
     this.http.post<ExamRequest>(this.baseUrl, payload).subscribe({
