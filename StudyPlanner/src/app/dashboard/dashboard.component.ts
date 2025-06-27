@@ -1,4 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';  
 import { AuthService } from '../services/auth/auth.service';
 
 interface StudentExam {
@@ -7,8 +8,8 @@ interface StudentExam {
   cfu: number;
   completed: boolean;
   note: string;
-  voto?: number;               
-  votoAccettato?: boolean;       
+  voto?: number;
+  votoAccettato?: boolean;
 }
 
 interface ProfessorExamStats {
@@ -26,7 +27,9 @@ interface ProfessorExamStats {
   imports: []
 })
 export class DashboardComponent implements OnInit {
+
   auth = inject(AuthService);
+  router = inject(Router); 
 
   studentExams: StudentExam[] = [];
   professorStats: ProfessorExamStats[] = [];
@@ -36,6 +39,15 @@ export class DashboardComponent implements OnInit {
   completePercentage = 0;
 
   ngOnInit(): void {
+<<<<<<< HEAD
+    if (this.auth.role && this.auth.role() === null) {
+      this.router.navigate(['/no-role']);
+      return;
+    }
+    
+=======
+
+>>>>>>> c93efa127637b680b399be42e3b55f8953fc5bc0
     this.studentExams = [
       { id: "INF001", name: "Analisi Matematica II", cfu: 12, completed: true, note: "Propedeutico: Analisi Matematica I", voto: 28, votoAccettato: undefined },
       { id: "INF002", name: "Programmazione Web & Mobile", cfu: 9, completed: true, note: "", voto: 30, votoAccettato: undefined },
@@ -58,27 +70,27 @@ export class DashboardComponent implements OnInit {
     this.completePercentage = this.maxCfu > 0 ? (this.totalCfu / this.maxCfu) * 100 : 0;
   }
 
-accettaVoto(exam: StudentExam): void {
-  if (
-    confirm(`Vuoi accettare il voto di ${exam.name} - ${exam.cfu} CFU?`)
-  ) {
-    exam.votoAccettato = true;
-    exam.completed = true;
-    this.calculateStudentMetrics();
-    alert('Voto accettato con successo!');
+  accettaVoto(exam: StudentExam): void {
+    if (
+      confirm(`Vuoi accettare il voto di ${exam.name} - ${exam.cfu} CFU?`)
+    ) {
+      exam.votoAccettato = true;
+      exam.completed = true;
+      this.calculateStudentMetrics();
+      alert('Voto accettato con successo!');
+    }
   }
-}
 
-rifiutaVoto(exam: StudentExam): void {
-  if (
-    confirm(`Vuoi rifiutare il voto di ${exam.name} - ${exam.cfu} CFU?`)
-  ) {
-    exam.votoAccettato = false;
-    exam.completed = false;
-    this.calculateStudentMetrics();
-    alert('Voto rifiutato con successo!');
+  rifiutaVoto(exam: StudentExam): void {
+    if (
+      confirm(`Vuoi rifiutare il voto di ${exam.name} - ${exam.cfu} CFU?`)
+    ) {
+      exam.votoAccettato = false;
+      exam.completed = false;
+      this.calculateStudentMetrics();
+      alert('Voto rifiutato con successo!');
+    }
   }
-}
 
   getPassPercentage(stats: ProfessorExamStats): number {
     const total = stats.passed + stats.failed;
@@ -90,4 +102,3 @@ rifiutaVoto(exam: StudentExam): void {
     return total > 0 ? (stats.failed / total) * 100 : 0;
   }
 }
-

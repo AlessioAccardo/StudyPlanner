@@ -7,6 +7,7 @@ const authRoutes = require('./auth/routes/authRoutes');
 const coursesRoutes = require('./routes/coursesRoutes');
 const examRoutes = require('./routes/examRoutes');
 const userRoutes = require('./routes/userRoutes');
+const studyPlanRoutes = require('./routes/studyPlanRoutes')
 
 // Middleware che permette di ritornare json
 app.use(express.json());
@@ -22,6 +23,9 @@ app.use('/api/courses', coursesRoutes);
 
 // routes definite nel file examRoutes
 app.use('/api/exam', examRoutes);
+
+// routes definite nel file studyPlanRoutes
+app.use('/api/studyPlan', studyPlanRoutes);
 
 // importiamo il modulo cors per gestire le richieste cross-origin
 const cors = require('cors');

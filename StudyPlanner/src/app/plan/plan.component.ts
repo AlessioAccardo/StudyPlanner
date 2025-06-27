@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { AuthService } from '../services/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-plan',
@@ -8,6 +10,9 @@ import { Component } from '@angular/core';
   styleUrl: './plan.component.scss'
 })
 export class PlanComponent {
+  auth = inject(AuthService);
+  router = inject(Router);
+
   esami = [
     {
       codice: 'INF001',
@@ -40,6 +45,12 @@ export class PlanComponent {
   ];
 
   searchText: string = '';
+
+  constructor() {
+    if (!this.auth.role || this.auth.role() !== "student") {
+      this.router.navigate(['/page-not-found']); 
+    }
+  }
 
   get esamiFiltrati() {
     if (!this.searchText.trim()) return this.esami;

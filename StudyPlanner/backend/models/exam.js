@@ -12,7 +12,7 @@ class Exam {
 
     static async getExamByCode(code) {
         return new Promise((resolve, reject) => {
-            db.get('SELECT * FROM exams WHERE id = ?', [code], (err, row) => {
+            db.get('SELECT * FROM exams WHERE code = ?', [code], (err, row) => {
                 if (err) return reject(err);
                 resolve(row);
             });
