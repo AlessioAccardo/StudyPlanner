@@ -18,9 +18,9 @@ export class PlanComponent implements OnInit{
   esami: Exam[] = [];
 
   constructor(public examService: ExamService) {
-    if (!this.auth.role || this.auth.role() !== "studente") {
-      this.router.navigate(['/page-not-found']); 
-    }
+    //if (!this.auth.role || this.auth.role() !== "studente") {
+    //  this.router.navigate(['/page-not-found']); 
+    //}
   }
 
   ngOnInit() {
