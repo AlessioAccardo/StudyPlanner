@@ -1,27 +1,19 @@
 import { Component, inject, effect, OnInit} from '@angular/core';
-import { RouterOutlet, Router} from '@angular/router';
+import { RouterOutlet, Router, RouterLink} from '@angular/router';
 import { AuthService, UserRole} from './services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule],
+  imports: [RouterOutlet, CommonModule, RouterLink],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   standalone: true,
 })
-export class AppComponent implements OnInit{
+export class AppComponent {
   title = 'SessionManager';
 
   constructor(private auth: AuthService, private router: Router) {}
-
-  ngOnInit(): void {
-      effect(() => {
-        if (!this.isLoggedIn) {
-          this.router.navigate(['/login']);
-        }
-      });
-  }
 
   get isLoggedIn(): boolean {
     return this.auth.isLoggedIn();

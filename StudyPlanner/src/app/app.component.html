@@ -2,20 +2,20 @@
     <div class="container header-content">
       <h1 class="logo"> SessionManager</h1>
       <nav>
-        <a href = " "> Home </a>
-        <a href= "login">Login</a>
+        <a routerLink=""> Home </a>
+        <a routerLink="login">Login</a>
         @if (role === 'studente'){
-        <a href = "dashboard">Dashboard</a>
-        <a href = "plan"> Piano di studi</a>
+        <a routerLink="dashboard">Dashboard</a>
+        <a routerLink="plan"> Piano di studi</a>
         }
         @if (role === 'professore'){
-        <a href = "dashboard">Dashboard</a>
-        <a href = "request"> Richieste</a>
+        <a routerLink="dashboard">Dashboard</a>
+        <a routerLink="request"> Richieste</a>
         }
          @if (role === 'admin'){
-        <a href = " "> Home </a>
-        <a href= "login">Login</a>
-        <a href = "request"> Richieste</a>
+        <a routerLink=""> Home </a>
+        <a routerLink="login">Login</a>
+        <a routerLink="request"> Richieste</a>
         }
       </nav>
     </div>

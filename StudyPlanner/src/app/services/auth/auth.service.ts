@@ -1,4 +1,5 @@
-import { Injectable, signal, computed } from "@angular/core";
+import { Injectable, signal, computed, Inject, PLATFORM_ID } from "@angular/core";
+import { isPlatformBrowser } from '@angular/common';
 import { AuthApiService, AuthResponse, LoginPayload } from "./authApi.service";
 import { tap } from "rxjs/operators";
 import { Observable, of } from "rxjs";
@@ -6,7 +7,7 @@ import { Observable, of } from "rxjs";
 export enum UserRole {
   studente   = 'studente',
   professore = 'professore',
-  admin     = 'admin'
+  admin      = 'admin'
 }
 
 // tutti i ruoli possibili
@@ -29,11 +30,20 @@ export class AuthService {
   readonly isLoggedIn  = computed(() => !!this._token());
   readonly role        = computed(() => this._user()?.role ?? null);
 
-  constructor(private api: AuthApiService) {
-    const saved = localStorage.getItem(this.TOKEN_KEY);
-    if (saved) {
-      this._token.set(saved);
-      this.me().subscribe({ error: () => this.logout() });
+  private isBrowser: boolean;
+
+  constructor(
+    private api: AuthApiService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+
+    if (this.isBrowser) {
+      const saved = localStorage.getItem(this.TOKEN_KEY);
+      if (saved) {
+        this._token.set(saved);
+        this.me().subscribe({ error: () => this.logout() });
+      }
     }
   }
 
@@ -41,7 +51,9 @@ export class AuthService {
     return this.api.login(payload).pipe(
       tap(res => {
         this._token.set(res.token);
-        localStorage.setItem(this.TOKEN_KEY, res.token);
+        if (this.isBrowser) {
+          localStorage.setItem(this.TOKEN_KEY, res.token);
+        }
         this._user.set(res.user);
       })
     );
@@ -50,7 +62,9 @@ export class AuthService {
   logout(): void {
     this._token.set(null);
     this._user.set(null);
-    localStorage.removeItem(this.TOKEN_KEY);
+    if (this.isBrowser) {
+      localStorage.removeItem(this.TOKEN_KEY);
+    }
   }
 
   me(): Observable<AuthResponse['user']> {
@@ -64,5 +78,4 @@ export class AuthService {
     if (!user) return false;
     return user.role === required;
   }
-
 }
