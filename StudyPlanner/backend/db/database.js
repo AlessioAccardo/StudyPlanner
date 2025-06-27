@@ -37,7 +37,7 @@ const db = new sqlite3.Database(dbFile, (err) => {
                 code INTEGER PRIMARY KEY AUTOINCREMENT,
                 name VARCHAR(255) NOT NULL,
                 credits INTEGER NOT NULL,
-                enrolled_students INTEGER NOT NULL DEFAULT 0,
+                enrolled_students INTEGER DEFAULT 0,
                 professor_id INTEGER NOT NULL,
                 approved INTEGER CHECK(approved IN (0,1)),
                 date TEXT NOT NULL,

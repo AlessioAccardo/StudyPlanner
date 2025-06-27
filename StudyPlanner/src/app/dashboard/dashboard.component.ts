@@ -27,6 +27,7 @@ interface ProfessorExamStats {
   imports: []
 })
 export class DashboardComponent implements OnInit {
+
   auth = inject(AuthService);
   router = inject(Router); 
 
@@ -38,11 +39,15 @@ export class DashboardComponent implements OnInit {
   completePercentage = 0;
 
   ngOnInit(): void {
+<<<<<<< HEAD
     if (this.auth.role && this.auth.role() === null) {
       this.router.navigate(['/no-role']);
       return;
     }
     
+=======
+
+>>>>>>> c93efa127637b680b399be42e3b55f8953fc5bc0
     this.studentExams = [
       { id: "INF001", name: "Analisi Matematica II", cfu: 12, completed: true, note: "Propedeutico: Analisi Matematica I", voto: 28, votoAccettato: undefined },
       { id: "INF002", name: "Programmazione Web & Mobile", cfu: 9, completed: true, note: "", voto: 30, votoAccettato: undefined },
