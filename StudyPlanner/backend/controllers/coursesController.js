@@ -3,8 +3,8 @@ const Courses = require('../models/courses');
 class CoursesController {
     static async create(req, res, next) {
         try {
-            const { name, professor_id } = req.body;
-            const creatingCourse = await Courses.createCourse(name, professor_id);
+            const { name, professor_id, credits } = req.body;
+            const creatingCourse = await Courses.createCourse(name, professor_id, credits);
             res.status(201).json(creatingCourse);
         } catch (err) {
             next(err);

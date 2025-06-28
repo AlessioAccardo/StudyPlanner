@@ -28,4 +28,10 @@ button {
     height: 2rem;
     border: 1px solid blue;
     border-radius: 5px;
+    cursor: pointer;
+    transition: opacity 0.3s ease-in-out;
+}
+
+button:hover {
+  opacity: 0.8;
 }

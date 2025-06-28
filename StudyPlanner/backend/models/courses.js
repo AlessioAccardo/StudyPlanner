@@ -1,12 +1,12 @@
 const db = require('../db/database');
 
 class Courses {
-    static async createCourse(name, professor_id) {
+    static async createCourse(name, professor_id, credits) {
         return new Promise((resolve, reject) => {
-            db.run('INSERT INTO courses(name, professor_id) VALUES (?,?)', [name, professor_id],
+            db.run('INSERT INTO courses(name, professor_id, credits) VALUES (?,?,?)', [name, professor_id, credits],
                 function(err) {
                     if (err) return reject(err);
-                    resolve({ id: this.lastID, name, professor_id });
+                    resolve({ id: this.lastID, name, professor_id, credits });
                 }
             );
         });

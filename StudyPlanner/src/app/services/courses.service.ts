@@ -5,7 +5,8 @@ import { Observable } from "rxjs";
 export interface Courses {
     id: number,
     name: string,
-    professor_id: number
+    professor_id: number,
+    credits: number
 }
 
 @Injectable({ providedIn: 'root' })

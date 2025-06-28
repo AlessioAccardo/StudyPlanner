@@ -2,30 +2,28 @@
   <section class="summary">
     <h2>Il tuo Piano di Studi</h2>
     <p>CFU Totali: <strong>{{ cfuTotali }}</strong> / 60</p>
-    <p>Esami selezionati: <strong>{{ esamiSelezionati.length }}</strong></p>
+
+    @for(course of studyPlan; track course.course_id) {
+      <ul class="course-row">
+      <li>{{ course.course_id }}</li>
+      <li>{{ course.course_name }}</li>
+      <li>AGGIUNGERE FUNC CFU</li>
+    </ul>
+    }
   </section>
 
   <section class="study-plan">
     <h3>Seleziona gli esami</h3>
-    <form (submit)="salvaPiano($event)">
+    <form>
     <section class = "search">
       <input type="text" placeholder="Cerca esame per codice o nome esame..."(input)="onSearch($event)"/>
-    </section>    
+    </section>
       @for (esame of esami; track esame.code) {
         <div class="course">
-          <label>
-            <input
-              type="checkbox"
-              [checked]="esame.selezionato"
-              (change)="aggiornaSelezione($event, esame.code)"
-              name="{{ esame.code }}"
-            />
-            ID: {{ esame.code }} - NOME: {{ esame.code }} ({{ esame.credits }} CFU)
-          </label>
+          ID: {{ esame.code }} - NOME: {{ esame.name }} ({{ esame.credits }} CFU) - N.PRENOTATI: {{ esame.enrolled_students }}
+          <button type="button" (click)="seleziona(esame.code)">Aggiungi</button>
         </div>
       }
-
-      <button type="submit">Salva Piano Studi</button>
     </form>
   </section>
 </main>

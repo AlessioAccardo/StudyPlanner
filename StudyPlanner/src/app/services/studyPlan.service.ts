@@ -2,10 +2,19 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 
+// mando al server
+export interface CreateStudyPlanDto {
+  student_id: number;
+  course_id: number;
+}
+
+// ricevo dal server
 export interface StudyPlan {
     student_id: number,
     course_id: number,
-    grade: number | null
+    course_name: string,
+    credits: number,
+    grade?: number
 }
 
 @Injectable({ providedIn: 'root'})
@@ -14,8 +23,8 @@ export class StudyPlanService {
 
     constructor(private http: HttpClient) {}
 
-    getByStudentId(id: number): Observable<StudyPlan[]>{
-        return this.http.get<StudyPlan[]>(`${this.apiUrl}/student/${id}`);
+    getByStudentId(student_id: number): Observable<StudyPlan[]>{
+        return this.http.get<StudyPlan[]>(`${this.apiUrl}/student/${student_id}`);
     }
 
     getByStudentFullName(first_name: string, last_name: string): Observable<StudyPlan[]> {
@@ -23,8 +32,8 @@ export class StudyPlanService {
         return this.http.get<StudyPlan[]>(`${this.apiUrl}/search`, { params });
     }
 
-    create(studyPlan: StudyPlan) {
-        return this.http.post<StudyPlan>(this.apiUrl, studyPlan);
+    create(dto: CreateStudyPlanDto): Observable<StudyPlan> {
+        return this.http.post<StudyPlan>(this.apiUrl, dto);
     }
 
 }

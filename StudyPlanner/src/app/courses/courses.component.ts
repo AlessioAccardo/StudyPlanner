@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CoursesService, Courses } from '../services/courses.service';
 import { StudyPlanService, StudyPlan } from '../services/studyPlan.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-courses',
@@ -22,23 +23,25 @@ export class CoursesComponent implements OnInit {
     });
   }
   
-  salvaPiano(courseId: number) {
-    const plan: StudyPlan = {
-      student_id: 2,
-      course_id: courseId,
-      grade: null
-    };
+  async salvaPiano(courseId: number): Promise<void> {
+    try {
+      const dto = {
+        student_id: this.student_id,
+        course_id: courseId
+      };
 
-    this.studyPlanService.create(plan).subscribe({
-      next: created => {
-        this.studyPlan.push(created);
-        alert(`Corso ${created.course_id} aggiunto al piano dello studente ${created.student_id}.`);
-      },
-      error: err => {
-        console.log(err);
-        alert('Si è verificato un errore durante il salvataggio del piano.');
-      }
-    });
+      const created = await firstValueFrom(
+        this.studyPlanService.create(dto)
+      );
+
+      // il server mi restituisce già { student_id, course_id, course_name, credits, … }
+      this.studyPlan.push(created);
+      alert(`Corso ${created.course_id} (${created.course_name}, ${created.credits} CFU) aggiunto.`);
+
+    } catch (err) {
+      console.error(err);
+      alert('Errore durante il salvataggio del piano.');
+    }
   }
 
 }

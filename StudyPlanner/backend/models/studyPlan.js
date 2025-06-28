@@ -1,10 +1,11 @@
 const db = require('../db/database');
+const Courses = require('./courses')
 
-class studyPlan {
+class StudyPlan {
     static async getStudyPlanByStudentId(student_id) {
         return new Promise((resolve, reject) => {
             db.all(`
-                SELECT s.student_id, s.course_id, c.name
+                SELECT s.student_id, s.course_id, c.name as course_name
                 FROM studyPlan AS s
                 JOIN courses AS c ON c.id = s.course_id 
                 WHERE student_id = ?
@@ -18,7 +19,7 @@ class studyPlan {
     static async getStudyPlanByStudentFullName(fname, lname) {
         return new Promise((resolve, reject) => {
             db.all(`
-                SELECT course_id
+                SELECT u.id, s.course_id, c.name as course_name
                 FROM studyPlan as s
                 JOIN users as u ON u.id = s.student_id
                 JOIN courses as c ON c.id = s.course_id
@@ -43,14 +44,16 @@ class studyPlan {
         });
     }
 
-    static async create(student_id, course_id, grade) {
+    static async create(student_id, course_id) {
+        const { name: course_name, credits } = await Courses.getCourseById(course_id);
+
         return new Promise((resolve, reject) => {
-            db.run('INSERT INTO studyPlan(student_id, course_id, grade) VALUES (?,?,?)', [student_id, course_id, grade], function(err) {
+            db.run('INSERT INTO studyPlan(student_id, course_id, course_name, credits) VALUES (?,?,?,?)', [student_id, course_id, course_name, credits], function(err) {
                 if (err) return reject(err);
-                resolve({ student_id, course_id, grade });
+                resolve({ student_id, course_id, course_name, credits });
             });
         });
     }
 }
 
-module.exports = studyPlan;
+module.exports = StudyPlan;

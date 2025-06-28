@@ -36,8 +36,8 @@ class StudyPlanController {
 
     static async create(req, res, next) {
         try {
-            const { student_id, course_id, grade } = req.body;
-            const studyplan = await StudyPlan.create(student_id, course_id, grade);
+            const { student_id, course_id } = req.body;
+            const studyplan = await StudyPlan.create(student_id, course_id);
             res.status(201).json(studyplan);
         } catch (err) {
             next(err);
