@@ -1,4 +1,3 @@
-const { approve } = require('../controllers/examController');
 const db = require('../db/database');
 const Courses = require('../models/courses');
 

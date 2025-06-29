@@ -3,7 +3,7 @@ import { HttpClient, HttpParams} from "@angular/common/http";
 import { Observable } from "rxjs";
 
 export interface User{
-    id?: number,
+    id: number,
     first_name: string,
     last_name: string,
     email: string,
@@ -40,15 +40,15 @@ export class UserService{
         return this.http.get<User []>(`${this.apiUrl}/search`, {params});
     }
 
-    getById(id: number): Observable<User[]>{
-        return this.http.get<User[]>(`${this.apiUrl}/${id}`);
+    getById(id: number): Observable<User>{
+        return this.http.get<User>(`${this.apiUrl}/${id}`);
     }
 
-    getProfessorsById(id: number): Observable<User[]>{
-        return this.http.get<User[]>(`${this.apiUrl}/professor/${id}`);
+    getProfessorById(id: number): Observable<User>{
+        return this.http.get<User>(`${this.apiUrl}/professor/${id}`);
     }
 
-    getByEmail(email: string): Observable<User []>{
-        return this.http.get<User []>(`${this.apiUrl}/${email}`);
+    getByEmail(email: string): Observable<User>{
+        return this.http.get<User>(`${this.apiUrl}/${email}`);
     }
 }

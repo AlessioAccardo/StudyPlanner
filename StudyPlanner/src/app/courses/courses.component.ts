@@ -4,6 +4,7 @@ import { UserService, User} from '../services/user.service';
 import { StudyPlanService, StudyPlan } from '../services/studyPlan.service';
 import { firstValueFrom } from 'rxjs';
 
+
 @Component({
   selector: 'app-courses',
   imports: [],
@@ -15,14 +16,7 @@ export class CoursesComponent implements OnInit {
   courses: Courses[] = [];
   studyPlan: StudyPlan[] = [];
   professors: User[] = [];
-  professor: User = {
-    first_name: "",
-    last_name: "",
-    email: "",
-    password: "",
-    role: "",
-  }
-  
+  professorMap: Record<number, User> = {};
 
   student_id = 2;
   
@@ -35,8 +29,12 @@ export class CoursesComponent implements OnInit {
 
     this.userService.getAllProfessors().subscribe((data) => {
       this.professors = data;
+      this.professorMap = data.reduce((m, p) => {
+        m[p.id] = p;
+        return m;
+      }, {} as Record<number, User>);
     });
-    
+
   }
   
   async createCourse(nameInput: HTMLInputElement, prof_id: HTMLSelectElement, creditsInput: HTMLInputElement): Promise<void> {
