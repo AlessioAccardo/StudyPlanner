@@ -2,28 +2,35 @@
   @if (1>0) {
     <section class = "request-table">
     <h2>Professore Richiesta Appello</h2>
-    <form [formGroup] ="requestForm" (ngSubmit)="onSubmit()">
+    <form (ngSubmit)="onSubmit(name, date)">
       <label for="course">Corso</label>
-      <input id="course" formControlName="course"
-             placeholder="Es. INF001 Programmazione Web & Mobile">
-
+      <input #name id="course" placeholder="Es. INF001 Programmazione Web & Mobile" required>
       <label for="date">Data Appello</label>
-      <input id="date" type="date" formControlName="date">
+      <input #date id="date" type="date" required>
 
+      <!--
       <label for="session">Sessione</label>
       <select id="session" formControlName="session">
         <option value="Invernale">Invernale</option>
         <option value="Estiva">Estiva</option>
         <option value="Autunnale">Autunnale</option>
       </select>
+    -->
 
-      <button type="submit" [disabled]="requestForm.invalid">
+      <button type="submit">
         Invia Richiesta
       </button>
     </form>
     </section>
   }
+
+  @for(request of requests; track request) {
+    <ul>
+      <li>{{ request.name }}</li>
+    </ul>
+  }
   
+  <!--
   @if (auth.hasRole(null)){
     <section class = "request-table">
     <h2>Segreteria Gestione Richieste</h2>
@@ -67,4 +74,6 @@
       </table>
      </section>
   }
+  -->
+  
 </main>
