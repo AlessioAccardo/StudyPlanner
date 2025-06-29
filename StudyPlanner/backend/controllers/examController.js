@@ -58,8 +58,8 @@ class ExamController {
 
     static async create(req, res, next) {
         try {
-            const { name, credits, professor_id, date, course_id } = req.body;
-            const creatingExam = await Exam.createExam(name, credits, professor_id, date, course_id);
+            const { course_id, date } = req.body;
+            const creatingExam = await Exam.createExam(course_id, date);
             res.status(201).json(creatingExam);
         } catch (err) {
             next(err);

@@ -2,13 +2,20 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 
+
+export interface CreateExamDto {
+  course_id: number;
+  date:      string;
+}
+
+
 export interface Exam {
-    code?: number
+    code: number
     name: string;
     credits: number;
     enrolled_students: number;
     professor_id: number;
-    approved?: boolean | null;
+    approved?: boolean;
     date: string;
     course_id: number;
 }
@@ -44,8 +51,8 @@ export class ExamService {
        return this.http.get<Exam[]>(`${this.apiUrl}/requested`); 
     }
 
-    createExam(exam: Exam) {
-        return this.http.post<Exam>(this.apiUrl, exam);
+    createExam(dto: CreateExamDto): Observable<Exam> {
+        return this.http.post<Exam>(this.apiUrl, dto);
     }
 
     approveExam(code: number, approved: boolean) {

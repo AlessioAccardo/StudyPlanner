@@ -2,9 +2,13 @@
   @if (1>0) {
     <section class = "request-table">
     <h2>Professore Richiesta Appello</h2>
-    <form (ngSubmit)="onSubmit(name, date)">
+    <form>
       <label for="course">Corso</label>
-      <input #name id="course" placeholder="Es. INF001 Programmazione Web & Mobile" required>
+      <select #courseSelected id="course" required>
+      @for(course of courses; track course.id) {
+        <option [value]="course.id">{{ course.name }}</option>
+      }
+      </select>
       <label for="date">Data Appello</label>
       <input #date id="date" type="date" required>
 
@@ -17,7 +21,7 @@
       </select>
     -->
 
-      <button type="submit">
+      <button type="button" (click)="onSubmit(courseSelected, date)">
         Invia Richiesta
       </button>
     </form>
@@ -27,53 +31,33 @@
   @for(request of requests; track request) {
     <ul>
       <li>{{ request.name }}</li>
+      <li>{{ request.code }}</li>
+      <li>{{ request.name }}</li>
     </ul>
   }
   
-  <!--
-  @if (auth.hasRole(null)){
+
+  <!-- GESTIONE RICHIESTE SEGRETERIA -->
+  @if(1>0){
     <section class = "request-table">
-    <h2>Segreteria Gestione Richieste</h2>
+    <h2>Gestione Richieste</h2>
     <table>
       <thead>
         <tr>
-          <th>Corso</th><th>Data</th><th>Sessione</th><th>Stato</th><th>Azioni</th>
+          <th>Code</th><th>Corso</th><th>Data</th><th>Stato</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-        @for (req of requests(); track $index){
-          <td>{{ req.course }}</td>
-          <td>{{ req.date | date:'yyyy-MM-dd' }}</td>
-          <td>{{ req.session }}</td>
+        @for (request of requests; track request.code){
+          <td>{{ request.code }}</td>
+          <td>{{ request.name }}</td>
+          <td>{{ request.date }}</td>
+          <td>{{ request.approved }}</td>
           <td>
-            {{
-              req.status === 'pending'   ? 'In attesa'
-            : req.status === 'approved'  ? 'Approvato'
-            :                             'Rifiutato'
-            }}
-          </td>
-          <td>
-            @if(req.status === 'pending'){
-             <button (click)= "updateStatus(req, 'approved')">
-              Approva
-              </button>
-            }
-            @if(req.status === 'pending'){
-              <button (click)= "updateStatus(req, 'rejected')">
-              Rifiuta
-            </button>
-          }
-            @if(req.status !== 'pending'){
-              <em> - </em>
-            }
-            </td>
-        }
         </tr>
       </tbody>
       </table>
      </section>
-  }
-  -->
-  
+  }  
 </main>

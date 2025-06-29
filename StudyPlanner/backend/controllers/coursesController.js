@@ -69,13 +69,13 @@ class CoursesController {
         const { name, professor_id, first_name, last_name } = req.query;
 
         if (first_name && last_name) {
-            return getByProfessorFullName(req, res, next);
+            return CoursesController.getByProfessorFullName(req, res, next);
         }
         if (professor_id) {
-            return getByProfessorId(req, res, next);
+            return CoursesController.getByProfessorId(req, res, next);
         }
         if (name) {
-            return getByName(req, res, next);
+            return CoursesController.getByName(req, res, next);
         }
 
         // nessun parametro: errore o lista vuota

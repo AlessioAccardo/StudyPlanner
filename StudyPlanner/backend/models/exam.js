@@ -1,4 +1,6 @@
+const { approve } = require('../controllers/examController');
 const db = require('../db/database');
+const Courses = require('../models/courses');
 
 class Exam {
     static async getAllExams() {
@@ -51,19 +53,21 @@ class Exam {
         });
     }
 
-    static async createExam(name, credits, professor_id, date, course_id) {
+    static async createExam(course_id, date) {
+        const { name, professor_id, credits } = await Courses.getCourseById(course_id);
+
         return new Promise((resolve, reject) => {
             db.run('INSERT INTO exams (name, credits, professor_id, date, course_id) VALUES (?,?,?,?,?)', [name, credits, professor_id, date, course_id],
                 function(err) {
                 if (err) return reject(err);
-                resolve({ id: this.lastID, name, credits, professor_id, date, course_id });
+                resolve({ code: this.lastID, name, credits, professor_id, approved: null, enrolled_students: 0, date, course_id });
             });
         });
     }
 
     static async examsRequested() {
         return new Promise((resolve, reject) => {
-            db.all(`SELECT * FROM exams WHERE accepted IS NULL`, [], (err, rows) => {
+            db.all(`SELECT * FROM exams WHERE approved IS NULL`, [], (err, rows) => {
                 if (err) return reject (err);
                 resolve(rows);
             });

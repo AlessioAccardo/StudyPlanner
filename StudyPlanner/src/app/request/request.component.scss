@@ -54,3 +54,19 @@
 .request-table .approva:hover { background-color: #218838; }
 .request-table .rifiuta  { background-color: #dc3545; }
 .request-table .rifiuta:hover  { background-color: #c82333; }
+
+
+button {
+    color: white;
+    background-color: blue;
+    width: 8rem;
+    height: 2rem;
+    border: 1px solid blue;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: opacity 0.3s ease-in-out;
+}
+
+button:hover {
+  opacity: 0.8;
+}
