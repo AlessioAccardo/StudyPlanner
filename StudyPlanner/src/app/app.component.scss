@@ -1,0 +1,38 @@
+
+/* Header */
+header {
+  position: relative;
+  background: linear-gradient(120deg, #006bb3, #00c6ff, #0099ff);
+  color: #fff;
+  padding: 1.5rem 0;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  z-index: 100;
+}
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+
+}
+.logo {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  color: #ffffff;
+  text-shadow:
+  -1px -1px 0 rgba(255,255,255,0.2),
+   1px  1px 0 rgba(0,0,0,0.2);
+}
+
+
+nav a {
+  color: white;
+  margin-left: 1.25rem;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bold;
+}
+nav a:hover {
+  text-decoration: underline;
+}
