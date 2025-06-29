@@ -21,7 +21,7 @@
       @for (esame of esami; track esame.code) {
         <div class="course">
           ID: {{ esame.code }} - NOME: {{ esame.name }} ({{ esame.credits }} CFU) - N.PRENOTATI: {{ esame.enrolled_students }}
-          <button type="button" (click)="seleziona(esame.code)">Aggiungi</button>
+          <button type="button" (click)="seleziona(esame.code!)">Aggiungi</button>
         </div>
       }
     </form>

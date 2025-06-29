@@ -15,6 +15,15 @@ class UserController {
         }
     }
 
+    static async getAllProfessors(req, res, next) {
+        try{
+            const list = await User.getAllProfessors();
+            if(!list || list.length === 0) return res.status(404).json({message: 'Lista dei professori vuota'});
+            return res.status(200).json(list);
+        }catch(err){
+            next(err);
+        }
+    }
 
     static async getByFName(req, res, next) {
         try {
@@ -60,6 +69,17 @@ class UserController {
             if (!searchedUser) return res.status(404).json({ message: 'Utente non trovato'});
             res.status(200).json(user);
         } catch (err) {
+            next(err);
+        }
+    }
+
+    static async getProfessorById(req, res, next) {
+        try {
+            const {id} = req.params;
+            const searchedUser = await User.getProfessorById(id);
+            if(!searchedUser) return res.status(404).json({ message: 'Utente non trovato'});
+            res.status(200).json(user);
+        }catch (err){
             next(err);
         }
     }

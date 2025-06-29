@@ -1,37 +1,65 @@
-/* tuo-componente.component.css */
-
-.course-row {
-  /* --- Stili per rendere i <li> orizzontali --- */
-  display: flex;         /* 1. Applica il layout Flexbox */
-  gap: 20px;             /* 2. Aggiunge spazio tra gli elementi li */
-  align-items: center;   /* 3. (Opzionale) Allinea verticalmente gli elementi al centro */
-
-  /* --- Stili per pulizia e aspetto --- */
-  list-style-type: none; /* Rimuove i pallini della lista */
-  padding: 10px;         /* Aggiunge spazio interno */
-  margin: 0 0 10px 0;    /* Aggiunge un margine inferiore per separare le righe */
-  border: 1px solid #ccc; /* (Opzionale) Aggiunge un bordo per vedere meglio ogni riga */
-  border-radius: 5px;    /* (Opzionale) Arrotonda gli angoli */
-  max-width: 30rem;
+/* Componente Login: form login e form register*/
+.riquadri {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 2rem;
+  justify-content: center;
+  align-items: center;
+}
+.riquadro {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.375rem rgba(0,0,0,0.05);
+  flex: 1 1 20rem;
+  max-width: 40rem;
+}
+.riquadro h2 {
+  margin-bottom: 2rem;
+}
+.riquadro form {
+  display: flex;
+  flex-direction: column;
+}
+.riquadro label {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+.riquadro input,
+.riquadro select {
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 0.375rem;
+  border: 0.0625rem solid #ccc;
 }
 
-/* (Opzionale) Puoi anche dare uno stile agli elementi interni se vuoi */
-.course-row li {
-  /* Esempio: assegna una larghezza minima per un migliore allineamento */
-  min-width: 100px;
+.riquadro label { font-weight: 600; }
+
+.riquadro button[type="submit"]:disabled {
+  padding: 0.75rem;
+  background-color: #ccc;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: not-allowed;
+}
+.riquadro button[type="submit"]:not(:disabled) {
+  padding: 0.75rem;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
 }
 
-button {
-    color: white;
-    background-color: blue;
-    width: 8rem;
-    height: 2rem;
-    border: 1px solid blue;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: opacity 0.3s ease-in-out;
+.riquadro table {
+  width: 100%;
+  border-collapse: collapse;
 }
-
-button:hover {
-  opacity: 0.8;
+.riquadro th,
+.riquadro td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 0.0625rem solid #ddd;
 }

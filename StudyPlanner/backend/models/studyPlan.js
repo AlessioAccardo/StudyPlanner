@@ -43,7 +43,7 @@ class StudyPlan {
             });
         });
     }
-
+    
     static async create(student_id, course_id) {
         const { name: course_name, credits } = await Courses.getCourseById(course_id);
 

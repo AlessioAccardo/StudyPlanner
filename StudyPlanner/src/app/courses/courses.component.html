@@ -1,10 +1,81 @@
-<div>
-  @for (course of courses; track course.id) {
+<main class = "container">
+  @if (1>0){ 
+    <section class = "libretto">
+      @for (course of courses; track course.id) {
     <ul class="course-row">
       <li>{{ course.id }}</li>
       <li>{{ course.name }}</li>
       <li>{{ course.credits }} CFU</li>
       <button type="button" (click)="salvaPiano(course.id)">Aggiungi</button>
     </ul>
-  }
-</div>
+      }
+   </section>
+}
+
+@if(1>0) {
+  <section class = "segreteria">
+    <div class ="riquadri">
+      <div class = "riquadro">
+        <h2>Crea un Nuovo Corso</h2>
+        <form id = "Crea nuovo corso">
+          <table>
+            <tbody>
+              <tr>
+                <td><label for = "courseName"> Nome corso</label></td>
+                <td> <input id = "courseName" #nameInput name = "name" required>
+                </td>
+              </tr>
+              <tr>
+                <td><label for = "professor"> Professore </label></td>
+                <td> 
+                  <select #prof_id id="professor"  name = "professor_id" required>
+                  @for(prof of professors; track prof.id){
+                  <option [value] = "prof.id" disabled selected> Seleziona un professore</option>
+              }
+                   </select>
+                </td>
+              </tr>
+              <tr>
+                <td><label for = "credits"> Crediti (CFU) </label></td>
+                <td>
+                  <input id = "credits" #creditsInput name = "credits" required>
+                </td>
+              </tr>
+              <tr>
+              <td><button type = "submit" class = "button" (click) = "createCourse(nameInput, prof_id, creditsInput)"> Crea </button>
+              </td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
+      </div>
+      <div class="riquadro">
+        <h2>Elenco Corsi</h2>
+        @if(courses.length != 0){
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Professore</th>
+                <th>CFU</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for(course of courses; track course.id){
+                <tr>
+                  <td> {{course.id }}</td>
+                  <td> {{ course.name }}</td>
+                  <td> {{ courses.prof_id}}</td>
+                  <td> {{ course.credits }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        } @else {
+          <p>Nessun corso creato al momento.</p>
+        }
+      </div>
+    </div>
+  </section>
+}

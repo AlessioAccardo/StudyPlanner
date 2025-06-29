@@ -12,6 +12,15 @@ class User {
         });
     }
 
+    static async getAllProfessors(){
+        return new Promise((resolve, reject) => {
+            db.all('SELECT * FROM users WHERE role = professor', [], (err, rows) =>{
+                if(err) return reject(err);
+                resolve(rows);
+            });
+        });
+    }
+
     // ricerca per first_name
     static async getByFName(first_name) {
         return new Promise((resolve, reject) => {
@@ -46,6 +55,15 @@ class User {
     static async getById(id) {
         return new Promise((resolve, reject) => {
             db.get('SELECT * FROM users WHERE id = ?', [id], (err, row) => {
+                if (err) return reject(err);
+                resolve(row);
+            });
+        });
+    }
+
+       static async getProfessorById(id) {
+        return new Promise((resolve, reject) => {
+            db.get('SELECT * FROM users WHERE id = ? AND role = professor', [id], (err, row) => {
                 if (err) return reject(err);
                 resolve(row);
             });

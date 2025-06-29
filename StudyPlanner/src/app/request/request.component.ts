@@ -1,8 +1,6 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject} from '@angular/core';
 import { AuthService } from '../services/auth/auth.service';
-import { ReactiveFormsModule, FormBuilder, Validators, FormGroup, NgForm } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { DatePipe } from '@angular/common';
+import { ReactiveFormsModule, FormBuilder} from '@angular/forms';
 import { Router } from '@angular/router';
 import { ExamService, Exam } from '../services/exam.service';
 
@@ -47,9 +45,6 @@ export class RequestComponent implements OnInit {
   onSubmit(name: HTMLInputElement, date: HTMLInputElement) {
     this.exam.name = name.value;
     this.exam.date = date.value;
-    
-
-
     name.value = "";
     date.value = "";
   }

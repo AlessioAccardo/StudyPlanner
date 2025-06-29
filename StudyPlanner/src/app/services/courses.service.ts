@@ -9,6 +9,12 @@ export interface Courses {
     credits: number
 }
 
+export interface CreateCourseDto{
+    name: string,
+    professor_id: number,
+    credits: number
+}
+
 @Injectable({ providedIn: 'root' })
 export class CoursesService {
     private apiUrl = 'http://localhost:3000/api/courses';
@@ -38,8 +44,8 @@ export class CoursesService {
         return this.http.get<Courses[]>(`${this.apiUrl}/search`, { params });
     }
 
-    create(course: Courses) {
-        return this.http.post<Courses>(this.apiUrl, course)
+    create(dto: CreateCourseDto): Observable<Courses> {
+        return this.http.post<Courses>(this.apiUrl, dto);
     }
 
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CoursesService, Courses } from '../services/courses.service';
+import { CoursesService, Courses, CreateCourseDto } from '../services/courses.service';
+import { UserService, User} from '../services/user.service';
 import { StudyPlanService, StudyPlan } from '../services/studyPlan.service';
 import { firstValueFrom } from 'rxjs';
 
@@ -10,19 +11,65 @@ import { firstValueFrom } from 'rxjs';
   styleUrls: ['./courses.component.scss']
 })
 export class CoursesComponent implements OnInit {
+
   courses: Courses[] = [];
   studyPlan: StudyPlan[] = [];
+  professors: User[] = [];
+  professor: User = {
+    first_name: "",
+    last_name: "",
+    email: "",
+    password: "",
+    role: "",
+  }
+  
 
   student_id = 2;
   
-  constructor(public coursesService: CoursesService, public studyPlanService: StudyPlanService) {}
+  constructor(public coursesService: CoursesService, public studyPlanService: StudyPlanService, public userService: UserService) {}
 
   ngOnInit() {
     this.coursesService.getAll().subscribe((data) => {
       this.courses = data;
     });
+
+    this.userService.getAllProfessors().subscribe((data) => {
+      this.professors = data;
+    });
+    
   }
   
+  async createCourse(nameInput: HTMLInputElement, prof_id: HTMLSelectElement, creditsInput: HTMLInputElement): Promise<void> {
+    try {
+      const dto: CreateCourseDto = {
+        name: nameInput.value,
+        professor_id: +prof_id.value,
+        credits: +creditsInput.value
+
+      }
+      const created: Courses = await firstValueFrom(
+        this.coursesService.create(dto)
+      );
+
+      this.courses.push(created);
+      alert(`Corso (${created.name} creato.`)
+    } catch (err) {
+      console.error("Errore creazione corso: ", err);
+      alert("Non è stato possibile creare il corso.");
+    }
+  }
+
+    async loadCourses(): Promise<void>{
+    try{
+      this.courses = await firstValueFrom(this.coursesService.getAll());
+    }catch(err){
+      console.error("Errore caricamento corsi", err);
+      alert("Impossibile caricare i corsi");
+    }
+    }
+
+
+
   async salvaPiano(courseId: number): Promise<void> {
     try {
       const dto = {
