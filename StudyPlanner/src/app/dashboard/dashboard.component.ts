@@ -1,6 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { Router } from '@angular/router';  
-import { AuthService } from '../services/auth/auth.service';
+import { Component, inject, OnInit } from '@angular/core'; 
 import { LoggedUser } from '../interfaces/loggedUser.interface';
 
 interface StudentExam {
@@ -29,9 +27,6 @@ interface ProfessorExamStats {
 })
 export class DashboardComponent implements OnInit {
 
-  auth = inject(AuthService);
-  router = inject(Router); 
-
   studentExams: StudentExam[] = [];
   professorStats: ProfessorExamStats[] = [];
 
@@ -56,10 +51,6 @@ export class DashboardComponent implements OnInit {
     } else {
       this.user = JSON.parse(raw) as LoggedUser;
     }
-    //if (this.auth.role && this.auth.role() === null) {
-      //this.router.navigate(['/no-role']);
-    //return;
-    //}
     
     this.studentExams = [
       { id: "INF001", name: "Analisi Matematica II", cfu: 12, completed: true, note: "Propedeutico: Analisi Matematica I", voto: 28, votoAccettato: undefined },

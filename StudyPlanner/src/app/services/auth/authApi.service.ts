@@ -1,7 +1,12 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { UserRole } from "./auth.service";
+
+export enum UserRole {
+  Studente   = 'studente',
+  Segreteria = 'segreteria',
+  Professore = 'professore'
+}
 
 export interface RegistrationDetails {
   first_name: string,
