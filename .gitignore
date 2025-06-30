@@ -58,7 +58,6 @@ ehthumbs.db
 # SQLite file (se hai un DB locale)
 *.sqlite
 *.sqlite3
-*.db
 
 # Ambiente/credenziali
 .env
