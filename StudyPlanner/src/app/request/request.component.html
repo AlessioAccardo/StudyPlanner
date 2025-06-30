@@ -11,7 +11,7 @@
       </select>
       <label for="date">Data Appello</label>
       <input #date id="date" type="date" required>
-      <button type="button" (click)="onSubmit(courseSelected, date)">
+      <button type="button" (click)="onSubmit(courseSelected, date)" [disabled]= "">
         Invia Richiesta
        </button>
     </form> 

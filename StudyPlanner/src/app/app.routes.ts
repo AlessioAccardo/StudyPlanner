@@ -5,7 +5,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { PlanComponent } from './plan/plan.component';
 import { RequestComponent } from './request/request.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { CoursesComponent } from './courses/courses.component';
 import { NoRoleComponent } from './no-role/no-role.component';   
 import { authGuard } from './guard/auth.guard';
 
@@ -17,7 +16,6 @@ export const routes: Routes = [
     { path: "dashboard", component: DashboardComponent, canActivate: [authGuard] },
     { path: "plan", component: PlanComponent, canActivate: [authGuard] },
     { path: "request", component: RequestComponent, canActivate: [authGuard] },
-    { path: "courses", component: CoursesComponent, canActivate: [authGuard] },
     
     
     { path: "no-role", component: NoRoleComponent },

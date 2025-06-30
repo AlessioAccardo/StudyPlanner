@@ -2,23 +2,18 @@
     <div class="container header-content">
       <h1 class="logo"> SessionManager</h1>
       <nav>
+        @if (user.role === 'studente'){
         <a routerLink=""> Home </a>
-        <a routerLink="login">Login</a>
-        <a routerLink = "courses">Corsi</a>
-        <a routerLink="dashboard">Dashboard</a>
-        <a routerLink="plan"> Piano di studi</a>
-        <a routerLink="request"> Richieste</a>
-        @if (role === 'studente'){
         <a routerLink="dashboard">Dashboard</a>
         <a routerLink="plan"> Piano di studi</a>
         }
-        @if (role === 'professore'){
+        @if (user.role === 'professore'){
+        <a routerLink=""> Home </a>
         <a routerLink="dashboard">Dashboard</a>
         <a routerLink="request"> Richieste</a>
         }
-        @if (role === 'admin'){
+        @if (user.role === 'segreteria'){
         <a routerLink=""> Home </a>
-        <a routerLink="login">Login</a>
         <a routerLink="request"> Richieste</a>
         }
       </nav>
