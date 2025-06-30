@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { AuthService } from '../services/auth/auth.service';
 import { Router } from '@angular/router';
 import { ExamService, Exam, CreateExamDto } from '../services/exam.service';
 import { CoursesService, Courses } from '../services/courses.service';
@@ -12,7 +11,6 @@ import { CoursesService, Courses } from '../services/courses.service';
   standalone: true,
 })
 export class RequestComponent implements OnInit {
-  auth = inject(AuthService);
   router = inject(Router);
 
   requests: Exam[] = [];
@@ -23,10 +21,6 @@ export class RequestComponent implements OnInit {
   constructor(private examService: ExamService, private coursesService: CoursesService) {}
 
   ngOnInit(): void {
-    //if (!this.auth.role || this.auth.role() !== 'admin') {
-    //  this.router.navigate(['/no-role']);
-    //  return;
-    //}
     
     //if (this.auth.role() === 'admin') {
       this.loadRequests();

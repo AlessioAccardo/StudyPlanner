@@ -1,6 +1,6 @@
 import { Component, inject, effect, OnInit} from '@angular/core';
 import { RouterOutlet, Router, RouterLink} from '@angular/router';
-import { AuthService, UserRole} from './services/auth/auth.service';
+//import { AuthService, UserRole} from './services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -13,8 +13,11 @@ import { CommonModule } from '@angular/common';
 export class AppComponent {
   title = 'SessionManager';
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(
+    //private auth: AuthService,
+    private router: Router) {}
 
+  /*
   get isLoggedIn(): boolean {
     return this.auth.isLoggedIn();
   }
@@ -27,12 +30,14 @@ export class AppComponent {
     return this.auth.role();
   }
 
-  goTo(path: string) {
-    this.router.navigate([`/${path}`]);
-  }
+  
 
   logout() {
     this.auth.logout();
     this.router.navigate(['login']);
+  }
+  */
+ goTo(path: string) {
+    this.router.navigate([`/${path}`]);
   }
 }

@@ -3,9 +3,9 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 
 export enum UserRole {
-  Studente   = 'studente',
-  Segreteria = 'segreteria',
-  Professore = 'professore'
+  studente   = 'studente',
+  segreteria = 'segreteria',
+  professore = 'professore'
 }
 
 export interface RegistrationDetails {

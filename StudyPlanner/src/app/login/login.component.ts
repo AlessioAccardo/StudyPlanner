@@ -1,9 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { AuthService, UserRole } from '../services/auth/auth.service';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthApiService } from '../services/auth/authApi.service';
-
+import { UserRole } from '../services/auth/authApi.service';
 @Component({
   selector: 'app-login',
   imports: [ReactiveFormsModule],
@@ -19,7 +18,7 @@ export class LoginComponent {
   roles: UserRole[] = [
     UserRole.studente,
     UserRole.professore,
-    UserRole.admin
+    UserRole.segreteria
   ]
 
   selectedRole: UserRole = UserRole.studente;
@@ -29,7 +28,6 @@ export class LoginComponent {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
     private authApiService: AuthApiService
   ) {
     this.loginForm = this.fb.group({
