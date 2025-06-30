@@ -66,7 +66,9 @@
                 <tr>
                   <td> {{course.id }}</td>
                   <td> {{ course.name }}</td>
-                  <td> {{ professors.id }}</td>
+                  <td> {{ course.professor_id }}</td>
+                  <td> {{ professorMap[course.professor_id].first_name }} </td>
+                  <td> {{ professorMap[course.professor_id].last_name }} </td>
                   <td> {{ course.credits }}</td>
                 </tr>
               }
