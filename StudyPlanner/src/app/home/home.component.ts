@@ -1,41 +1,92 @@
-import { Component} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CoursesService, Courses, CreateCourseDto } from '../services/courses.service';
+import { UserService, User} from '../services/user.service';
+import { StudyPlanService, StudyPlan } from '../services/studyPlan.service';
+import { firstValueFrom } from 'rxjs';
+
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
+  selector: 'app-courses',
   imports: [],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent {
-  searchText: string = "";
+export class HomeComponent implements OnInit {
 
-  esami: string[] = [
-    'INF001 - Analisi Matematica II',
-    'INF002 - Programmazione Web&Mobile',
-    'INF003 - Basi di Dati',
-    'INF004 - Ingegneria del Software',
-    'INF005 - Reti di Calcolatori'
-  ];
+  courses: Courses[] = [];
+  studyPlan: StudyPlan[] = [];
+  professors: User[] = [];
+  professorMap: Record<number, User> = {};
 
-  filteredEsami: string[] = [];
+  student_id = 2;
+  
+  constructor(public coursesService: CoursesService, public studyPlanService: StudyPlanService, public userService: UserService) {}
 
-  constructor() {
-    this.filteredEsami = this.esami; 
+  ngOnInit() {
+    this.coursesService.getAll().subscribe((data) => {
+      this.courses = data;
+    });
+
+    this.userService.getAllProfessors().subscribe((data) => {
+      this.professors = data;
+      this.professorMap = data.reduce((m, p) => {
+        m[p.id] = p;
+        return m;
+      }, {} as Record<number, User>);
+    });
+
   }
+  
+  async createCourse(nameInput: HTMLInputElement, prof_id: HTMLSelectElement, creditsInput: HTMLInputElement): Promise<void> {
+    try {
+      const dto: CreateCourseDto = {
+        name: nameInput.value,
+        professor_id: +prof_id.value,
+        credits: +creditsInput.value
 
-  getInputElement(event: Event) {
-    this.searchText = (event.target as HTMLInputElement).value;
-  }
-
-  onSearch() {
-    const query = this.searchText.toLowerCase().trim();
-    if (!query) {
-      this.filteredEsami = this.esami;
-    } else {
-      this.filteredEsami = this.esami.filter(esame =>
-        esame.toLowerCase().includes(query)
+      }
+      const created: Courses = await firstValueFrom(
+        this.coursesService.create(dto)
       );
+
+      this.courses.push(created);
+      alert(`Corso (${created.name} creato.`)
+    } catch (err) {
+      console.error("Errore creazione corso: ", err);
+      alert("Non è stato possibile creare il corso.");
     }
   }
+
+    async loadCourses(): Promise<void>{
+    try{
+      this.courses = await firstValueFrom(this.coursesService.getAll());
+    }catch(err){
+      console.error("Errore caricamento corsi", err);
+      alert("Impossibile caricare i corsi");
+    }
+    }
+
+
+
+  async salvaPiano(courseId: number): Promise<void> {
+    try {
+      const dto = {
+        student_id: this.student_id,
+        course_id: courseId
+      };
+
+      const created = await firstValueFrom(
+        this.studyPlanService.create(dto)
+      );
+
+      // il server mi restituisce già { student_id, course_id, course_name, credits, … }
+      this.studyPlan.push(created);
+      alert(`Corso ${created.course_id} (${created.course_name}, ${created.credits} CFU) aggiunto.`);
+
+    } catch (err) {
+      console.error(err);
+      alert('Errore durante il salvataggio del piano.');
+    }
+  }
+
 }

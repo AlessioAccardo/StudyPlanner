@@ -53,7 +53,7 @@ export class PlanComponent implements OnInit{
   get esamiFiltrati() {
     if (!this.searchText.trim()) return this.esami;
     return this.esami.filter(e =>
-      `${e.code} ${e.name}`.toLowerCase().includes(this.searchText.toLowerCase())
+      ${e.code} ${e.name}.toLowerCase().includes(this.searchText.toLowerCase())
     );
   }
 
@@ -74,4 +74,4 @@ export class PlanComponent implements OnInit{
 
   salvaPiano(courseId: number) {}
 
-}
+} 

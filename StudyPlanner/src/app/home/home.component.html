@@ -1,72 +1,98 @@
-   <div class="slider">
-      <img src="img1.png" class="slide" alt="Immagine 1">
-      <img src="img2.png" class="slide" alt="Immagine 2">
-      <img src="img3.png" class="slide" alt="Immagine 3">
-  </div>
-  
+<main class = "container">
+  @if (1>0){ 
+    <section class = "libretto">
+      <div class = "riquadro">
+      <h2> Piano di studi </h2>
+      <table>
+        <thead>
+        <tr> 
+          <td> ID corso </td>
+          <td> Nome corso </td>
+          <td> CFU </td>
+        </tr>
+        </thead>
+       <tbody>
+        @for (course of courses; track course.id) {
+        <tr>
+          <td>{{ course.id }}</td>
+          <td>{{ course.name }}</td>
+          <td>{{ course.credits }} CFU</td>
+          <td> 
+            <button type="button" (click)="salvaPiano(course.id)">Aggiungi</button></td>
+        </tr>
+      }
+      </tbody>
+      </table> 
+      </div> 
+   </section>
+}
 
-  <main class="container">
-    <section class="hero">
-      <h2>Organizza i tuoi esami universitari</h2>
-      <p>Accedi al tuo piano di studi, iscriviti agli appelli e monitora i CFU in pochi click</p>
-    </section>
-<section class="search">
-  <input type="text" (input)="getInputElement($event)" placeholder="Cerca per codice o nome esame..."/>
-  <button (click)="onSearch()">Cerca</button>
-</section>
-
-<section class="esami">
-  <h3>Esami Disponibili</h3>
-  <ul>
-    @for (esame of filteredEsami; track $index) {
-      <li>
-        {{ esame }}
-      </li>
-    }
-  </ul>
-</section>
-
-    <section class = "descrizione">
-      <h3> Cosa offre la nostra piattaforma? </h3>
-      <ul>
-        <li> ✅ Pianifica lo studio in maniera efficiente, facile e veloce </li>
-        <li> 📈 Tieni traccia dei progressi durante la sessione </li>
-        <li> 🔁 Condividi e confronta con altri studenti </li>
-      </ul>
-    </section>
-
- <section class="faq">
-  <h1>Domande Frequenti</h1>
-  <div class="faq-item">
-    <h2>1. Come posso creare un piano di studi?</h2>
-    <p>Per creare un piano di studi accedi alla tua dashboard e clicca su <strong>“Nuovo piano”</strong>. Inserisci gli esami che vuoi sostenere e salva: il sistema sceglierà automaticamente il tuo percorso.</p>
-
-    <h2>2. Posso modificare o cancellare un piano di studi che ho già creato?</h2>
-    <p>Sì. Dalla tua dashboard seleziona il piano e poi clicca in alto a destra su <strong>“Modifica”</strong> o <strong>“Elimina”</strong>. Ricorda che eliminare un piano di studio lo cancellerà definitivamente.</p>
-
-    <h2>3. Come faccio a chiedere la creazione di un appello di esame come docente?</h2>
-    <p>Accedi alla dashboard docenti, vai in <strong>“Appelli”</strong> e clicca su <strong>“Nuovo appello”</strong>. Inserisci data, ora e luogo; la segreteria riceverà automaticamente la tua richiesta.</p>
-
-    <h2>4. Quanto tempo impiega la segreteria per approvare un appello?</h2>
-    <p>Normalmente le richieste vengono evase entro 48 ore.</p>
-
-    <h2>5. Come vede lo studente i risultati degli esami?</h2>
-    <p>Non appena verranno inseriti dall'ufficio esami, i voti saranno automaticamente visibili nella dashboard dello studente ed è indicato se si è <em>“Promossi”</em> o <em>“Bocciati”</em>.</p>
-
-    <h2>6. Che statistiche trovo nella dashboard del docente?</h2>
-    <p>Nella dashboard docenti sono disponibili: la percentuale di promossi e bocciati per ogni esame e l'affluenza agli appelli.</p>
-
-    <h2>7. Il servizio è a pagamento?</h2>
-    <p>No, l'applicazione è gratuita per studenti, docenti e segreteria.</p>
-
-    <h2>8. Come faccio a ricevere le notifiche riguardo scadenze e nuovi appelli?</h2>
-    <p>Puoi scegliere di ricevere le notifiche via email e/o push (se stai utilizzando l'app). Vai in <strong>“Impostazioni” ; “Notifiche”</strong> e scegli quali avvisi ricevere.</p>
-
-    <h2>9. L'app è disponibile anche per mobile?</h2>
-    <p>Certamente, accessibile anche da browser mobile o tramite le nostre app iOS e Android gratuite scaricabili dagli store.</p>
-
-    <h2>10. Ho trovato un bug o ho bisogno di aiuto?</h2>
-    <p>Nella sezione <strong>Assistenza</strong> puoi aprire un ticket spiegando il problema; ti risponderemo entro 24 ore lavorative.</p>
-  </div>
-</section>
-</main>
+@if(1>0) {
+  <section class = "segreteria">
+    <div class ="riquadri">
+      <div class = "riquadro">
+        <h2>Crea un Nuovo Corso</h2>
+        <form id = "Crea nuovo corso">
+          <table>
+            <tbody>
+              <tr>
+                <td><label for = "courseName"> Nome corso</label></td>
+                <td> <input id = "courseName" #nameInput name = "name" required>
+                </td>
+              </tr>
+              <tr>
+                <td><label for = "professor"> Professore </label></td>
+                <td> 
+                  <select #prof_id id="professor"  name = "professor_id" required>
+                  @for(prof of professors; track prof.id){
+                  <option [value] = "prof.id" disabled selected> Seleziona un professore</option>
+              }
+                   </select>
+                </td>
+              </tr>
+              <tr>
+                <td><label for = "credits"> Crediti (CFU) </label></td>
+                <td>
+                  <input id = "credits" #creditsInput name = "credits" required>
+                </td>
+              </tr>
+              <tr>
+              <td><button type = "submit" class = "button" (click) = "createCourse(nameInput, prof_id, creditsInput)"> Crea </button>
+              </td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
+      </div>
+      <div class="riquadro">
+        <h2>Elenco Corsi</h2>
+        @if(courses.length != 0){
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Professore</th>
+                <th>CFU</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for(course of courses; track course.id){
+                <tr>
+                  <td> {{course.id }}</td>
+                  <td> {{ course.name }}</td>
+                  <td> {{ course.professor_id }}</td>
+                  <td> {{ professorMap[course.professor_id].first_name }} </td>
+                  <td> {{ professorMap[course.professor_id].last_name }} </td>
+                  <td> {{ course.credits }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        } @else {
+          <p>Nessun corso creato al momento.</p>
+        }
+      </div>
+    </div>
+  </section>
+}
