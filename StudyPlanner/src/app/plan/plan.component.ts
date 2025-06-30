@@ -1,9 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ExamService, Exam } from '../services/exam.service';
-import { AuthService } from '../services/auth/auth.service';
 import { Router } from '@angular/router';
 import { StudyPlan, StudyPlanService } from '../services/studyPlan.service';
-import { CoursesService } from '../services/courses.service';
 import { Observable, firstValueFrom } from 'rxjs';
 
 @Component({
@@ -15,7 +13,6 @@ import { Observable, firstValueFrom } from 'rxjs';
 })
 
 export class PlanComponent implements OnInit{
-  auth = inject(AuthService);
   router = inject(Router);
 
   esami: Exam[] = [];
