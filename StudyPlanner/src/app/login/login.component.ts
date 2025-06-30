@@ -43,7 +43,7 @@ export class LoginComponent {
       email:    ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       role: [this.selectedRole, Validators.required]
-    })
+    });
   }
 
   onSubmit(): void {

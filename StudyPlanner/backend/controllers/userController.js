@@ -53,8 +53,8 @@ class UserController {
         try {
             const { first_name, last_name } = req.query;
             const list = await User.getByFullName(first_name, last_name);
-            const safeList = list.map(({ password, ...user }) => user);
             if (!list || list.lenght === 0) return res.status(404).json({ message: 'Lista degli utenti vuota'});
+            const safeList = list.map(({ password, ...user }) => user);
             res.status(200).json(safeList);
         } catch (err) {
             next(err);
@@ -65,8 +65,8 @@ class UserController {
         try {
             const { id } = req.params;
             const searchedUser = await User.getById(id);
-            const { password: _, ...user} = searchedUser;
             if (!searchedUser) return res.status(404).json({ message: 'Utente non trovato'});
+            const { password: _, ...user} = searchedUser;
             res.status(200).json(user);
         } catch (err) {
             next(err);
