@@ -1,14 +1,29 @@
 <main class = "container">
   @if (1>0){ 
     <section class = "libretto">
-      @for (course of courses; track course.id) {
-    <ul class="course-row">
-      <li>{{ course.id }}</li>
-      <li>{{ course.name }}</li>
-      <li>{{ course.credits }} CFU</li>
-      <button type="button" (click)="salvaPiano(course.id)">Aggiungi</button>
-    </ul>
+      <div class = "riquadro">
+      <h2> Piano di studi </h2>
+      <table>
+        <thead>
+        <tr> 
+          <td> ID corso </td>
+          <td> Nome corso </td>
+          <td> CFU </td>
+        </tr>
+        </thead>
+       <tbody>
+        @for (course of courses; track course.id) {
+        <tr>
+          <td>{{ course.id }}</td>
+          <td>{{ course.name }}</td>
+          <td>{{ course.credits }} CFU</td>
+          <td> 
+            <button type="button" (click)="salvaPiano(course.id)">Aggiungi</button></td>
+        </tr>
       }
+      </tbody>
+      </table> 
+      </div> 
    </section>
 }
 
