@@ -39,10 +39,10 @@ export class DashboardComponent implements OnInit {
   completePercentage = 0;
 
   ngOnInit(): void {
-    if (this.auth.role && this.auth.role() === null) {
-      this.router.navigate(['/no-role']);
-      return;
-    }
+    //if (this.auth.role && this.auth.role() === null) {
+      //this.router.navigate(['/no-role']);
+    //return;
+    //}
     
     this.studentExams = [
       { id: "INF001", name: "Analisi Matematica II", cfu: 12, completed: true, note: "Propedeutico: Analisi Matematica I", voto: 28, votoAccettato: undefined },
