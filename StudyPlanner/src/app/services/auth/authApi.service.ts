@@ -3,17 +3,26 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { UserRole } from "./auth.service";
 
-export interface LoginPayload {
+export interface RegistrationDetails {
+  first_name: string,
+  last_name: string,
+  email: string,
+  password: string,
+  role: UserRole
+}
+
+export interface LoginDetails {
     email: string;
     password: string;
 }
 
 export interface AuthResponse {
     token: string;
-    user: {
+    data: {
         first_name: string;
         last_name: string;
-        role: UserRole | null;
+        email: string,
+        role: UserRole;
     }
 }
 
@@ -23,7 +32,11 @@ export class AuthApiService {
 
     constructor(private http: HttpClient) {}
 
-    login(payload: LoginPayload): Observable<AuthResponse> {
+    register(payload: RegistrationDetails): Observable<AuthResponse> {
+      return this.http.post<AuthResponse>(`${this.apiUrl}/register`, payload);
+    }
+
+    login(payload: LoginDetails): Observable<AuthResponse> {
       return this.http.post<AuthResponse>(`${this.apiUrl}/login`, payload);
     }
 
@@ -31,7 +44,7 @@ export class AuthApiService {
       return this.http.post<void>(`${this.apiUrl}/logout`, {});
     }
 
-    me(): Observable<AuthResponse['user']> {
-      return this.http.get<AuthResponse['user']>(`${this.apiUrl}/me`);
+    me(): Observable<AuthResponse['data']> {
+      return this.http.get<AuthResponse['data']>(`${this.apiUrl}/me`);
     }
 }

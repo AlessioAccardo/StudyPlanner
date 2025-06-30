@@ -1,6 +1,6 @@
 import { Injectable, signal, computed, Inject, PLATFORM_ID } from "@angular/core";
 import { isPlatformBrowser } from '@angular/common';
-import { AuthApiService, AuthResponse, LoginPayload } from "./authApi.service";
+import { AuthApiService, AuthResponse, LoginDetails } from "./authApi.service";
 import { tap } from "rxjs/operators";
 import { Observable, of } from "rxjs";
 
@@ -23,7 +23,7 @@ export const ALL_ROLES: UserRole[] = [
 export class AuthService {
   private readonly TOKEN_KEY = 'auth_token';
 
-  private _user  = signal<AuthResponse['user'] | null>(null);
+  private _user  = signal<AuthResponse['data'] | null>(null);
   private _token = signal<string | null>(null);
 
   readonly user        = this._user.asReadonly();
@@ -47,14 +47,14 @@ export class AuthService {
     }
   }
 
-  login(payload: LoginPayload): Observable<AuthResponse> {
+  login(payload: LoginDetails): Observable<AuthResponse> {
     return this.api.login(payload).pipe(
       tap(res => {
         this._token.set(res.token);
         if (this.isBrowser) {
           localStorage.setItem(this.TOKEN_KEY, res.token);
         }
-        this._user.set(res.user);
+        this._user.set(res.data);
       })
     );
   }
@@ -67,7 +67,7 @@ export class AuthService {
     }
   }
 
-  me(): Observable<AuthResponse['user']> {
+  me(): Observable<AuthResponse['data']> {
     const token = this._token();
     if (!token) return of(null as any);
     return this.api.me().pipe(tap(user => this._user.set(user)));

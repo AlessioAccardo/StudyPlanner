@@ -3,27 +3,29 @@
       @if (display === false) {
         <div class="form-box">
           <h2>Login</h2>
-          <form>
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <label for="login-email">Email</label>
-            <input type="email" id="login-email" required>
+            <input formControlName="email" type="email" id="login-email" required>
             <label for="login-password">Password</label>
-            <input type="password" id="login-password" required>
-            <button type="submit">Accedi</button>
+            <input formControlName="password" type="password" id="login-password" required>
+            <button type="submit" [disabled]="loginForm.invalid">Accedi</button>
             <p>Non hai un account? <a (click)="toggle()">Registrati</a></p>
           </form>
         </div>
       } @else {
         <div class="form-box">
           <h2>Registrazione</h2>
-          <form>
-            <label for="reg-name">Nome</label>
-            <input type="text" id="reg-name" required>
+          <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+            <label for="reg-first-name">Nome</label>
+            <input formControlName="first_name" type="text" id="reg-first-name" required>
+            <label for="reg-last-name">Cognome</label>
+            <input formControlName="last_name" type="text" id="reg-last-name" required>
             <label for="reg-email">Email</label>
-            <input type="email" id="reg-email" required>
+            <input formControlName="email" type="email" id="reg-email" required>
             <label for="reg-password">Password</label>
-            <input type="password" id="reg-password" required>
+            <input formControlName="password" type="password" id="reg-password" required>
             <label for="reg-role">Ruolo</label>
-            <select id="reg-role"
+            <select formControlName="role" id="reg-role"
             #roleSelect (change)="onRoleChange(roleSelect.selectedIndex)"
             class = "form-select">
             @for(role of roles; track role){
