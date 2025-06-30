@@ -1,5 +1,5 @@
 <main class="container"> 
-  @if (1>0) {
+  @if (user.role === 'studente') {
     <section class="dashboard">
       <h2>Dashboard Studente</h2>
       <div class="riquadri">
@@ -52,7 +52,7 @@
     </section>
   }
 
-  @if (auth.hasRole(null)) {
+  @if (user.role === 'professore') {
     <section class="dashboard">
       <h2>Dashboard Professore</h2>
       <div class="riquadri">

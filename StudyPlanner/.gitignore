@@ -1,15 +1,8 @@
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
 # Compiled output
-/dist
-/tmp
 /out-tsc
 /bazel-out
-
-# Node
-/node_modules
-npm-debug.log
-yarn-error.log
 
 # IDEs and editors
 .idea/
@@ -42,4 +35,30 @@ testem.log
 Thumbs.db
 
 
+# Node modules - da NON includere nel repository
+node_modules/
+
+# File di log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build di TypeScript o Angular
+dist/
+build/
+
+# Cartelle temporanee
+tmp/
+temp/
+
+
+# File di sistema Windows
+Thumbs.db
+ehthumbs.db
+
+# SQLite file (se hai un DB locale)
+*.sqlite3
+
+# Ambiente/credenziali
 .env
+.env.local

@@ -11,32 +11,13 @@
       </select>
       <label for="date">Data Appello</label>
       <input #date id="date" type="date" required>
-
-      <!--
-      <label for="session">Sessione</label>
-      <select id="session" formControlName="session">
-        <option value="Invernale">Invernale</option>
-        <option value="Estiva">Estiva</option>
-        <option value="Autunnale">Autunnale</option>
-      </select>
-    -->
-
       <button type="button" (click)="onSubmit(courseSelected, date)">
         Invia Richiesta
-      </button>
-    </form>
+       </button>
+    </form> 
     </section>
   }
-
-  @for(request of requests; track request) {
-    <ul>
-      <li>{{ request.name }}</li>
-      <li>{{ request.code }}</li>
-      <li>{{ request.name }}</li>
-    </ul>
-  }
   
-
   <!-- GESTIONE RICHIESTE SEGRETERIA -->
   @if(1>0) {
     <section class = "request-table">
@@ -48,15 +29,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
         @for (request of requests; track request.code){
+        <tr>
           <td>{{ request.code }}</td>
           <td>{{ request.name }}</td>
           <td>{{ request.date }}</td>
           <td>{{ request.approved }}</td>
-          <td>
-        }
+          <td><button class ="approva" (click) = "approveRequest(request.code, true)"> Approva </button></td>
+          <td><button class = "rifiuta" (click) = "approveRequest(request.code, false)" >Rifiuta</button></td>
         </tr>
+        }
       </tbody>
       </table>
      </section>

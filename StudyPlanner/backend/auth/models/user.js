@@ -10,7 +10,7 @@ class User {
 // definiamo il metodo per creare un nuovo utente
     static async create({ first_name, last_name, email, password, role }) {
         // verifica sul ruolo
-        const ruoli = ['studente', 'admin', 'professore'];
+        const ruoli = ['studente', 'segreteria', 'professore'];
         if (!ruoli.includes(role)) {
             throw new Error(`Ruolo non valido: ${role}`);
         }

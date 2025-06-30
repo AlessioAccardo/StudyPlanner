@@ -1,6 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { Router } from '@angular/router';  
-import { AuthService } from '../services/auth/auth.service';
+import { Component, inject, OnInit } from '@angular/core'; 
+import { LoggedUser } from '../interfaces/loggedUser.interface';
 
 interface StudentExam {
   id: string;
@@ -28,20 +27,29 @@ interface ProfessorExamStats {
 })
 export class DashboardComponent implements OnInit {
 
-  auth = inject(AuthService);
-  router = inject(Router); 
-
   studentExams: StudentExam[] = [];
   professorStats: ProfessorExamStats[] = [];
+
+  user: LoggedUser = {
+    id: 0,
+    first_name: "",
+    last_name: "",
+    email: "",
+    role: "",
+    credits: 0,
+    mean: 0
+  }
 
   maxCfu = 0;
   totalCfu = 0;
   completePercentage = 0;
 
   ngOnInit(): void {
-    if (this.auth.role && this.auth.role() === null) {
-      this.router.navigate(['/no-role']);
-      return;
+    const raw = localStorage.getItem('currentUser');
+    if (!raw) {
+      console.log('Nessun utente in local storage');
+    } else {
+      this.user = JSON.parse(raw) as LoggedUser;
     }
     
     this.studentExams = [
