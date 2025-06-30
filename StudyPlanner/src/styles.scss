@@ -72,6 +72,16 @@ p, li, label {
   border-bottom: 0.0625rem solid #eee;
 }
 
+a {
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease-in-out;
+}
+
+a:hover {
+  opacity: 0.9;
+}
+
 /* Footer */
 footer {
   background: linear-gradient(120deg, #006bb3, #00c6ff, #0099ff);
