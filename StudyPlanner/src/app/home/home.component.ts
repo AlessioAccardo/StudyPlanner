@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CoursesService, Courses, CreateCourseDto } from '../services/courses.service';
 import { UserService, User} from '../services/user.service';
 import { StudyPlanService, StudyPlan } from '../services/studyPlan.service';
 import { firstValueFrom } from 'rxjs';
 import { LoggedUser } from '../interfaces/loggedUser.interface';
-
+import { CommonModule } from '@angular/common';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-courses',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
@@ -19,15 +20,9 @@ export class HomeComponent implements OnInit {
   professors: User[] = [];
   professorMap: Record<number, User> = {};
 
-  user: LoggedUser = {
-    id: 0,
-    first_name: "",
-    last_name: "",
-    email: "",
-    role: "",
-    credits: 0,
-    mean: 0
-  }
+  user: LoggedUser | null = null;
+
+  user$ = inject(AuthService).user$;
   
   constructor(public coursesService: CoursesService, public studyPlanService: StudyPlanService, public userService: UserService) {}
 
@@ -89,7 +84,7 @@ export class HomeComponent implements OnInit {
   async salvaPiano(courseId: number): Promise<void> {
       try {
         const dto = {
-          student_id: this.user.id,
+          student_id: this.user!.id,
           course_id: courseId
         };
 

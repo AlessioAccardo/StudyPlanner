@@ -1,4 +1,4 @@
-<main class="container"> 
+<main class="container" *ngIf="user$ | async as user"> 
   @if (user.role === 'studente') {
     <section class="dashboard">
       <h2>Dashboard Studente</h2>

@@ -1,4 +1,4 @@
-<main class = "container">
+<main class = "container" *ngIf="user$ | async as user">
   @if (1>0){ 
     <section class = "libretto">
       <div class = "riquadro">

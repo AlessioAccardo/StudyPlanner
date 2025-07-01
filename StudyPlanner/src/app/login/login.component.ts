@@ -86,7 +86,7 @@ export class LoginComponent {
             localStorage.setItem('currentUser', JSON.stringify(res.data));
             localStorage.setItem('token', res.token);
             alert('Registrazione avvenuta con successo');
-            this.router.navigateByUrl('home');
+            this.router.navigate(['/home']);
           }, error: err => {
             this.errorMessage = err.error?.message || 'Errore nella registrazione';
             alert(this.errorMessage);
