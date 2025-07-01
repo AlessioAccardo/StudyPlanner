@@ -1,11 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ExamService, Exam, CreateExamDto } from '../services/exam.service';
 import { CoursesService, Courses } from '../services/courses.service';
 
 @Component({
   selector: 'app-request',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './request.component.html',
   styleUrl: './request.component.scss',
   standalone: true,
