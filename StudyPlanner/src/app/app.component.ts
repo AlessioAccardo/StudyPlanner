@@ -1,4 +1,4 @@
-import { Component, inject, OnInit} from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet, Router, RouterLink} from '@angular/router';
 import { LoggedUser } from './interfaces/loggedUser.interface';
 import { CommonModule } from '@angular/common';
