@@ -32,7 +32,7 @@ export class PlanComponent implements OnInit{
     });
     this.loadStudyPlan();
   }
-   
+
 
   searchText: string = '';
 
@@ -74,4 +74,4 @@ export class PlanComponent implements OnInit{
 
   salvaPiano(courseId: number) {}
 
-} 
+}
