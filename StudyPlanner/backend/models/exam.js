@@ -73,7 +73,7 @@ class Exam {
     static async getExamsByProfessorId(id) {
         return new Promise((resolve, reject) => {
             db.all(`
-                SELECT * 
+                SELECT u.first_name AS professor_first_name, u.last_name AS professor_last_name, e.*
                 FROM exams as e
                 JOIN users as u ON u.id = e.professor_id
                 WHERE professor_id = ?`, [id], (err, rows) => {
