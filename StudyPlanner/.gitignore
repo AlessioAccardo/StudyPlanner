@@ -56,9 +56,6 @@ temp/
 Thumbs.db
 ehthumbs.db
 
-# SQLite file (se hai un DB locale)
-*.sqlite3
-
 # Ambiente/credenziali
 .env
 .env.local
