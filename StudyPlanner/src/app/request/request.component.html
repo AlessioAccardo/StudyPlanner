@@ -1,11 +1,11 @@
 <main class="container">
-  @if(1>0){
+  @if (1>0) {
   <section class="request-table">
     <h2>Professore Richiesta Appello</h2>
     <form>
       <label for="course">Corso</label>
       <select #courseInput id="course" required>
-        <option value="">Scegli corso...</option>
+        <option value="">Scegli corso</option>
         @for (course of courses; track course.id) {
           <option [value]="course.id">{{ course.name }}</option>
         }
@@ -21,7 +21,7 @@
   
   <!-- GESTIONE RICHIESTE SEGRETERIA -->
   @if(1>0) {
-    <section class = "request-table">
+  <section class="request-table">
     <h2>Gestione Richieste</h2>
     <table>
       <thead>
@@ -34,17 +34,33 @@
       </thead>
       <tbody>
         @for (request of requests; track request.code) {
-          <tr>
-            <td>{{ request.code }}</td>
-            <td>{{ request.name }}</td>
-            <td>{{ request.date }}</td>
-            <td>{{ request.approved}} </td>
-            <td><button class="approva" (click)="approveRequest(request.code, true)">Approva</button> </td>
-            <td><button class="rifiuta" (click)="approveRequest(request.code, false)">Rifiuta</button></td>
-          </tr>
+        <tr>
+          <td>{{ request.code }}</td>
+          <td>{{ request.name }}</td>
+          <td>{{ request.date }}</td>
+          <td>
+            @if (request.approved === true) {
+            <span style="color:green; font-weight:bold;">Approvato</span>
+            }
+            @else if (request.approved === false) {
+            <span style="color:red; font-weight:bold;">Rifiutato</span>
+            }
+            @else {
+            <span>In attesa</span>
+            }
+          </td>
+          <td>
+            @if (request.approved === null || request.approved === undefined) {
+            <button class="approva" (click)="approveRequest(request.code, true)">Approva</button>
+            <button class="rifiuta" (click)="approveRequest(request.code, false)">Rifiuta</button>
+            } @else {
+            <em>-</em>
+            }
+          </td>
+        </tr>
         }
       </tbody>
     </table>
   </section>
-}
+  }
 </main>

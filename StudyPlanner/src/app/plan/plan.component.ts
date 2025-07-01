@@ -50,6 +50,13 @@ export class PlanComponent implements OnInit{
     }
   }
 
+  get esamiFiltrati() {
+    if (!this.searchText.trim()) return this.esami;
+    return this.esami.filter(e =>
+      `${e.code} ${e.name}`.toLowerCase().includes(this.searchText.toLowerCase())
+    );
+  }
+
   onSearch(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.searchText = input.value;

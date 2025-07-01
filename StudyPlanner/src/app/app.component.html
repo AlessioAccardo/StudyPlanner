@@ -1,22 +1,28 @@
- <header>
-    <div class="container header-content">
-      <h1 class="logo"> SessionManager</h1>
-      <nav>
-        @if (user.role === 'studente'){
-        <a routerLink=""> Home </a>
-        <a routerLink="dashboard">Dashboard</a>
-        <a routerLink="plan"> Piano di studi</a>
-        }
-        @if (user.role === 'professor'){
-        <a routerLink=""> Home </a>
-        <a routerLink="dashboard">Dashboard</a>
-        <a routerLink="request"> Richieste</a>
-        }
-        @if (user.role === 'segreteria'){
-        <a routerLink=""> Home </a>
-        <a routerLink="request"> Richieste</a>
-        }
-      </nav>
-    </div>
-  </header>
+<header>
+  <div class="container header-content">
+    <h1 class="logo"> SessionManager</h1>
+
+    <nav *ngIf="user$ | async as user">
+      @if (user.role === 'studente'){
+      <a routerLink=""> Home </a>
+      <a routerLink="dashboard">Dashboard</a>
+      <a routerLink="plan"> Piano di studi</a>
+      <a (click)="logout()">Logout</a>
+      }
+      @if (user.role === 'professore'){
+      <a routerLink=""> Home </a>
+      <a routerLink="dashboard">Dashboard</a>
+      <a routerLink="request"> Richieste</a>
+      <a (click)="logout()">Logout</a>
+      }
+      @if (user.role === 'segreteria'){
+      <a routerLink=""> Home </a>
+      <a routerLink="dashboard">Dashboard</a>
+      <a routerLink="request"> Richieste</a>
+      <a (click)="logout()">Logout</a>
+      }
+    </nav>
+
+  </div>
+</header>
 <router-outlet></router-outlet>
