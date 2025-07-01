@@ -1,44 +1,19 @@
-/* tuo-componente.component.css */
+/* Plan */
 
 .course-row {
-  /* --- Stili per rendere i <li> orizzontali --- */
-  display: flex;         /* 1. Applica il layout Flexbox */
-  gap: 20px;             /* 2. Aggiunge spazio tra gli elementi li */
-  align-items: center;   /* 3. (Opzionale) Allinea verticalmente gli elementi al centro */
-
-  /* --- Stili per pulizia e aspetto --- */
-  list-style-type: none; /* Rimuove i pallini della lista */
-  padding: 10px;         /* Aggiunge spazio interno */
-  margin: 0 0 10px 0;    /* Aggiunge un margine inferiore per separare le righe */
-  border: 1px solid #ccc; /* (Opzionale) Aggiunge un bordo per vedere meglio ogni riga */
-  border-radius: 5px;    /* (Opzionale) Arrotonda gli angoli */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+  list-style-type: none;
+  padding: 10px;
+  margin: 0 0 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
   max-width: 30rem;
+  width: 100%;
 }
-
-/* (Opzionale) Puoi anche dare uno stile agli elementi interni se vuoi */
-.course-row li {
-  /* Esempio: assegna una larghezza minima per un migliore allineamento */
-  min-width: 100px;
-}
-
 button {
-    color: white;
-    background-color: blue;
-    width: fit-content;
-    height: auto;
-    border: 1px solid blue;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: opacity 0.3s ease-in-out;
-}
-
-button:hover {
-  opacity: 0.8;
-}
-
-
-/* Button del componente plan */
-.study-plan button {
   padding: 0.75rem;
   background-color: #0077cc;
   color: white;
@@ -46,25 +21,35 @@ button:hover {
   border-radius: 0.375rem;
   cursor: pointer;
 }
-.study-plan button:hover {
+ button:hover {
   background-color: #005fa3;
+  opacity: 0.8;
 }
 
-/* Checkbox ed etichette */
-.course {
-  margin-bottom: 1rem;
+@media (max-width: 768px) {
+  .course-row {
+    flex-direction: column;
+    max-width: 100%;
+    gap: 15px;
+  }
+  .course-row li {
+    min-width: auto;
+    width: 100%;
+  }
+  button {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+  }
 }
 
-.course label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: 500;
-}
-
-.course .note {
-  font-size: 0.9rem;
-  color: #555;
-  margin-left: 1.5rem;
+@media (max-width: 480px) {
+  .course-row {
+    padding: 8px;
+    gap: 10px;
+  }
+   button {
+    padding: 0.5rem;
+  }
 }
 

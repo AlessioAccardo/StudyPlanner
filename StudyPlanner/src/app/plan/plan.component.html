@@ -1,12 +1,13 @@
 <main class="container">
   <section class="summary">
-    <h2>Il tuo Piano di Studi</h2>
-    <p>CFU Totali: <strong>{{ cfuTotali }}</strong> / 60</p>
+    <h2>Esami</h2>
+    <p>CFU Totali: <strong>{{ cfuTotali }}</strong> / 180</p>
 
-    @for(course of studyPlan; track course.course_id) {
+    @for(esame of esami; track esame.code) {
       <ul class="course-row">
-      <li>{{ course.course_id }}</li>
-      <li>{{ course.course_name }}</li>
+      <li>{{ esame.course_id }}</li>
+      <li>{{ esame.name}}</li>
+      <li>{{ esame.date }} </li>
       <li>AGGIUNGERE FUNC CFU</li>
     </ul>
     }
@@ -19,10 +20,13 @@
       <input type="text" placeholder="Cerca esame per codice o nome esame..."(input)="onSearch($event)"/>
     </section>
       @for (esame of esami; track esame.code) {
-        <div class="course">
-          ID: {{ esame.code }} - NOME: {{ esame.name }} ({{ esame.credits }} CFU) - N.PRENOTATI: {{ esame.enrolled_students }}
-          <button type="button" (click)="seleziona(esame.code!)">Aggiungi</button>
-        </div>
+        <ul class="course-row">
+         <li> ID: {{ esame.code }} </li>
+         <li> Nome: {{ esame.name }}</li>
+         <li> {{ esame.credits }} CFU</li>
+         <li> Numero prenotati: {{ esame.enrolled_students }} </li>
+         <button type="button" (click)="seleziona(esame.code!)">Aggiungi</button>
+        </ul>
       }
     </form>
   </section>
