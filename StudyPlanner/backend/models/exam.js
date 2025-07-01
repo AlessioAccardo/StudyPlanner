@@ -11,6 +11,16 @@ class Exam {
         });
     }
 
+    static async getAllApprovedExams() { 
+        return new Promise((resolve, reject) => {
+            db.all('SELECT * FROM exams WHERE approved = ?', [1], (err, rows) => {
+                if (err) return reject(err);
+                resolve(rows);
+            })
+        });
+    }
+
+
     static async getExamByCode(code) {
         return new Promise((resolve, reject) => {
             db.get('SELECT * FROM exams WHERE code = ?', [code], (err, row) => {
@@ -74,8 +84,9 @@ class Exam {
     }
 
     static async approveExam(code, approved) {
+        const approvedInt = approved ? 1 : 0;
         return new Promise((resolve, reject) => {
-            db.run('UPDATE exams SET approved = ? WHERE code = ?', [approved, code], (err) => {
+            db.run('UPDATE exams SET approved = ? WHERE code = ?', [approvedInt, code], (err) => {
                 if (err) return reject(err);
                 resolve({ approved, code });
             });
