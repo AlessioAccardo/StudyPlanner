@@ -1,4 +1,5 @@
 <main class="container">
+  @if(1>0){
   <section class="request-table">
     <h2>Professore Richiesta Appello</h2>
     <form>
@@ -10,16 +11,8 @@
         }
       </select>
       <label for="date">Data Appello</label>
-<<<<<<< HEAD
-      <input #dateInput id="date" type="date" required>
-      <button type="button" (click)="onSubmit(courseInput, dateInput)">Invia Richiesta</button>
-    </form>
-  </section>
-
-  <section class="request-table">
-=======
       <input #date id="date" type="date" required>
-      <button type="button" (click)="onSubmit(courseSelected, date)" [disabled]= "">
+      <button type="button" (click)="onSubmit(courseInput, date)" [disabled]= "">
         Invia Richiesta
        </button>
     </form> 
@@ -29,7 +22,6 @@
   <!-- GESTIONE RICHIESTE SEGRETERIA -->
   @if(1>0) {
     <section class = "request-table">
->>>>>>> c28f3b817316ab5b445459d078c0f0001fd9443e
     <h2>Gestione Richieste</h2>
     <table>
       <thead>
@@ -38,7 +30,6 @@
           <th>Corso</th>
           <th>Data</th>
           <th>Stato</th>
-          <th>Azioni</th>
         </tr>
       </thead>
       <tbody>
@@ -47,28 +38,13 @@
             <td>{{ request.code }}</td>
             <td>{{ request.name }}</td>
             <td>{{ request.date }}</td>
-            <td>
-              @if (request.approved === true) {
-                <span style="color:green; font-weight:bold;">Approvato</span>
-              }
-              @else if (request.approved === false) {
-                <span style="color:red; font-weight:bold;">Rifiutato</span>
-              }
-              @else {
-                <span>In attesa</span>
-              }
-            </td>
-            <td>
-              @if (request.approved === null || request.approved === undefined) {
-                <button class="approva" (click)="approveRequest(request.code, true)">Approva</button>
-                <button class="rifiuta" (click)="approveRequest(request.code, false)">Rifiuta</button>
-              } @else {
-                <em>-</em>
-              }
-            </td>
+            <td>{{ request.approved}} </td>
+            <td><button class="approva" (click)="approveRequest(request.code, true)">Approva</button> </td>
+            <td><button class="rifiuta" (click)="approveRequest(request.code, false)">Rifiuta</button></td>
           </tr>
         }
       </tbody>
     </table>
   </section>
+}
 </main>

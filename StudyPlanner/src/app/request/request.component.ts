@@ -14,18 +14,27 @@ export class RequestComponent implements OnInit {
   router = inject(Router);
 
   requests: Exam[] = [];
+
   courses: Courses[] = [];
+
 
   constructor(private examService: ExamService, private coursesService: CoursesService) {}
 
   ngOnInit(): void {
-    this.loadRequests();
-    this.coursesService.getByProfessorId(1).subscribe((data) => {
-      this.courses = data;
-    });
+    
+    //if (this.auth.role() === 'admin') {
+      this.loadRequests();
+    //}
+
+    //if (this.auth.role() === 'professore') {
+      this.coursesService.getByProfessorId(1).subscribe((data) => {
+        this.courses = data;
+      })
+    //}
   }
 
   onSubmit(courseInput: HTMLSelectElement, dateInput: HTMLInputElement) {
+
     const dto: CreateExamDto = {
       course_id: +courseInput.value,
       date: dateInput.value
@@ -37,7 +46,6 @@ export class RequestComponent implements OnInit {
         alert(`Esame ${createdExam.name} creato con ID ${createdExam.code}`);
         courseInput.selectedIndex = 0;
         dateInput.value = "";
-        this.loadRequests();
       },
       error: err => {
         console.log(err);
@@ -53,21 +61,13 @@ export class RequestComponent implements OnInit {
   }
 
   approveRequest(code: number, approved: boolean) {
-    const msg = approved
-      ? 'Vuoi davvero approvare questa richiesta di esame?'
-      : 'Vuoi davvero rifiutare questa richiesta di esame?';
-    if (!confirm(msg)) return;
-
     this.examService.approveExam(code, approved).subscribe({
       next: (approvedExam) => {
-        const req = this.requests.find(r => r.code === code);
-        if (req) {
-          req.approved = approved;
-        }
+        console.log('Esame approvato', approvedExam);
         if (approved) {
-          alert(`Richiesta creazione esame ${approvedExam.name} approvata!`);
+          alert(`Richiesta creazione esame ${approvedExam.name} approvata`);
         } else {
-          alert(`Richiesta creazione esame ${approvedExam.name} rifiutata!`);
+          alert(`Richiesta creazione esame ${approvedExam.name} rifiutata`);
         }
       },
       error: err => {
