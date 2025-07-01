@@ -83,10 +83,9 @@ export class LoginComponent {
         this.authApiService.register({ first_name, last_name, email, password, role })
         .subscribe({
           next: res => {
-            localStorage.setItem('currentUser', JSON.stringify(res.data));
-            localStorage.setItem('token', res.token);
             alert('Registrazione avvenuta con successo');
-            this.router.navigate(['/home']);
+            this.router.navigate(['/login']);
+            this.display = false;
           }, error: err => {
             this.errorMessage = err.error?.message || 'Errore nella registrazione';
             alert(this.errorMessage);

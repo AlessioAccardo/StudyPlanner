@@ -8,7 +8,7 @@ import { LoggedUser } from '../../interfaces/loggedUser.interface';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private isBrowser: boolean;
-  private userSubject: BehaviorSubject<LoggedUser|null>;
+  public userSubject: BehaviorSubject<LoggedUser|null>;
 
   user$: Observable<LoggedUser|null>;
 
@@ -40,11 +40,14 @@ export class AuthService {
   }
 
   logout() {
-    if (this.isBrowser) {
-      localStorage.removeItem('currentUser');
-      localStorage.removeItem('token');
-    }
-    this.userSubject.next(null);
-    this.router.navigateByUrl('/login');
+    const loggingOut = window.confirm("Sei sicuro di voler fare il logout?");
+    if (loggingOut) {
+      if (this.isBrowser) {
+        localStorage.removeItem('currentUser');
+        localStorage.removeItem('token');
+      }
+      this.userSubject.next(null);
+      this.router.navigateByUrl('/login');
+    }    
   }
 }
