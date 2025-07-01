@@ -15,22 +15,6 @@
   border-radius: 4px;
 }
 
-.request-table button[type="submit"]:disabled {
-  padding: 0.75rem;
-  background-color: #ccc;
-  color: white;
-  border: none;
-  border-radius: 0.375rem;
-  cursor: not-allowed;
-}
-.request-table button[type="submit"]:not(:disabled) {
-  padding: 0.75rem;
-  background-color: #0077cc;
-  color: white;
-  border: none;
-  border-radius: 0.375rem;
-  cursor: pointer;
-}
 
 .request-table table {
   width: 100%;
@@ -50,27 +34,98 @@
   cursor: pointer;
   color: white;
 }
-.request-table .approva { background-color: #28a745; }
-.request-table .approva:hover { background-color: #218838; }
-.request-table .rifiuta  { background-color: #dc3545; }
-.request-table .rifiuta:hover  { background-color: #c82333; }
 
+.request-table .formButton{
+  width:100%;
+  padding: 0.75em 1.5em;
+  font-size: 16px;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  border-radius: 0.5em;
 
-button {
-    color: white;
-    background-color: blue;
-    width: 8rem;
-    height: 2rem;
-    border: 1px solid blue;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: opacity 0.3s ease-in-out;
+  background: linear-gradient(
+    to bottom right,
+    #b0e6fa,
+    #1da4e2   
+  );
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-button:hover {
-  opacity: 0.8;
+.request-table .formButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
+
+.request-table .formButton:active {
+ transform: translateY(0);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+//bottone approva
+.request-table .approva{
+  width:100%;
+  padding: 0.75em 1.5em;
+  font-size: 16px;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  border-radius: 0.5em;
+
+  background: linear-gradient(
+    to bottom right,
+    #bdf3b0,
+    #17ce54   
+  );
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.request-table .approva:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.request-table .approva:active {
+ transform: translateY(0);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+//bottone rifiuta
+.request-table .rifiuta{
+  width:100%;
+  padding: 0.75em 1.5em;
+  font-size: 16px;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  border-radius: 0.5em;
+
+  background: linear-gradient(
+    to bottom right,
+    #f8a7a7,
+    #df0606   
+  );
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.request-table .rifiuta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.request-table .rifiuta:active {
+ transform: translateY(0);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
 .pending {
   color: grey;
   font-weight: bold;
 }
+

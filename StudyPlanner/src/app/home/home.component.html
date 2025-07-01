@@ -18,7 +18,7 @@
           <td>{{ course.name }}</td>
           <td>{{ course.credits }} CFU</td>
           <td> 
-            <button type="button" (click)="salvaPiano(course.id)">Aggiungi</button></td>
+            <button (click)="salvaPiano(course.id)">Aggiungi</button></td>
         </tr>
       }
       </tbody>
@@ -59,7 +59,7 @@
                 </td>
               </tr>
               <tr>
-              <td><button type = "submit" class = "button" (click) = "createCourse(nameInput, prof_id, creditsInput)"> Crea </button>
+              <td><button (click) = "createCourse(nameInput, prof_id, creditsInput)"> Crea </button>
               </td>
               </tr>
             </tbody>

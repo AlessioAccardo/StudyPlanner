@@ -10,9 +10,10 @@
   border-left: 0.375rem solid #0077cc;
   padding: 1.5rem;
   border-radius: 0.375rem;
+  overflow-x: auto;
 }
 .riquadro table {
-  width: 100%;
+  min-width: 100%;
   table-layout: fixed;
   border-collapse: separate;
   border-spacing: 1rem 0.5rem;
@@ -55,3 +56,18 @@
   cursor: pointer;
   }
 
+/* Responsive per dispositivi piccoli */
+@media (max-width: 768px) {
+  .riquadri {
+    gap: 1rem;
+  }
+  .riquadro table {
+    table-layout: auto;
+  }
+  .riquadro table th,
+  .riquadro table td {
+    padding: 0.5rem;       
+    font-size: 1rem;      
+    white-space: nowrap;
+  }
+}

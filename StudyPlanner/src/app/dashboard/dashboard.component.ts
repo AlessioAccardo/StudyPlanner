@@ -2,6 +2,9 @@ import { Component, inject, OnInit } from '@angular/core';
 import { LoggedUser } from '../interfaces/loggedUser.interface';
 import { AuthService } from '../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
+import { UserService, User } from '../services/user.service';
+import { ExamService } from '../services/exam.service';
+import { Exam } from '../models/exam.model';
 
 interface StudentExam {
   id: string;
@@ -29,13 +32,15 @@ interface ProfessorExamStats {
 })
 export class DashboardComponent implements OnInit {
 
+  examService = inject(ExamService);
+  userService = inject(UserService);
 
   user: LoggedUser | null = null;
-
   user$ = inject(AuthService).user$;
 
   studentExams: StudentExam[] = [];
   professorStats: ProfessorExamStats[] = [];
+  professors: User[] = [];
   maxCfu = 0;
   totalCfu = 0;
   completePercentage = 0;
@@ -47,20 +52,16 @@ export class DashboardComponent implements OnInit {
     } else {
       this.user = JSON.parse(raw) as LoggedUser;
     }
-    
-    this.studentExams = [
-      { id: "INF001", name: "Analisi Matematica II", cfu: 12, completed: true, note: "Propedeutico: Analisi Matematica I", voto: 28, votoAccettato: undefined },
-      { id: "INF002", name: "Programmazione Web & Mobile", cfu: 9, completed: true, note: "", voto: 30, votoAccettato: undefined },
-      { id: "INF003", name: "Basi di Dati", cfu: 6, completed: false, note: "" }
-    ];
-
-    this.professorStats = [
-      { id: "INF001", name: "Analisi Matematica II", passed: 40, failed: 10 },
-      { id: "INF002", name: "Programmazione Web & Mobile", passed: 30, failed: 50 }
-    ];
-
     this.calculateStudentMetrics();
   }
+
+  /*getAllExamByProfessorID(professors: User) {
+    this.userService.getAllProfessors().subscribe((data => {
+      this.professors = data;
+    }));
+    this.examService.getExamByProfessorId().subscribe()
+  }*/
+
 
   private calculateStudentMetrics(): void {
     this.maxCfu = this.studentExams.reduce((sum, exam) => sum + exam.cfu, 0);
@@ -101,4 +102,5 @@ export class DashboardComponent implements OnInit {
     const total = stats.passed + stats.failed;
     return total > 0 ? (stats.failed / total) * 100 : 0;
   }
+
 }

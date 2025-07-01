@@ -44,7 +44,6 @@ p, li, label {
 .esami,
 .descrizione,
 .summary,
-.faq,
 .study-plan,
 .request-form,
 .request-table,
@@ -81,6 +80,57 @@ a {
 a:hover {
   opacity: 0.9;
 }
+
+// css input di tipo select //
+select {
+  display: inline-block;
+  width: 100%;
+  max-width: 200px;      
+  box-sizing: border-box; 
+  padding: 0.5em 2.5em 0.5em 1em;
+  font-size: 1rem;
+  font-family: inherit;
+  color: #333;
+  text-align: left;  
+  background-color: white;
+  border: none;
+  border-radius: 0.5em;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+select option {
+  padding: 0.5em;
+  font-family: inherit;
+  color: #333;
+}
+
+
+
+//css input di tipo date
+ input[type="date"] {
+  display: inline-block;
+  width: 100%;
+  max-width: 200px;         
+  padding: 0.5em 1em;
+  box-sizing: border-box;
+  font-size: 1rem;
+  font-family: inherit;
+  text-align: center;
+  color: #ffffff;
+
+
+  background: linear-gradient(
+  to bottom right,
+  #b0e6fa,
+  #1da4e2   
+ );
+  border: none;
+  border-radius: 0.5em;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
 
 /* Footer */
 footer {

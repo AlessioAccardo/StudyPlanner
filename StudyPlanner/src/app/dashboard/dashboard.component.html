@@ -40,10 +40,10 @@
                 </tr>
               }
               <tr>
-                <td colspan="5"><strong>CFU Totali: {{ totalCfu }} / {{ maxCfu }}</strong></td>
+                <td><strong>CFU Totali: {{ totalCfu }} / {{ maxCfu }}</strong></td>
               </tr>
-              <tr>
-                <td colspan="5"><strong>Percentuale Completamento: {{ completePercentage.toFixed(2) }}%</strong></td>
+               <tr>
+                <td><strong>Percentuale Completamento: {{ completePercentage.toFixed(2) }}%</strong></td>
               </tr>
             </tbody>
           </table>
@@ -52,7 +52,7 @@
     </section>
   }
 
-  @if (user.role === 'professore') {
+  @if (1>0) {
     <section class="dashboard">
       <h2>Dashboard Professore</h2>
       <div class="riquadri">
@@ -79,4 +79,34 @@
       </div>
     </section>
   }
+
+<!--
+  @if(1>0) {
+    <section class = "dashboard">
+      <h2> Dashboard Segreteria </h2>
+      <div class = "riquadri">
+        <div class = "riquadro">
+          <table>
+            <thead>
+              <tr>
+                <th> ID </th>
+                <th> Professore </th>
+                <th> Esami gestiti </th>
+              </tr>
+            </thead>
+            <tbody>
+              @for(prof of professors; track prof.id){
+               <tr>
+                <td> {{ prof.id }} </td>
+                <td> {{ prof.first_name }} {{prof.last_name}} </td>
+                <td> {{getAllExamByProfessorID(prof.id)}} </td>
+               </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  } -->
 </main>
