@@ -1,4 +1,4 @@
-<main class = "container">
+<main class = "container" *ngIf="user$ | async as user">
   @if (1>0){ 
     <section class = "libretto">
       <div class = "riquadro">
@@ -27,6 +27,8 @@
    </section>
 }
 
+
+<!-- CREAZIONE CORSI SEGRETERIA -->
 @if(1>0) {
   <section class = "segreteria">
     <div class ="riquadri">
@@ -45,7 +47,7 @@
                 <td> 
                   <select #prof_id id="professor"  name = "professor_id" required>
                   @for(prof of professors; track prof.id){
-                  <option [value] = "prof.id" disabled selected> Seleziona un professore</option>
+                  <option [value] = "prof.id" disabled selected> {{ prof.id }}, {{ prof.first_name }} {{ prof.last_name }}</option>
               }
                    </select>
                 </td>
@@ -71,7 +73,8 @@
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Nome</th>
+                <th>Corso</th>
+                <th>ID Professore</th>
                 <th>Professore</th>
                 <th>CFU</th>
               </tr>
@@ -82,8 +85,7 @@
                   <td> {{course.id }}</td>
                   <td> {{ course.name }}</td>
                   <td> {{ course.professor_id }}</td>
-                  <td> {{ professorMap[course.professor_id].first_name }} </td>
-                  <td> {{ professorMap[course.professor_id].last_name }} </td>
+                  <td> {{ professorMap[course.professor_id].first_name }}  {{ professorMap[course.professor_id].last_name }} </td>
                   <td> {{ course.credits }}</td>
                 </tr>
               }

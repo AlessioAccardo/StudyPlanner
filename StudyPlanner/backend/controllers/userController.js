@@ -19,7 +19,8 @@ class UserController {
         try{
             const list = await User.getAllProfessors();
             if(!list || list.length === 0) return res.status(404).json({message: 'Lista dei professori vuota'});
-            return res.status(200).json(list);
+            const professors = list.map(({ password, ...prof }) => prof);
+            return res.status(200).json(professors);
         }catch(err){
             next(err);
         }

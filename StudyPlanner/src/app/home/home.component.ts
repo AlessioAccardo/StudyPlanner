@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CoursesService, Courses, CreateCourseDto } from '../services/courses.service';
 import { UserService, User} from '../services/user.service';
 import { StudyPlanService, StudyPlan } from '../services/studyPlan.service';
 import { firstValueFrom } from 'rxjs';
-
+import { LoggedUser } from '../interfaces/loggedUser.interface';
+import { CommonModule } from '@angular/common';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-courses',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
@@ -18,11 +20,21 @@ export class HomeComponent implements OnInit {
   professors: User[] = [];
   professorMap: Record<number, User> = {};
 
-  student_id = 2;
+  user: LoggedUser | null = null;
+
+  user$ = inject(AuthService).user$;
   
   constructor(public coursesService: CoursesService, public studyPlanService: StudyPlanService, public userService: UserService) {}
 
   ngOnInit() {
+
+    const raw = localStorage.getItem('currentUser');
+    if (!raw) {
+      console.log('Nessun utente in local storage');
+    } else {
+      this.user = JSON.parse(raw) as LoggedUser;
+    }
+
     this.coursesService.getAll().subscribe((data) => {
       this.courses = data;
     });
@@ -37,6 +49,7 @@ export class HomeComponent implements OnInit {
 
   }
   
+  // CREA CORSO SEGRETERIA
   async createCourse(nameInput: HTMLInputElement, prof_id: HTMLSelectElement, creditsInput: HTMLInputElement): Promise<void> {
     try {
       const dto: CreateCourseDto = {
@@ -57,36 +70,36 @@ export class HomeComponent implements OnInit {
     }
   }
 
-    async loadCourses(): Promise<void>{
-    try{
+  async loadCourses(): Promise<void>{
+    try {
       this.courses = await firstValueFrom(this.coursesService.getAll());
-    }catch(err){
+    } catch(err) {
       console.error("Errore caricamento corsi", err);
       alert("Impossibile caricare i corsi");
     }
-    }
+  }
 
 
-
+    // SALVA PIANO STUDENTE
   async salvaPiano(courseId: number): Promise<void> {
-    try {
-      const dto = {
-        student_id: this.student_id,
-        course_id: courseId
-      };
+      try {
+        const dto = {
+          student_id: this.user!.id,
+          course_id: courseId
+        };
 
-      const created = await firstValueFrom(
-        this.studyPlanService.create(dto)
-      );
+        const created = await firstValueFrom(
+          this.studyPlanService.create(dto)
+        );
 
-      // il server mi restituisce già { student_id, course_id, course_name, credits, … }
-      this.studyPlan.push(created);
-      alert(`Corso ${created.course_id} (${created.course_name}, ${created.credits} CFU) aggiunto.`);
+        // il server mi restituisce già { student_id, course_id, course_name, credits, … }
+        this.studyPlan.push(created);
+        alert(`Corso ${created.course_id} (${created.course_name}, ${created.credits} CFU) aggiunto.`);
 
-    } catch (err) {
-      console.error(err);
-      alert('Errore durante il salvataggio del piano.');
-    }
+      } catch (err) {
+        console.error(err);
+        alert('Errore durante il salvataggio del piano.');
+      }    
   }
 
 }

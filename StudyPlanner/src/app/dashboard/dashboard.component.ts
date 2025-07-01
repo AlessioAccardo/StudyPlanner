@@ -1,5 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core'; 
 import { LoggedUser } from '../interfaces/loggedUser.interface';
+import { AuthService } from '../services/auth/auth.service';
+import { CommonModule } from '@angular/common';
 
 interface StudentExam {
   id: string;
@@ -23,23 +25,17 @@ interface ProfessorExamStats {
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
   standalone: true,
-  imports: []
+  imports: [CommonModule]
 })
 export class DashboardComponent implements OnInit {
 
+
+  user: LoggedUser | null = null;
+
+  user$ = inject(AuthService).user$;
+
   studentExams: StudentExam[] = [];
   professorStats: ProfessorExamStats[] = [];
-
-  user: LoggedUser = {
-    id: 0,
-    first_name: "",
-    last_name: "",
-    email: "",
-    role: "",
-    credits: 0,
-    mean: 0
-  }
-
   maxCfu = 0;
   totalCfu = 0;
   completePercentage = 0;

@@ -15,7 +15,7 @@ export interface Exam {
     credits: number;
     enrolled_students: number;
     professor_id: number;
-    approved?: boolean;
+    approved?: boolean | undefined;
     date: string;
     course_id: number;
 }

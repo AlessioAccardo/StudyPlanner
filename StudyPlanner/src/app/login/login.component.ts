@@ -1,11 +1,16 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthApiService } from '../services/auth/authApi.service';
 import { UserRole } from '../services/auth/authApi.service';
+import { TitleCasePipe, isPlatformBrowser } from '@angular/common';
+import { AuthService } from '../services/auth/auth.service';
+import { LoggedUser } from '../interfaces/loggedUser.interface';
+
 @Component({
   selector: 'app-login',
   imports: [ReactiveFormsModule],
+  providers: [TitleCasePipe],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
   standalone: true,
@@ -21,15 +26,21 @@ export class LoginComponent {
     UserRole.segreteria
   ]
 
-  selectedRole: UserRole = UserRole.studente;
   display: boolean = false;
 
   router = inject(Router);
+  private titleCase = new TitleCasePipe();
+  private isBrowser!: boolean;
 
   constructor(
+    @Inject(PLATFORM_ID) platformId: Object,
     private fb: FormBuilder,
-    private authApiService: AuthApiService
+    private authApiService: AuthApiService,
+    private auth: AuthService
   ) {
+
+    this.isBrowser = isPlatformBrowser(platformId);
+
     this.loginForm = this.fb.group({
       email:    ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
@@ -40,7 +51,7 @@ export class LoginComponent {
       last_name: ['', Validators.required],
       email:    ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
-      role: [this.selectedRole, Validators.required]
+      role: ['studente', Validators.required]
     });
   }
 
@@ -54,14 +65,9 @@ export class LoginComponent {
       this.authApiService.login({ email, password })
       .subscribe({
         next: res => {
-          localStorage.setItem('currentUser', JSON.stringify(res.data));
-          localStorage.setItem('token', res.token);
-          console.log('Current user: ', JSON.stringify(res.data));
-          alert('Login avvenuto con successo');
-          this.router.navigateByUrl('home');
+          this.auth.login(res.data as LoggedUser, res.token);          
         },
         error: err => {
-          // gestisci l’errore (es. credenziali sbagliate)
           this.errorMessage = err.error?.message || 'Errore di login';
           alert(this.errorMessage);
         }
@@ -70,21 +76,26 @@ export class LoginComponent {
       if (this.registrationForm.invalid) {
       return;
       }
-      const { first_name, last_name, email, password, role } = this.registrationForm.value
-      this.authApiService.register({ first_name, last_name, email, password, role })
-      .subscribe({
-        next: res => {
-          console.log('RISPOSTA REGISTRAZIONE: ', res);
-          localStorage.setItem('currentUser', JSON.stringify(res.data));
-          localStorage.setItem('token', res.token);
-          console.log('Current user: ', JSON.stringify(res.data));
-          alert('Registrazione avvenuta con successo');
-          this.router.navigateByUrl('home');
-        }, error: err => {
-          this.errorMessage = err.error?.message || 'Errore nella registrazione';
-          alert(this.errorMessage);
-        }
-      });
+      if (this.isBrowser) {
+        let { first_name, last_name, email, password, role } = this.registrationForm.value;
+        first_name = this.titleCase.transform(first_name);
+        last_name = this.titleCase.transform(last_name);
+        this.authApiService.register({ first_name, last_name, email, password, role })
+        .subscribe({
+          next: res => {
+            localStorage.setItem('currentUser', JSON.stringify(res.data));
+            localStorage.setItem('token', res.token);
+            alert('Registrazione avvenuta con successo');
+            this.router.navigate(['/home']);
+          }, error: err => {
+            this.errorMessage = err.error?.message || 'Errore nella registrazione';
+            alert(this.errorMessage);
+          }
+        });
+      } else {
+        console.log('Errore per localStorage is browser: ', this.isBrowser);
+      }
+
     }
     
   }
@@ -94,7 +105,7 @@ export class LoginComponent {
   }
 
   onRoleChange(selectedIndex: number) {
-    this.selectedRole = this.roles[selectedIndex];
-    this.registrationForm.get('role')!.setValue(this.selectedRole);
+    const selectedRole = this.roles[selectedIndex];
+    this.registrationForm.get('role')!.setValue(selectedRole);
   }
 }
