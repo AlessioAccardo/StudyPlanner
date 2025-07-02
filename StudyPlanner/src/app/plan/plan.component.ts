@@ -3,6 +3,10 @@ import { ExamService, Exam } from '../services/exam.service';
 import { Router } from '@angular/router';
 import { StudyPlan, StudyPlanService } from '../services/studyPlan.service';
 import { Observable, firstValueFrom } from 'rxjs';
+import { EnrolledStudent, EnrolledStudentsService, EnrolledStudentDto } from '../services/enrolledStudents.service';
+import { LoggedUser } from '../interfaces/loggedUser.interface';
+import { AuthService } from '../services/auth/auth.service';
+AuthService
 
 @Component({
   selector: 'app-plan',
@@ -15,21 +19,29 @@ import { Observable, firstValueFrom } from 'rxjs';
 export class PlanComponent implements OnInit{
   router = inject(Router);
 
+  user: LoggedUser | null = null;
+  
+  user$ = inject(AuthService).user$;
+
   esami: Exam[] = [];
   studyPlan: StudyPlan[] = [];
   student_id = 2;
 
-  constructor(public examService: ExamService, public studyPlanService: StudyPlanService) {
-    //if (!this.auth.role || this.auth.role() !== "studente") {
-    //  this.router.navigate(['/page-not-found']); 
-    //}
-  }
+  constructor(public examService: ExamService, public studyPlanService: StudyPlanService, public enrolledStudentService: EnrolledStudentsService) {}
 
   ngOnInit() {
+
+    const raw = localStorage.getItem('currentUser');
+    if (!raw) {
+      console.log('Nessun utente in local storage');
+    } else {
+      this.user = JSON.parse(raw) as LoggedUser;
+    }
+
     this.examService.getExamByProfessorId(1).subscribe((data:Exam[]) => {
-      console.log(data);
       this.esami = data;
     });
+
     this.loadStudyPlan();
   }
 
@@ -40,14 +52,12 @@ export class PlanComponent implements OnInit{
     return this.examService.getExamByCode(code)
   }
 
-  async seleziona(code: number) {
-    try {
-      const exam: Exam = await firstValueFrom(this.examService.getExamByCode(code));
-      let current_exam = exam;
-      this.esami.push(current_exam);
-    } catch (err) {
-      console.log(err);
+  seleziona(code: number) {
+    const dto: EnrolledStudentDto = {
+      student_id: this.user!.id,
+      exam_code: code
     }
+    this.enrolledStudentService.enrollStudent(dto);
   }
 
   onSearch(event: Event): void {
@@ -60,8 +70,8 @@ export class PlanComponent implements OnInit{
   }
 
   private loadStudyPlan() {
-    this.studyPlanService.getByStudentId(this.student_id).subscribe((data) => {
-      this.studyPlan = data
+    this.studyPlanService.getByStudentId(this.user!.id).subscribe((data) => {
+      this.studyPlan = data;
     });
   }
 

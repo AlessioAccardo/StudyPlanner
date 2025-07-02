@@ -23,8 +23,8 @@ class ExamController {
 
     static async getAllApprovedByProfId(req, res, next) {
         try {
-            const { professor_id } = req.query;
-            const list = await Exam.getAllApprovedByProfId(professor_id);
+            const { professor_id } = req.params;
+            const list = await Exam.getAllApprovedExamsByProfId(professor_id);
             if (!list || list.length === 0) return res.status(404).json({ message: 'Esami approvati non trovati'});
             res.status(200).json(list);
         } catch (err) {
@@ -48,7 +48,7 @@ class ExamController {
             const { code } = req.params;
             const exam = await Exam.getEnrolledStudentsNumber(code);
             if (!exam) return res.status(404).json({ message: `Numero studenti iscritti all'esame non trovato`});
-            res.staus(200).json(exam);
+            res.status(200).json(exam);
         } catch (err) {
             next(err);
         }

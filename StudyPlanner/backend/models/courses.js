@@ -14,18 +14,28 @@ class Courses {
 
     static async getAllCourses() {
         return new Promise((resolve, reject) => {
-            db.all('SELECT * FROM courses', [], (err, rows) => {
-                if (err) return reject(err);
-                resolve (rows);
+            db.all(`
+                SELECT c.*, u.first_name AS professor_first_name, u.last_name AS professor_last_name
+                FROM courses AS c
+                JOIN users AS u ON u.id = c.professor_id`,
+                [],
+                (err, rows) => {
+                    if (err) return reject(err);
+                    resolve (rows);
             });
         });
     }
 
     static async getCoursesByProfessorId(professor_id) {
         return new Promise((resolve, reject) => {
-            db.all('SELECT * FROM courses WHERE professor_id = ?', [professor_id], (err, rows) => {
-                if (err) return reject(err);
-                resolve(rows);
+            db.all(`
+                SELECT c.*, u.first_name AS professor_first_name, u.last_name AS professor_last_name
+                FROM courses AS c
+                JOIN users AS u ON u.id = c.professor_id
+                WHERE professor_id = ?`,
+                [professor_id], (err, rows) => {
+                    if (err) return reject(err);
+                    resolve(rows);
             });
         });
     }
@@ -33,30 +43,41 @@ class Courses {
     static async getCourseByProfessorFullName(fname, lname) {
         return new Promise((resolve, reject) => {
             db.all(`
-                SELECT * FROM courses as c
-                JOIN users as u ON u.id = c.professor_id
-                WHERE u.first_name = ? AND u.last_name = ?
-            `, [fname, lname], (err, rows) => {
-                if (err) return reject(err);
-                resolve(rows);
+                SELECT c.*, u.first_name AS professor_first_name, u.last_name AS professor_last_name
+                FROM courses AS c
+                JOIN users AS u ON u.id = c.professor_id
+                WHERE u.first_name = ? AND u.last_name = ?`,
+                [fname, lname], (err, rows) => {
+                    if (err) return reject(err);
+                    resolve(rows);
             });
         });
     }
 
     static async getCourseById(id) {
         return new Promise((resolve, reject) => {
-            db.get('SELECT * FROM courses WHERE id = ?', [id], (err, row) => {
-                if (err) return reject(err);
-                resolve(row);
+            db.get(`
+                SELECT c.*, u.first_name AS professor_first_name, u.last_name AS professor_last_name
+                FROM courses AS c
+                JOIN users AS u ON u.id = c.professor_id
+                WHERE c.id = ?`,
+                [id], (err, row) => {
+                    if (err) return reject(err);
+                    resolve(row);
             });
         });
     }
 
     static async getCourseByName(name) {
         return new Promise((resolve, reject) => {
-            db.all('SELECT * FROM courses WHERE name = ?', [name], (err, rows) => {
-                if (err) return reject(err);
-                resolve(rows);
+            db.all(`
+                SELECT c.*, u.first_name AS professor_first_name, u.last_name AS professor_last_name
+                FROM courses AS c
+                JOIN users AS u ON u.id = c.professor_id
+                WHERE c.name = ?`,
+                [name], (err, rows) => {
+                    if (err) return reject(err);
+                    resolve(rows);
             });
         });
     }

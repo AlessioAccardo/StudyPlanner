@@ -23,6 +23,7 @@ class StudyPlanController {
         }
     }
 
+    /*
     static async getGradesAVGByStudentId(req, res, next) {
         try {
             const { student_id } = req.params;
@@ -33,6 +34,7 @@ class StudyPlanController {
             next(err);
         }
     }
+    */
 
     static async create(req, res, next) {
         try {

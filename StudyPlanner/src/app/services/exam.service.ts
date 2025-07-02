@@ -10,6 +10,8 @@ export interface CreateExamDto {
 
 
 export interface Exam {
+    professor_first_name?: string,
+    professor_last_name?: string,
     code: number
     name: string;
     credits: number;
@@ -28,6 +30,14 @@ export class ExamService {
 
     getAllExams(): Observable<Exam[]> {
         return this.http.get<Exam[]>(this.apiUrl);
+    }
+
+    getAllApprovedExamsByProfId(professor_id: number): Observable<Exam[]> {
+        return this.http.get<Exam[]>(`${this.apiUrl}/approved/${professor_id}`)
+    }
+
+    getAllApprovedExams(): Observable<Exam[]> {
+        return this.http.get<Exam[]>(`${this.apiUrl}/approved`);
     }
 
     getExamByCode(code: number): Observable<Exam> {
@@ -51,11 +61,19 @@ export class ExamService {
        return this.http.get<Exam[]>(`${this.apiUrl}/requested`); 
     }
 
+    getEnrolledStudentsNumber(code: number): Observable<Exam> {
+        return this.http.get<Exam>(`${this.apiUrl}/enrolledstudents/${code}`);
+    }
+
     createExam(dto: CreateExamDto): Observable<Exam> {
         return this.http.post<Exam>(this.apiUrl, dto);
     }
 
     approveExam(code: number, approved: boolean) {
         return this.http.put<Exam>(`${this.apiUrl}/approve`, { code, approved });
+    }
+
+    setEnrolledStudentsNumber(code: number): Observable<Exam> {
+        return this.http.put<Exam>(`${this.apiUrl}/enrolledstudents`, { code });
     }
 }

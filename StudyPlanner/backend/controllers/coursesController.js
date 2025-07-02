@@ -68,20 +68,15 @@ class CoursesController {
     static search(req, res, next) {
         const { name, professor_id, first_name, last_name } = req.query;
 
-        if (first_name && last_name) {
-            return CoursesController.getByProfessorFullName(req, res, next);
-        }
-        if (professor_id) {
-            return CoursesController.getByProfessorId(req, res, next);
-        }
-        if (name) {
-            return CoursesController.getByName(req, res, next);
-        }
+        if (first_name && last_name) return CoursesController.getByProfessorFullName(req, res, next);
+
+        if (professor_id) return CoursesController.getByProfessorId(req, res, next);
+
+        if (name) return CoursesController.getByName(req, res, next);
 
         // nessun parametro: errore o lista vuota
-        return res.status(400).json({ message: 'Devi fornire almeno un parametro di ricerca' });
+        return res.status(400).json({ message: 'Devi fornire almeno un parametro di ricerca per ottenere i corsi' });
     };
-
  }
 
  module.exports = CoursesController;

@@ -9,8 +9,11 @@ router.get('/search', examCtrl.getByProfessorName);
 // GET for exams requests
 router.get('/requested', examCtrl.requested);
 
+// GET enrolled students number by exam code
+router.get('/enrolledstudents/:code', examCtrl.getEnrolledStudentsNumber);
+
 // GET approved exams by prof id
-router.get('/approved/:professor_id');
+router.get('/approved/:professor_id', examCtrl.getAllApprovedByProfId);
 
 // GET approved exams
 router.get('/approved', examCtrl.getAllApproved);
@@ -32,5 +35,8 @@ router.post('/', examCtrl.create);
 
 // PUT to approve/disapprove an exam
 router.put('/approve', examCtrl.approve);
+
+// SET enrolled students number by exam code
+router.put('/enrolledstudents/:code', examCtrl.setEnrolledStudentsNumber);
 
 module.exports = router;

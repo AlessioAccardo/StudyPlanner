@@ -5,13 +5,16 @@ class StudyPlan {
     static async getStudyPlanByStudentId(student_id) {
         return new Promise((resolve, reject) => {
             db.all(`
-                SELECT s.student_id, s.course_id, c.name as course_name
+                SELECT s.*, c.name AS course_name , c.credits, stud.first_name AS student_first_name,
+                    stud.last_name AS student_last_name, prof.id AS professor_id ,prof.first_name AS professor_first_name, prof.last_name AS professor_last_name
                 FROM studyPlan AS s
-                JOIN courses AS c ON c.id = s.course_id 
-                WHERE student_id = ?
-                `, [student_id], (err, rows) => {
-                if (err) return reject(err);
-                resolve(rows);
+                JOIN courses AS c ON c.id = s.course_id
+                JOIN users AS stud ON stud.id = s.student_id
+                JOIN users AS prof ON prof.id = c.professor_id
+                WHERE student_id = ?`,
+                [student_id], (err, rows) => {
+                    if (err) return reject(err);
+                    resolve(rows);
             });
         });
     }
@@ -19,18 +22,21 @@ class StudyPlan {
     static async getStudyPlanByStudentFullName(fname, lname) {
         return new Promise((resolve, reject) => {
             db.all(`
-                SELECT u.id, s.course_id, c.name as course_name
-                FROM studyPlan as s
-                JOIN users as u ON u.id = s.student_id
-                JOIN courses as c ON c.id = s.course_id
-                WHERE u.first_name = ? AND u.last_name = ?
-            `, [fname, lname], (err, rows) => {
-                if (err) return reject(err);
-                resolve(rows);
+                SELECT s.*, c.name AS course_name , c.credits, stud.first_name AS student_first_name,
+                    stud.last_name AS student_last_name, prof.id AS professor_id ,prof.first_name AS professor_first_name, prof.last_name AS professor_last_name
+                FROM studyPlan AS s
+                JOIN courses AS c ON c.id = s.course_id
+                JOIN users AS stud ON stud.id = s.student_id
+                JOIN users AS prof ON prof.id = c.professor_id
+                WHERE stud.first_name = ? AND stud.last_name = ?`,
+                [fname, lname], (err, rows) => {
+                    if (err) return reject(err);
+                    resolve(rows);
             });
         });
     }
 
+    /*
     static async getMeanOfGradesByStudentId(id) {
         return new Promise((resolve, reject) => {
             db.get(`
@@ -43,6 +49,7 @@ class StudyPlan {
             });
         });
     }
+    */
     
     static async create(student_id, course_id) {
         const { name: course_name, credits } = await Courses.getCourseById(course_id);

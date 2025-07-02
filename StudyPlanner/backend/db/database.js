@@ -60,8 +60,6 @@ const db = new sqlite3.Database(dbFile, (err) => {
             db.run(`CREATE TABLE IF NOT EXISTS studyPlan (
                 student_id INTEGER,
                 course_id INTEGER,
-                course_name VARCHAR(255) NOT NULL,
-                credits INTEGER NOT NULL,
                 grade INTEGER,
                 PRIMARY KEY (student_id, course_id),
                 FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE NO ACTION,

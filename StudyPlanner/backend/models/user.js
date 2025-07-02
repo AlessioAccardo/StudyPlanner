@@ -61,7 +61,7 @@ class User {
         });
     }
 
-       static async getProfessorById(id) {
+    static async getProfessorById(id) {
         return new Promise((resolve, reject) => {
             db.get('SELECT * FROM users WHERE id = ? AND role = ?', [id, 'professore'], (err, row) => {
                 if (err) return reject(err);

@@ -23,7 +23,7 @@ class Exam {
     static async getAllApprovedExamsByProfId(professor_id) {
         return new Promise((resolve, reject) => {
             db.all('SELECT * FROM exams WHERE approved = ? AND professor_id = ?', [1, professor_id], (err, rows) => {
-                if (err) reject(err);
+                if (err) return reject(err);
                 resolve(rows);
             });
         });
@@ -45,7 +45,7 @@ class Exam {
 
     static async getEnrolledStudentsNumber(code) {
         return new Promise((resolve, reject) => {
-            db.get('SELECT enrolled_students FROM exams WHERE code = ? AND approved = ?', [code, 1], (err, row) => {
+            db.get('SELECT * FROM exams WHERE code = ? AND approved = ?', [code, 1], (err, row) => {
                 if (err) return reject(err);
                 resolve(row);
             });

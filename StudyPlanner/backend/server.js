@@ -8,6 +8,8 @@ const coursesRoutes = require('./routes/coursesRoutes');
 const examRoutes = require('./routes/examRoutes');
 const userRoutes = require('./routes/userRoutes');
 const studyPlanRoutes = require('./routes/studyPlanRoutes');
+const enrolledStudentsRoutes = require('./routes/enrolledStudentsRoutes');
+const examResultsRoutes = require('./routes/examResultsRoutes');
 
 // importiamo il modulo cors per gestire le richieste cross-origin
 const cors = require('cors');
@@ -47,6 +49,12 @@ app.use('/api/exam', examRoutes);
 
 // routes definite nel file studyPlanRoutes
 app.use('/api/studyPlan', studyPlanRoutes);
+
+// routes definite nel file enrolledStudentsRoutes
+app.use('/api/enrolledStudents', enrolledStudentsRoutes);
+
+// routes definite nel file examResultsRoutes
+app.use('/api/examResults', examResultsRoutes);
 
 // Avvio server
 const PORT = process.env.PORT || 3000;

@@ -2,40 +2,49 @@ const db = require('../db/database');
 
 class EnrolledStudents{
 
-    //tutti gli studenti
-    static async getAllEnrolledStudents(){
+    // tutti gli studenti iscritti ad un qualsiasi esame
+    static async getAll() {
         return new Promise((resolve, reject) => {
-            db.all('SELECT * FROM enrolledStudents', [], (err, rows) => {
-                if(err) return reject(err);
+            db.all(`
+                SELECT u.first_name AS student_first_name, u.last_name AS student_last_name, es.*, e.name AS exam_name
+                FROM users AS u 
+                JOIN enrolledStudents AS es ON es.student_id = u.id
+                JOIN exams as e ON e.code = es.exam_code`,
+            [], (err, rows) => {
+                if (err) return reject(err);
                 resolve(rows);
             });
         });
+    }
+
+    // tutti gli esami ai quali uno studente è iscritto
+    static async getExamsByEnrolledStudentId(student_id) {
+        return new Promise((resolve, reject) => {
+            db.all(`
+                SELECT u.first_name AS student_first_name, u.last_name AS student_last_name, es.*, e.name AS exam_name
+                FROM users AS u 
+                JOIN enrolledStudents AS es ON es.student_id = u.id
+                JOIN exams as e ON e.code = es.exam_code
+                WHERE student_id = ?`,
+                [student_id], (err, rows) => {
+                if (err) return reject(err);
+                resolve(rows);
+            })
+        })
     }
 
     //tutti gli studenti iscritti per esame
     static async getEnrolledStudentsByExam(exam_code){
         return new Promise((resolve, reject)=> {
             db.all(`
-                SELECT * 
+                SELECT u.first_name AS student_first_name, u.last_name AS student_last_name, es.*, e.name AS exam_name
                 FROM users AS u 
-                JOIN enrolledStudents AS es 
-                ON es.student_id = u.id
+                JOIN enrolledStudents AS es ON es.student_id = u.id
+                JOIN exams as e ON e.code = es.exam_code
                 WHERE es.exam_code = ?`,
                 [exam_code], (err, rows) => {
                     if(err) return reject(err);
                     resolve(rows);
-                });
-        });
-    }
-
-    //studente iscritto ad un esame
-    static async getStudentByExam(student_id, exam_code) {
-        return new Promise((resolve, reject) =>{
-            db.get('SELECT * FROM enrolledStudents WHERE student_id = ? AND exam_code = ?',
-                [student_id, exam_code],
-                (err, row) => {
-                    if(err) return reject(err);
-                    resolve(row);
                 });
         });
     }
@@ -47,7 +56,7 @@ class EnrolledStudents{
                 [student_id, exam_code],
                 function(err) {
                     if(err) return reject(err);
-                    resolve({student_id, exam_code})
+                    resolve({ student_id, exam_code })
                 });
         });
     }

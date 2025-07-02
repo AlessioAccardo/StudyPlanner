@@ -32,6 +32,10 @@ button {
   transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
+.esami-titolo {
+  margin-bottom: 2rem;
+}
+
 button:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);

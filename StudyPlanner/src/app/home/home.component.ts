@@ -18,11 +18,13 @@ export class HomeComponent implements OnInit {
   courses: Courses[] = [];
   studyPlan: StudyPlan[] = [];
   professors: User[] = [];
-  professorMap: Record<number, User> = {};
 
   user: LoggedUser | null = null;
 
   user$ = inject(AuthService).user$;
+
+  totaleCrediti: number = 0;
+  MAX_CFU: number = 180;
   
   constructor(public coursesService: CoursesService, public studyPlanService: StudyPlanService, public userService: UserService) {}
 
@@ -35,71 +37,76 @@ export class HomeComponent implements OnInit {
       this.user = JSON.parse(raw) as LoggedUser;
     }
 
-    this.coursesService.getAll().subscribe((data) => {
-      this.courses = data;
-    });
+    if (this.user?.role === 'segreteria') {
+      this.userService.getAllProfessors().subscribe((data) => {
+        this.professors = data;
+      });
 
-    this.userService.getAllProfessors().subscribe((data) => {
-      this.professors = data;
-      this.professorMap = data.reduce((m, p) => {
-        m[p.id] = p;
-        return m;
-      }, {} as Record<number, User>);
-    });
+      this.coursesService.getAll().subscribe((data) => {
+        this.courses = data;
+      });
+    }
 
+    if (this.user?.role === 'studente') {
+      this.studyPlanService.getByStudentId(this.user!.id).subscribe((data) => {
+        this.studyPlan = data;
+  
+        this.totaleCrediti = this.studyPlan
+          .filter(course => course.grade !== null)
+          .reduce((acc, course) => acc + course.credits, 0);
+
+        this.coursesService.getAll().subscribe((data) => {
+          data.filter(course => !this.studyPlan.some(piano => piano.course_id === course.id));
+      })
+      });
+
+
+    }
+
+    if (this.user?.role === 'professore') {
+      this.coursesService.getByProfessorId(this.user.id).subscribe((data) => {
+        this.courses = data;
+      })
+    }
   }
   
   // CREA CORSO SEGRETERIA
-  async createCourse(nameInput: HTMLInputElement, prof_id: HTMLSelectElement, creditsInput: HTMLInputElement): Promise<void> {
-    try {
-      const dto: CreateCourseDto = {
-        name: nameInput.value,
-        professor_id: +prof_id.value,
-        credits: +creditsInput.value
-
+  createCourse(nameInput: HTMLInputElement, prof_id: HTMLSelectElement, creditsInput: HTMLInputElement) {
+    const dto: CreateCourseDto = {
+      name: nameInput.value,
+      professor_id: +prof_id.value,
+      credits: +creditsInput.value
+    }
+    this.coursesService.create(dto).subscribe({
+      next: (correct) => {
+        alert('Corso creato con successo');
+      },
+      error: (err) => {
+        alert('Errore nella creazione del corso');
       }
-      const created: Courses = await firstValueFrom(
-        this.coursesService.create(dto)
-      );
-
-      this.courses.push(created);
-      alert(`Corso (${created.name} creato.`)
-    } catch (err) {
-      console.error("Errore creazione corso: ", err);
-      alert("Non è stato possibile creare il corso.");
-    }
+    });
   }
+  
 
-  async loadCourses(): Promise<void>{
-    try {
-      this.courses = await firstValueFrom(this.coursesService.getAll());
-    } catch(err) {
-      console.error("Errore caricamento corsi", err);
-      alert("Impossibile caricare i corsi");
+  salvaPiano(courseId: number) {
+    
+    if (this.totaleCrediti < 180) {
+      const dto = {
+        student_id: this.user!.id,
+        course_id: courseId
+      }
+
+      this.studyPlanService.create(dto).subscribe({
+        next: (correct) => {
+          alert('Piano aggiunto correttamente');
+        },
+        error: (err) => {
+          alert(`Errore nell'aggiunzione del piano`);
+        }
+      });
+    } else {
+      alert('180 CFU raggiunti, congratulazioni!');
     }
-  }
-
-
-    // SALVA PIANO STUDENTE
-  async salvaPiano(courseId: number): Promise<void> {
-      try {
-        const dto = {
-          student_id: this.user!.id,
-          course_id: courseId
-        };
-
-        const created = await firstValueFrom(
-          this.studyPlanService.create(dto)
-        );
-
-        // il server mi restituisce già { student_id, course_id, course_name, credits, … }
-        this.studyPlan.push(created);
-        alert(`Corso ${created.course_id} (${created.course_name}, ${created.credits} CFU) aggiunto.`);
-
-      } catch (err) {
-        console.error(err);
-        alert('Errore durante il salvataggio del piano.');
-      }    
   }
 
 }

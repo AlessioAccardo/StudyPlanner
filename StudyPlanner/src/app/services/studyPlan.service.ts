@@ -2,19 +2,23 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 
-// mando al server
+
 export interface CreateStudyPlanDto {
   student_id: number;
   course_id: number;
 }
 
-// ricevo dal server
 export interface StudyPlan {
     student_id: number,
     course_id: number,
+    grade: number | null,
     course_name: string,
     credits: number,
-    grade?: number
+    student_first_name: string,
+    student_last_name: string,
+    professor_id: number,
+    professor_first_name: string,
+    professor_last_name: string
 }
 
 @Injectable({ providedIn: 'root'})
