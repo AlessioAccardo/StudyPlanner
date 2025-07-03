@@ -41,13 +41,7 @@ export class PlanComponent implements OnInit{
     }
 
     if (this.user?.role === 'studente') {
-      this.enrolledStudentService.getExamsByEnrolledStudent(this.user!.id).subscribe((data) => {
-        this.esamiPrenotati = data;
-      });
-
-      this.examService.getStudentExams(this.user!.id).subscribe((data) => {
-        this.esami = data;
-      });
+      this.loadStudentThings();
     } 
   }
 
@@ -69,6 +63,8 @@ export class PlanComponent implements OnInit{
           this.examService.setEnrolledStudentsNumber(code).subscribe({
             next: () => {
               alert('Esame prenotato correttamente');
+              this.loadStudentThings();
+              this.esami = this.esami.filter(e => e.code !== code);
             },
             error: () => {
               alert('Errore nell\'aggiornamento del numero di iscritti');
@@ -91,6 +87,16 @@ export class PlanComponent implements OnInit{
     this.visualizzazione = !this.visualizzazione;
   }
 
-  salvaPiano(courseId: number) {}
+  // STUDENTE
+  loadStudentThings() {
+    this.enrolledStudentService.getExamsByEnrolledStudent(this.user!.id).subscribe((data) => {
+        this.esamiPrenotati = data;
+    });
+    this.examService.getStudentExams(this.user!.id).subscribe((data) => {
+        this.esami = data;
+    });
+  }
+
+
 
 }

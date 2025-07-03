@@ -29,6 +29,7 @@
           <li> {{ esame.credits }} CFU</li>
           <li> Numero prenotati: {{ esame.enrolled_students }} </li>
           <li> Data: {{ esame.date }} </li>
+          <li> Docente: {{ esame.professor_first_name }} {{ esame.professor_last_name }} </li>
           <button type="button" (click)="seleziona(esame.code!)">Aggiungi</button>
           </ul>
         }

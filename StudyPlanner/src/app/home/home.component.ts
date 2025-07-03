@@ -96,9 +96,11 @@ export class HomeComponent implements OnInit {
       this.studyPlanService.create(dto).subscribe({
         next: () => {
           alert('Piano aggiunto correttamente');
-          this.courses = this.courses.filter(c => c.id !== courseId)
-          this.loadStudentCourses();
+          this.courses = this.courses.filter(c => c.id !== courseId);
+          this.studyPlan.push;
           this.loadStudyPlan;
+          this.loadStudentCourses();
+          
         },
         error: () => {
           alert(`Errore nell'aggiunzione del piano`);
