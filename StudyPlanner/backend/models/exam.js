@@ -14,13 +14,14 @@ class Exam {
     static async getStudentExams(student_id) {
         return new Promise((resolve, reject) => {
             db.all(`
-                SELECT *                    
+                SELECT e.*, stud.first_name AS student_first_name, stud.last_name AS student_last_name,
+                prof.first_name AS professor_first_name, prof.last_name AS professor_last_name
                 FROM exams AS e
                 JOIN studyPlan AS s ON s.course_id = e.course_id
                 JOIN users AS stud ON stud.id = s.student_id
                 JOIN users as prof ON prof.id = e.professor_id
-                WHERE s.student_id = ?`,
-            [student_id], (err, rows) => {
+                WHERE s.student_id = ? AND s.grade IS NULL AND e.approved = ?`,
+            [student_id, 1], (err, rows) => {
                 if (err) return reject(err);
                 resolve(rows);
             });
@@ -50,24 +51,18 @@ class Exam {
         return new Promise((resolve, reject) => {
             db.run(`
                 UPDATE exams
-                SET enrolled_students = enrolled_students + 1
+                SET enrolled_students = (
+                    SELECT COUNT(*)
+                    FROM enrolledStudents es
+                    WHERE es.exam_code = exams.code)
                 WHERE code = ? AND approved = ?`,
                 [code, 1], (err) => {
                 if (err) return reject(err);
-                resolve({ code, updated: this.changes });
+                resolve({ code });
             });
         });
     }
-
-    static async getEnrolledStudentsNumber(code) {
-        return new Promise((resolve, reject) => {
-            db.get('SELECT * FROM exams WHERE code = ? AND approved = ?', [code, 1], (err, row) => {
-                if (err) return reject(err);
-                resolve(row);
-            });
-        });
-    }
-    
+   
     static async getExamByCode(code) {
         return new Promise((resolve, reject) => {
             db.get('SELECT * FROM exams WHERE code = ? AND approved = ?', [code, 1], (err, row) => {

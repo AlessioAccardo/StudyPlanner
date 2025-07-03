@@ -12,9 +12,6 @@ router.get('/studentexams/:student_id', examCtrl.getStudentExams);
 // GET for exams requests
 router.get('/requested', examCtrl.requested);
 
-// GET enrolled students number by exam code
-router.get('/enrolledstudents/:code', examCtrl.getEnrolledStudentsNumber);
-
 // GET approved exams by prof id
 router.get('/approved/:professor_id', examCtrl.getAllApprovedByProfId);
 
@@ -40,6 +37,6 @@ router.post('/', examCtrl.create);
 router.put('/approve', examCtrl.approve);
 
 // SET enrolled students number by exam code
-router.put('/enrolledstudents/:code', examCtrl.setEnrolledStudentsNumber);
+router.put('/enrolledstudents', examCtrl.setEnrolledStudentsNumber);
 
 module.exports = router;

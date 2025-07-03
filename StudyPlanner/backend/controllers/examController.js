@@ -45,21 +45,9 @@ class ExamController {
 
     static async setEnrolledStudentsNumber(req, res, next) {
         try {
-            const { code } = req.params;
-            const updatedExam = await Exam.setEnrolledStudentsNumber(code);
-            if (!updatedExam) return res.status(404).json({ message: `Errore nell'aggiornmento degli studenti iscritti`});
-            res.status(200).json(updatedExam);
-        } catch (err) {
-            next(err);
-        }
-    }
-    
-    static async getEnrolledStudentsNumber(req, res, next) {
-        try {
-            const { code } = req.params;
-            const exam = await Exam.getEnrolledStudentsNumber(code);
-            if (!exam) return res.status(404).json({ message: `Numero studenti iscritti all'esame non trovato`});
-            res.status(200).json(exam);
+            const { code } = req.body;
+            await Exam.setEnrolledStudentsNumber(code);
+            res.sendStatus(204);
         } catch (err) {
             next(err);
         }

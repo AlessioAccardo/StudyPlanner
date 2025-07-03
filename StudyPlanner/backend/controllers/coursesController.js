@@ -21,6 +21,17 @@ class CoursesController {
         }
     }
 
+    static async getCompStudent(req, res, next) {
+        try {
+            const { student_id } = req.query;
+            const list = await Courses.getCompStudentCourses(student_id);
+            if (!list || list.length === 0) return res.status(404).json({ message: 'Corsi non trovati'});
+            res.status(200).json(list);
+        } catch (err) {
+            next(err);
+        }
+    }
+
     static async getByProfessorId(req, res, next) {
         try {
             const { professor_id } = req.query;
@@ -66,7 +77,9 @@ class CoursesController {
     }
 
     static search(req, res, next) {
-        const { name, professor_id, first_name, last_name } = req.query;
+        const { name, professor_id, first_name, last_name, student_id } = req.query;
+
+        if (student_id) return CoursesController.getCompStudent(req, res, next);
 
         if (first_name && last_name) return CoursesController.getByProfessorFullName(req, res, next);
 
