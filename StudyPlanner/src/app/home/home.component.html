@@ -2,34 +2,57 @@
 
   <!-- PIANO DI STUDI STUDENTE -->
   @if (user.role === 'studente'){
+    <section class = summary>
+    <table>
+      <tbody>
+        <tr> 
+           <td> {{user.first_name}} {{user.last_name}} </td>
+        </tr>
+        <tr>
+          <td>Matricola: {{user.id}} </td>
+        </tr>
+        <tr>
+          <td>Media: {{studentWeightedMean}} </td>
+          <td>CFU Totali: <strong>{{totalCredits}}</strong> / {{MAX_CFU}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 
-    <!-- FARE HTML E CSS DI QUESTO E DI SUMMARY -->
-    <p>{{user.first_name}}</p>
-    <p>{{user.last_name}}</p>
-    <p>Matricola: {{user.id}}</p>
-    <p>Media: {{ studentWeightedMean }}</p>
-    <p>CFU Totali: <strong>{{ totalCredits }}</strong> / {{ MAX_CFU }}</p>
+
 
     @if (libretto) {
       <button (click)="visualizzaCorsi()">Aggiungi corso</button>
-      <section class="summary">
+      <section class="riquadri">
+        <div class = "riquadro">
         <h2>Libretto</h2>
-        @for(course of studyPlan; track course.course_id) {
-          <ul class="course-row">
-          <li>{{ course.course_id }}</li>
-          <li>{{ course.course_name}}</li>
-          <li>{{ course.credits}}</li>
-          @if (course.grade !== null) {
-            <li>{{ course.grade}}</li>
-          } @else {
-            <li>non ancora sostenuto</li>
-          }
-        </ul>
-        }
-      </section>
+        <table>
+            <thead>
+              <tr>
+              <th> ID Corso</th>
+              <th> Nome del corso </th>
+              <th> CFU </th>
+              <th> Voto </th>
+              </tr>
+           </thead>
+            <tbody>
+             @for(course of studyPlan; track course.course_id) {
+              <tr>
+                <td> {{course.course_id}}</td>
+                <td> {{course.course_name}} </td>
+                <td> {{course.credits}} </td>
+                <td> @if(course.grade !== null) { {{course.grade}} 
+                    }@else { - }
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+    </section>  
     } @else {
       <button (click)="visualizzaCorsi()">Vai al libretto</button>
-      <section class="libretto">
+      <section class="riquadri">
         <div class="riquadro">
           <h2> Aggiungi corsi al tuo piano di studi </h2>
           <table>
@@ -58,13 +81,16 @@
         </div>
       </section>
     }   
-  }
+}
 
 
   <!-- VISUALIZZAZIONE PROFESSORE -->
   @if(user.role === 'professore') {
-    @if(courses.length !== 0) {
-      <table>
+  <section class = "riquadri">
+    <div class = "riquadro">
+      @if(courses.length !== 0) {
+      <h2> I tuoi corsi </h2>
+       <table>
         <thead>
           <tr>
             <th>ID Corso</th>
@@ -85,14 +111,15 @@
     } @else {
       <h2>NON HAI ANCORA ALCUN CORSO ASSEGNATO</h2>
     }
+      </div>
+    </section>
   }
 
 
 
   <!-- CREAZIONE CORSI SEGRETERIA -->
   @if(user.role === 'segreteria') {
-    <section class="segreteria">
-      <div class="riquadri">
+      <section class="riquadri">
         <div class="riquadro">
           <h2>Crea un Nuovo Corso</h2>
           <form id="Crea nuovo corso">
@@ -108,7 +135,7 @@
                   <td>
                     <select #prof_id id="professor" name="professor_id" required>
                       @for(prof of professors; track prof.id){
-                      <option [value]="prof.id" disabled selected> {{ prof.id }}, {{ prof.first_name }} {{ prof.last_name
+                      <option [value]="prof.id"> {{ prof.id }}, {{ prof.first_name }} {{ prof.last_name
                         }}</option>
                       }
                     </select>
@@ -136,7 +163,7 @@
                 <tr>
                   <th>ID</th>
                   <th>Corso</th>
-                  <th>ID Professore</th>
+                  <th>Prof ID</th>
                   <th>Professore</th>
                   <th>CFU</th>
                 </tr>
@@ -157,7 +184,6 @@
             <p>Nessun corso creato al momento.</p>
           }
         </div>
-      </div>
     </section>
   }
 </main>
