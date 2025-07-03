@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { ExamService, Exam } from '../services/exam.service';
 import { Router } from '@angular/router';
 import { StudyPlan, StudyPlanService } from '../services/studyPlan.service';
-import { Observable, firstValueFrom } from 'rxjs';
+import { Observable } from 'rxjs';
 import { EnrolledStudent, EnrolledStudentsService, EnrolledStudentDto } from '../services/enrolledStudents.service';
 import { LoggedUser } from '../interfaces/loggedUser.interface';
 import { AuthService } from '../services/auth/auth.service';
@@ -23,9 +23,11 @@ export class PlanComponent implements OnInit{
   
   user$ = inject(AuthService).user$;
 
-  esami: Exam[] = [];
+  esamiPrenotati: EnrolledStudent[] = [];
   studyPlan: StudyPlan[] = [];
-  student_id = 2;
+  esami: Exam[] = [];
+
+  visualizzazione: boolean = true;
 
   constructor(public examService: ExamService, public studyPlanService: StudyPlanService, public enrolledStudentService: EnrolledStudentsService) {}
 
@@ -38,11 +40,17 @@ export class PlanComponent implements OnInit{
       this.user = JSON.parse(raw) as LoggedUser;
     }
 
-    this.examService.getExamByProfessorId(1).subscribe((data:Exam[]) => {
-      this.esami = data;
-    });
+    if (this.user?.role === 'studente') {
+      this.enrolledStudentService.getExamsByEnrolledStudent(this.user!.id).subscribe((data) => {
+        this.esamiPrenotati = data;
+      });
 
-    this.loadStudyPlan();
+      this.examService.getStudentExams(this.user!.id).subscribe((data) => {
+        this.esami = data;
+      });
+    } 
+
+  
   }
 
 
@@ -53,11 +61,21 @@ export class PlanComponent implements OnInit{
   }
 
   seleziona(code: number) {
-    const dto: EnrolledStudentDto = {
-      student_id: this.user!.id,
-      exam_code: code
+    const exists = this.esamiPrenotati.some(e => e.exam_code === code);
+    if (!exists) {
+      const dto: EnrolledStudentDto = {
+        student_id: this.user!.id,
+        exam_code: code
+      }
+      this.enrolledStudentService.enrollStudent(dto).subscribe({
+        next: (corr) => {
+          alert('Esame prenotato correttamente');
+        },
+        error: (err) => {
+          alert(`Errore nell'inserimento dell'esame`);
+        }
+      });
     }
-    this.enrolledStudentService.enrollStudent(dto);
   }
 
   onSearch(event: Event): void {
@@ -65,14 +83,8 @@ export class PlanComponent implements OnInit{
     this.searchText = input.value;
   }
 
-  get cfuTotali(): number {
-    return this.esami.reduce((tot, e) => tot + e.credits, 0);
-  }
-
-  private loadStudyPlan() {
-    this.studyPlanService.getByStudentId(this.user!.id).subscribe((data) => {
-      this.studyPlan = data;
-    });
+  visualizzaEsami() {
+    this.visualizzazione = !this.visualizzazione;
   }
 
   salvaPiano(courseId: number) {}

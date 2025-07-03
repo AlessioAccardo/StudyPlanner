@@ -1,31 +1,35 @@
 <main class="container">
-  <section class="summary">
+  @if (visualizzazione) {
+    <button (click)="visualizzaEsami()">Visualizza esami disponibili alla prenotazione</button>
+    <section class="summary">
     <h2 class="esami-titolo">Esami</h2>
-    @for(esame of esami; track esame.code) {
+    @for(esame of esamiPrenotati; track esame.exam_code) {
       <ul class="course-row">
-      <li>{{ esame.course_id }}</li>
-      <li>{{ esame.name}}</li>
-      <li>{{ esame.date }} </li>
-      <li>AGGIUNGERE FUNC CFU</li>
-    </ul>
+        <li>{{ esame.course_id }}</li>
+        <li>{{ esame.exam_code}}</li>
+        <li>{{ esame.date }} </li>
+        <li> {{esame.credits}} </li>
+      </ul>
     }
-  </section>
-
-  <section class="study-plan">
-    <h3>Seleziona gli esami</h3>
-    <form>
-    <section class = "search">
-      <input type="text" placeholder="Cerca esame per codice o nome esame..."(input)="onSearch($event)"/>
     </section>
-      @for (esame of esami; track esame.code) {
-        <ul class="course-row">
-         <li> ID: {{ esame.code }} </li>
-         <li> Nome: {{ esame.name }}</li>
-         <li> {{ esame.credits }} CFU</li>
-         <li> Numero prenotati: {{ esame.enrolled_students }} </li>
-         <button type="button" (click)="seleziona(esame.code!)">Aggiungi</button>
-        </ul>
-      }
-    </form>
-  </section>
+  } @else {
+    <button (click)="visualizzaEsami()">Visualizza esami preontati</button>
+    <section class="study-plan">
+      <h3>Seleziona gli esami</h3>
+      <form>
+        <section class = "search">
+          <input type="text" placeholder="Cerca esame per codice o nome esame..."(input)="onSearch($event)"/>
+        </section>
+        @for (esame of esami; track esame.code) {
+          <ul class="course-row">
+          <li> ID Corso: {{ esame.course_id }} </li>
+          <li> Nome: {{ esame.name }}</li>
+          <li> {{ esame.credits }} CFU</li>
+          <li> Numero prenotati: {{ esame.enrolled_students }} </li>
+          <button type="button" (click)="seleziona(esame.code!)">Aggiungi</button>
+          </ul>
+        }
+      </form>
+    </section>
+  }
 </main>

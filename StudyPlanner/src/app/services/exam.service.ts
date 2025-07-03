@@ -76,4 +76,8 @@ export class ExamService {
     setEnrolledStudentsNumber(code: number): Observable<Exam> {
         return this.http.put<Exam>(`${this.apiUrl}/enrolledstudents`, { code });
     }
+
+    getStudentExams(student_id: number): Observable<Exam[]> {
+        return this.http.get<Exam[]>(`${this.apiUrl}/studentexams/${student_id}`);
+    }
 }

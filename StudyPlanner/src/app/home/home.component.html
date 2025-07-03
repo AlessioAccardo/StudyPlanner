@@ -3,56 +3,65 @@
   <!-- PIANO DI STUDI STUDENTE -->
   @if (user.role === 'studente'){
 
-    <section class="summary">
-    <h2>Libretto</h2>
-    <p>CFU Totali: <strong>{{ totaleCrediti }}</strong> / {{ MAX_CFU }}</p>
+    <!-- FARE HTML E CSS DI QUESTO E DI SUMMARY -->
+    <p>{{user.first_name}}</p>
+    <p>{{user.last_name}}</p>
+    <p>Matricola: {{user.id}}</p>
+    <p>Media: {{ studentWeightedMean }}</p>
+    <p>CFU Totali: <strong>{{ totalCredits }}</strong> / {{ MAX_CFU }}</p>
 
-    @for(course of studyPlan; track course.course_id) {
-      <ul class="course-row">
-      <li>{{ course.course_id }}</li>
-      <li>{{ course.course_name}}</li>
-      <li>{{ course.credits}}</li>
-      @if (course.grade !== null) {
-        <li>{{ course.grade}}</li>
-      } @else {
-        <li>non ancora sostenuto</li>
-      }
-    </ul>
-    }
-  </section>
-
-    <section class="libretto">
-      <div class="riquadro">
-        <h2> Aggiungi corsi al tuo piano di studi </h2>
-        <table>
-          <thead>
-            <tr>
-              <td> ID corso </td>
-              <td> Nome corso </td>
-              <td> Docente </td>
-              <td> CFU </td>
-            </tr>
-          </thead>
-          <tbody>
-            @for (course of courses; track course.id) {
-            <tr>
-              <td>{{ course.id }}</td>
-              <td>{{ course.name }}</td>
-              <td>{{ course.professor_first_name }} {{ course.professor_last_name }}</td>
-              <td>{{ course.credits }} CFU</td>
-              <td>
-                <button (click)="salvaPiano(course.id)">Aggiungi</button>
-              </td>
-            </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-    </section>
+    @if (libretto) {
+      <button (click)="visualizzaCorsi()">Aggiungi corso</button>
+      <section class="summary">
+        <h2>Libretto</h2>
+        @for(course of studyPlan; track course.course_id) {
+          <ul class="course-row">
+          <li>{{ course.course_id }}</li>
+          <li>{{ course.course_name}}</li>
+          <li>{{ course.credits}}</li>
+          @if (course.grade !== null) {
+            <li>{{ course.grade}}</li>
+          } @else {
+            <li>non ancora sostenuto</li>
+          }
+        </ul>
+        }
+      </section>
+    } @else {
+      <button (click)="visualizzaCorsi()">Vai al libretto</button>
+      <section class="libretto">
+        <div class="riquadro">
+          <h2> Aggiungi corsi al tuo piano di studi </h2>
+          <table>
+            <thead>
+              <tr>
+                <td> ID corso </td>
+                <td> Nome corso </td>
+                <td> Docente </td>
+                <td> CFU </td>
+              </tr>
+            </thead>
+            <tbody>
+              @for (course of courses; track course.id) {
+              <tr>
+                <td>{{ course.id }}</td>
+                <td>{{ course.name }}</td>
+                <td>{{ course.professor_first_name }} {{ course.professor_last_name }}</td>
+                <td>{{ course.credits }} CFU</td>
+                <td>
+                  <button (click)="salvaPiano(course.id)">Aggiungi</button>
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+    }   
   }
 
 
-
+  <!-- VISUALIZZAZIONE PROFESSORE -->
   @if(user.role === 'professore') {
     @if(courses.length !== 0) {
       <table>

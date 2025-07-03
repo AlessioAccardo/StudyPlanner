@@ -45,6 +45,7 @@ export class AuthApiService {
       return this.http.post<AuthResponse>(`${this.apiUrl}/login`, payload);
     }
 
+    /*
     logout(): Observable<void> {
       return this.http.post<void>(`${this.apiUrl}/logout`, {});
     }
@@ -56,4 +57,5 @@ export class AuthApiService {
     me(): Observable<AuthResponse['data']> {
       return this.http.get<AuthResponse['data']>(`${this.apiUrl}/me`);
     }
+    */
 }

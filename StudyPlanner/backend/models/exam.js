@@ -11,6 +11,22 @@ class Exam {
         });
     }
 
+    static async getStudentExams(student_id) {
+        return new Promise((resolve, reject) => {
+            db.all(`
+                SELECT *                    
+                FROM exams AS e
+                JOIN studyPlan AS s ON s.course_id = e.course_id
+                JOIN users AS stud ON stud.id = s.student_id
+                JOIN users as prof ON prof.id = e.professor_id
+                WHERE s.student_id = ?`,
+            [student_id], (err, rows) => {
+                if (err) return reject(err);
+                resolve(rows);
+            });
+        });
+    }
+
     static async getAllApprovedExams() { 
         return new Promise((resolve, reject) => {
             db.all('SELECT * FROM exams WHERE approved = ?', [1], (err, rows) => {

@@ -6,6 +6,9 @@ const examCtrl = require('../controllers/examController');
 // GET by professor full name
 router.get('/search', examCtrl.getByProfessorName);
 
+// GET student exams
+router.get('/studentexams/:student_id', examCtrl.getStudentExams);
+
 // GET for exams requests
 router.get('/requested', examCtrl.requested);
 

@@ -11,6 +11,17 @@ class ExamController {
         }
     }
 
+    static async getStudentExams(req, res, next) {
+        try {
+            const { student_id } = req.params;
+            const list = await Exam.getStudentExams(student_id);
+            if (!list || list.length === 0) return res.status(404).json({ message: 'Esami dello studente non trovati'});
+            res.status(200).json(list);
+        } catch (err) {
+            next(err);
+        }
+    }
+
     static async getAllApproved(req, res, next) {
         try {
             const list = await Exam.getAllApprovedExams();
