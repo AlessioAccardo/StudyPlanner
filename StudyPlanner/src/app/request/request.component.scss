@@ -1,14 +1,24 @@
 /* Gestione appelli (componente Request): Form e Tabella */
 
-.request-table form {
+.request{
+ display: flex;
+ flex-direction: column;
+ gap: 2rem;
+ margin-top: 2rem;
+ justify-content: left;
+ align-items: left ;
+ background-color: white;
+ padding: 1rem;
+}
+.request form {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.75rem;
   align-items: end;
 }
-.request-table label { font-weight: 600; }
+.request label { font-weight: 600; }
 
-.request-table select{
+.request select{
   width: 40%;
   padding: 0.5rem;
   border: 1px solid #ccc;
@@ -16,18 +26,18 @@
 }
 
 
-.request-table table {
+.request table {
   width: 100%;
   border-collapse: collapse;
 }
-.request-table th,
-.request-table td {
+.request th,
+.request td {
   padding: 0.75rem;
   text-align: left;
   border-bottom: 0.0625rem solid #ddd;
 }
-.request-table .approva,
-.request-table .rifiuta{
+.request .approva,
+.request .rifiuta{
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 0.25rem;
@@ -35,7 +45,7 @@
   color: white;
 }
 
-.request-table .formButton{
+.request .formButton{
   width:100%;
   padding: 0.75em 1.5em;
   font-size: 16px;
@@ -54,18 +64,18 @@
   transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-.request-table .formButton:hover {
+.request .formButton:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.request-table .formButton:active {
+.request .formButton:active {
  transform: translateY(0);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
 }
 
 //bottone approva
-.request-table .approva{
+.request .approva{
   width:100%;
   padding: 0.75em 1.5em;
   font-size: 16px;
@@ -84,18 +94,18 @@
   transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-.request-table .approva:hover {
+.request .approva:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.request-table .approva:active {
+.request .approva:active {
  transform: translateY(0);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
 }
 
 //bottone rifiuta
-.request-table .rifiuta{
+.request .rifiuta{
   width:100%;
   padding: 0.75em 1.5em;
   font-size: 16px;
@@ -114,12 +124,12 @@
   transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-.request-table .rifiuta:hover {
+.request .rifiuta:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.request-table .rifiuta:active {
+.request .rifiuta:active {
  transform: translateY(0);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
 }
@@ -129,3 +139,68 @@
   font-weight: bold;
 }
 
+//esempio card di chatgpt 
+@media (max-width: 600px) {
+  /* Form a colonna singola */
+  .request form {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .request select,
+  .request .formButton,
+  .request .approva,
+  .request .rifiuta {
+    width: 100%;
+  }
+  .request {
+    padding: 0.5rem;
+    gap: 1rem;
+  }
+
+  /* Tabella senza scroll orizzontale */
+  .request table,
+  .request thead,
+  .request tbody,
+  .request th,
+  .request td,
+  .request tr {
+    display: block;
+  }
+  /* Nascondi l’intestazione originale */
+  .request thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  /* Ogni riga come “card” */
+  .request tr {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+  }
+  /* Celle a piena larghezza, con label chiara */
+  .request td {
+    position: relative;
+    padding-left: 50%;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border: none;
+    border-bottom: 1px solid #eee;
+    white-space: normal;
+  }
+  /* Inserisce il nome colonna prima del contenuto */
+  .request td:before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+    width: 45%;
+    padding-left: 0.75rem;
+    font-weight: 600;
+  }
+  /* Rimuove il bordo dall’ultima cella di ogni “card” */
+  .request td:last-child {
+    border-bottom: none;
+  }
+}
