@@ -29,11 +29,13 @@ class Courses {
     static async getCompStudentCourses(student_id) {
         return new Promise((resolve, reject) => {
             db.all(`
-                SELECT c.*, u.first_name AS professor_first_name, u.last_name AS professor_last_name
-                FROM courses AS c
-                JOIN users AS u ON u.id = c.professor_id
-                JOIN studyPlan as s on s.course_id = c.id
-                WHERE s.student_id = ?`,
+                SELECT c.*, u.first_name AS professor_first_name, u.last_name  AS professor_last_name
+                FROM courses AS c JOIN users AS u  ON u.id = c.professor_id
+                WHERE NOT EXISTS (
+                    SELECT 1
+                    FROM studyPlan AS s
+                    WHERE s.course_id  = c.id AND s.student_id = ?
+                )`,
             [student_id], (err, rows) => {
                 if (err) return reject(err);
                 resolve(rows);

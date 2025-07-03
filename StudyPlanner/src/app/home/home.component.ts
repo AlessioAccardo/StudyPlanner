@@ -58,7 +58,7 @@ export class HomeComponent implements OnInit {
     if (this.user?.role === 'studente') {
       forkJoin({
         plan: this.studyPlanService.getByStudentId(this.user.id),
-        courses: this.coursesService.getAll()
+        courses: this.coursesService.getCompStudent(this.user.id)
       }).subscribe(({ plan, courses }) => {
         this.studyPlan = plan;
         this.totalCredits = this.studyPlan
@@ -74,7 +74,7 @@ export class HomeComponent implements OnInit {
     if (this.user?.role === 'professore') {
       this.coursesService.getByProfessorId(this.user.id).subscribe((data) => {
         this.courses = data;
-      })
+      });
     }
   }
   

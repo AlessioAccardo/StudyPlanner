@@ -89,5 +89,6 @@ export class RequestComponent implements OnInit {
         alert(`Errore nell'approvazione dell'esame`);
       }
     });
+    
   }
 }

@@ -27,7 +27,7 @@ export class CoursesService {
         return this.http.get<Courses[]>(`${this.apiUrl}`);
     }
 
-    getCompStudent(student_id: string): Observable<Courses[]> {
+    getCompStudent(student_id: number): Observable<Courses[]> {
         const params = new HttpParams().set('student_id', student_id);
         return this.http.get<Courses[]>(`${this.apiUrl}/search`, { params });
     }
