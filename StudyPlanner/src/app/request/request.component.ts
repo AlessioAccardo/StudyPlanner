@@ -3,6 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ExamService, Exam, CreateExamDto } from '../services/exam.service';
 import { CoursesService, Courses } from '../services/courses.service';
+import { AuthService } from '../services/auth/auth.service';
+import { LoggedUser } from '../interfaces/loggedUser.interface';
 
 @Component({
   selector: 'app-request',
@@ -14,6 +16,9 @@ import { CoursesService, Courses } from '../services/courses.service';
 export class RequestComponent implements OnInit {
   router = inject(Router);
 
+  user: LoggedUser | null = null;
+  user$ = inject(AuthService).user$;
+
   requests: Exam[] = [];
 
   courses: Courses[] = [];
@@ -22,16 +27,24 @@ export class RequestComponent implements OnInit {
   constructor(private examService: ExamService, private coursesService: CoursesService) {}
 
   ngOnInit(): void {
-    
-    //if (this.auth.role() === 'admin') {
-      this.loadRequests();
-    //}
+    // OTTENGO L'OGGETTO USER
+    const raw = localStorage.getItem('currentUser');
+    if (!raw) {
+      console.log('Nessun utente in local storage');
+    } else {
+      this.user = JSON.parse(raw) as LoggedUser;
+    }
 
-    //if (this.auth.role() === 'professore') {
-      this.coursesService.getByProfessorId(1).subscribe((data) => {
+    
+    if (this.user?.role === 'segreteria') {
+      this.loadRequests();
+    }
+
+    if (this.user?.role === 'professore') {
+      this.coursesService.getByProfessorId(this.user.id).subscribe((data) => {
         this.courses = data;
       })
-    //}
+    }
   }
 
   onSubmit(courseInput: HTMLSelectElement, dateInput: HTMLInputElement) {

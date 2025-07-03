@@ -49,10 +49,7 @@ export class PlanComponent implements OnInit{
         this.esami = data;
       });
     } 
-
-  
   }
-
 
   searchText: string = '';
 
@@ -68,11 +65,18 @@ export class PlanComponent implements OnInit{
         exam_code: code
       }
       this.enrolledStudentService.enrollStudent(dto).subscribe({
-        next: (corr) => {
-          alert('Esame prenotato correttamente');
+        next: () => {
+          this.examService.setEnrolledStudentsNumber(code).subscribe({
+            next: () => {
+              alert('Esame prenotato correttamente');
+            },
+            error: () => {
+              alert('Errore nell\'aggiornamento del numero di iscritti');
+            }
+          });
         },
-        error: (err) => {
-          alert(`Errore nell'inserimento dell'esame`);
+        error: () => {
+          alert('Errore nell\'inserimento dell\'esame');
         }
       });
     }

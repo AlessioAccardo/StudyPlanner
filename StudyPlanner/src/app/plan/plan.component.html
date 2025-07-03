@@ -8,7 +8,9 @@
         <li>{{ esame.course_id }}</li>
         <li>{{ esame.exam_code}}</li>
         <li>{{ esame.date }} </li>
-        <li> {{esame.credits}} </li>
+        <li>{{ esame.credits }} </li>
+        <li>{{ esame.professor_first_name }} {{ esame.professor_last_name }}</li>
+        <li>{{ esame.enrolled_students }}</li>
       </ul>
     }
     </section>
@@ -26,6 +28,7 @@
           <li> Nome: {{ esame.name }}</li>
           <li> {{ esame.credits }} CFU</li>
           <li> Numero prenotati: {{ esame.enrolled_students }} </li>
+          <li> Data: {{ esame.date }} </li>
           <button type="button" (click)="seleziona(esame.code!)">Aggiungi</button>
           </ul>
         }

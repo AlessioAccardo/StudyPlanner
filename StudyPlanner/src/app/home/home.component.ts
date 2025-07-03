@@ -57,7 +57,7 @@ export class HomeComponent implements OnInit {
     // STUDENTE
     if (this.user?.role === 'studente') {
       forkJoin({
-        plan: this.studyPlanService.getByStudentId(this.user!.id),
+        plan: this.studyPlanService.getByStudentId(this.user.id),
         courses: this.coursesService.getAll()
       }).subscribe(({ plan, courses }) => {
         this.studyPlan = plan;

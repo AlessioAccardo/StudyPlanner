@@ -1,7 +1,7 @@
 <main class="container">
-  @if(1>0){
+  @if (user?.role){
   <section class="request-table">
-    <h2>Professore Richiesta Appello</h2>
+    <h2>Richiesta Appello</h2>
     <form>
       <label for="course">Corso</label>
       <select #courseInput id="course" required>
@@ -18,7 +18,7 @@
   }
   
   <!-- GESTIONE RICHIESTE SEGRETERIA -->
-  @if(1>0) {
+  @if(user?.role === 'segreteria') {
     <section class = "request-table">
     <h2>Gestione Richieste</h2>
     <table>
