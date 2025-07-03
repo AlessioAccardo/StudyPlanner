@@ -8,6 +8,7 @@ import { LoggedUser } from '../interfaces/loggedUser.interface';
 import { AuthService } from '../services/auth/auth.service';
 AuthService
 
+
 @Component({
   selector: 'app-plan',
   standalone: true,
@@ -15,24 +16,26 @@ AuthService
   templateUrl: './plan.component.html',
   styleUrl: './plan.component.scss'
 })
-
-export class PlanComponent implements OnInit{
+export class PlanComponent implements OnInit {
   router = inject(Router);
-
   user: LoggedUser | null = null;
-  
   user$ = inject(AuthService).user$;
 
   esamiPrenotati: EnrolledStudent[] = [];
   studyPlan: StudyPlan[] = [];
   esami: Exam[] = [];
+  allEsami: Exam[] = []; 
 
   visualizzazione: boolean = true;
+  searchText: string = '';
 
-  constructor(public examService: ExamService, public studyPlanService: StudyPlanService, public enrolledStudentService: EnrolledStudentsService) {}
+  constructor(
+    public examService: ExamService,
+    public studyPlanService: StudyPlanService,
+    public enrolledStudentService: EnrolledStudentsService
+  ) {}
 
   ngOnInit() {
-
     const raw = localStorage.getItem('currentUser');
     if (!raw) {
       console.log('Nessun utente in local storage');
@@ -41,20 +44,12 @@ export class PlanComponent implements OnInit{
     }
 
     if (this.user?.role === 'studente') {
-      this.enrolledStudentService.getExamsByEnrolledStudent(this.user!.id).subscribe((data) => {
-        this.esamiPrenotati = data;
-      });
-
-      this.examService.getStudentExams(this.user!.id).subscribe((data) => {
-        this.esami = data;
-      });
-    } 
+      this.loadStudentThings();
+    }
   }
 
-  searchText: string = '';
-
   getExamByCode(code: number): Observable<Exam> {
-    return this.examService.getExamByCode(code)
+    return this.examService.getExamByCode(code);
   }
 
   seleziona(code: number) {
@@ -63,20 +58,23 @@ export class PlanComponent implements OnInit{
       const dto: EnrolledStudentDto = {
         student_id: this.user!.id,
         exam_code: code
-      }
+      };
       this.enrolledStudentService.enrollStudent(dto).subscribe({
         next: () => {
           this.examService.setEnrolledStudentsNumber(code).subscribe({
             next: () => {
               alert('Esame prenotato correttamente');
+              this.loadStudentThings();
+              this.esami = this.esami.filter(e => e.code !== code);
+              this.allEsami = this.allEsami.filter(e => e.code !== code);
             },
             error: () => {
-              alert('Errore nell\'aggiornamento del numero di iscritti');
+              alert("Errore nell'aggiornamento del numero di iscritti");
             }
           });
         },
         error: () => {
-          alert('Errore nell\'inserimento dell\'esame');
+          alert("Errore nell\'inserimento dell\'esame");
         }
       });
     }
@@ -84,13 +82,28 @@ export class PlanComponent implements OnInit{
 
   onSearch(event: Event): void {
     const input = event.target as HTMLInputElement;
-    this.searchText = input.value;
+    const value = input.value.toLowerCase();
+    this.searchText = value;
+
+    this.esami = this.allEsami.filter(esame =>
+      esame.name.toLowerCase().includes(value) ||
+      String(esame.course_id).includes(value)
+    );
   }
 
   visualizzaEsami() {
     this.visualizzazione = !this.visualizzazione;
   }
 
-  salvaPiano(courseId: number) {}
+  //STUDENTE
+  loadStudentThings() {
+    this.enrolledStudentService.getExamsByEnrolledStudent(this.user!.id).subscribe(data => {
+      this.esamiPrenotati = data;
+    });
 
+    this.examService.getStudentExams(this.user!.id).subscribe(data => {
+      this.esami = data;
+      this.allEsami = [...data]; 
+    });
+  }
 }

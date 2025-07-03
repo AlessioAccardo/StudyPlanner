@@ -74,3 +74,19 @@ button:active {
   }
 }
 
+/*tabelle*/
+.esami-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.esami-table th, .esami-table td {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.esami-table th {
+  background-color: #e0f0ff;
+}

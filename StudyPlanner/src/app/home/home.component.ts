@@ -5,7 +5,6 @@ import { StudyPlanService, StudyPlan } from '../services/studyPlan.service';
 import { LoggedUser } from '../interfaces/loggedUser.interface';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth/auth.service';
-import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-courses',
@@ -55,19 +54,9 @@ export class HomeComponent implements OnInit {
     }
 
     // STUDENTE
-    if (this.user?.role === 'studente') {
-      forkJoin({
-        plan: this.studyPlanService.getByStudentId(this.user.id),
-        courses: this.coursesService.getCompStudent(this.user.id)
-      }).subscribe(({ plan, courses }) => {
-        this.studyPlan = plan;
-        this.totalCredits = this.studyPlan
-          .filter(course => course.grade !== null)
-          .reduce((acc, course) => acc + course.credits, 0);
-        this.courses = courses.filter(c => !plan.some(p => p.course_id === c.id));
-        this.creditMap = new Map(this.courses.map(c => [c.id, c.credits]));
-        this.weightedMeanCompute();
-      });
+    if (this.user!.role === 'studente') {
+      this.loadStudyPlan();
+      this.loadStudentCourses();
     }
 
     // PROFESSORE
@@ -101,14 +90,19 @@ export class HomeComponent implements OnInit {
     if (this.totalCredits < 180) {
       const dto = {
         student_id: this.user!.id,
-        course_id: courseId
+        course_id: +courseId
       }
 
       this.studyPlanService.create(dto).subscribe({
-        next: (correct) => {
+        next: () => {
           alert('Piano aggiunto correttamente');
+          this.courses = this.courses.filter(c => c.id !== courseId);
+          this.studyPlan.push;
+          this.loadStudyPlan;
+          this.loadStudentCourses();
+          
         },
-        error: (err) => {
+        error: () => {
           alert(`Errore nell'aggiunzione del piano`);
         }
       });
@@ -136,4 +130,23 @@ export class HomeComponent implements OnInit {
     this.libretto = !this.libretto;
   }
 
+
+  // CARICA PIANO STUDENTE
+  loadStudyPlan() {
+    this.studyPlanService.getByStudentId(this.user!.id).subscribe((plan) => {
+        this.studyPlan = plan;
+        this.totalCredits = this.studyPlan
+          .filter(course => course.grade !== null)
+          .reduce((acc, course) => acc + course.credits, 0);
+    });
+  }
+
+  // CARICA CORSI CHE LO STUDENTE PUO AGGIUNGERE
+  loadStudentCourses() {
+    this.coursesService.getCompStudent(this.user!.id).subscribe((course) => {
+        this.courses = course;
+        this.creditMap = new Map(this.courses.map(c => [c.id, c.credits]));
+        this.weightedMeanCompute();
+    });
+  }
 }

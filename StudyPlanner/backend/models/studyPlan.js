@@ -52,12 +52,10 @@ class StudyPlan {
     */
     
     static async create(student_id, course_id) {
-        const { name: course_name, credits } = await Courses.getCourseById(course_id);
-
         return new Promise((resolve, reject) => {
-            db.run('INSERT INTO studyPlan(student_id, course_id, course_name, credits) VALUES (?,?,?,?)', [student_id, course_id, course_name, credits], function(err) {
+            db.run('INSERT INTO studyPlan(student_id, course_id) VALUES (?,?)', [student_id, course_id], function(err) {
                 if (err) return reject(err);
-                resolve({ student_id, course_id, course_name, credits });
+                resolve({ student_id, course_id });
             });
         });
     }

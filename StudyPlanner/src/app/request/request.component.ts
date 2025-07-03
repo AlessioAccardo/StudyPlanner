@@ -83,6 +83,8 @@ export class RequestComponent implements OnInit {
         } else {
           alert(`Richiesta creazione esame ${approvedExam.name} rifiutata`);
         }
+        this.requests = this.requests.filter(r => r.code !== code);
+        this.loadRequests();
       },
       error: err => {
         console.log(err);

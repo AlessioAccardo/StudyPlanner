@@ -28,7 +28,7 @@ export class CoursesService {
     }
 
     getCompStudent(student_id: number): Observable<Courses[]> {
-        const params = new HttpParams().set('student_id', student_id);
+        const params = new HttpParams().set('student_id', student_id.toString());
         return this.http.get<Courses[]>(`${this.apiUrl}/search`, { params });
     }
 

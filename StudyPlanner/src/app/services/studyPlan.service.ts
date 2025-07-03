@@ -36,8 +36,8 @@ export class StudyPlanService {
         return this.http.get<StudyPlan[]>(`${this.apiUrl}/search`, { params });
     }
 
-    create(dto: CreateStudyPlanDto): Observable<StudyPlan> {
-        return this.http.post<StudyPlan>(this.apiUrl, dto);
+    create(dto: CreateStudyPlanDto): Observable<CreateStudyPlanDto> {
+        return this.http.post<CreateStudyPlanDto>(this.apiUrl, dto);
     }
 
 }
