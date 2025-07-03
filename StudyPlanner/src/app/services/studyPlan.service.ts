@@ -8,13 +8,6 @@ export interface CreateStudyPlanDto {
   course_id: number;
 }
 
-export interface StudyPlanCreateResponse {
-  student_id:  number;
-  course_id:   number;
-  course_name: string;
-  credits:     number;
-}
-
 export interface StudyPlan {
     student_id: number,
     course_id: number,
