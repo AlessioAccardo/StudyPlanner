@@ -1,62 +1,64 @@
 /* Plan */
-
-.course-row {
+.riquadro {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  align-items: center;
-  list-style-type: none;
-  padding: 10px;
-  margin: 0 0 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  max-width: 30rem;
-  width: 100%;
-}
-button {
-  width:100%;
-  padding: 0.75em 1.5em;
-  font-size: 16px;
-  color: #fff;
-  text-align: center;
-  cursor: pointer;
-  border: none;
-  border-radius: 0.5em;
-
-  background: linear-gradient(
-    to bottom right,
-    #b0e6fa,
-    #1da4e2   
-  );
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  flex-direction: column;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.375rem rgba(0,0,0,0.05);
+  flex: 1 1 20rem;
 }
 
-.esami-titolo {
+.riquadro h2 {
   margin-bottom: 2rem;
 }
 
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+.riquadro form {
+  display: flex;
+  flex-direction: column;
+}
+.riquadro label {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+.riquadro input,
+.riquadro select {
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 0.375rem;
+  border: 0.0625rem solid #ccc;
 }
 
-button:active {
- transform: translateY(0);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+.riquadro table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.riquadro th,
+.riquadro td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 0.0625rem solid #ddd;
+}
+
+.riquadro thead tr {
+  font-weight: bold;
+  background-color: #f9f9f9;
+}
+
+.riquadro tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+
+button {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 
 @media (max-width: 768px) {
-  .course-row {
-    flex-direction: column;
-    max-width: 100%;
-    gap: 15px;
-  }
-  .course-row li {
-    min-width: auto;
-    width: 100%;
-  }
+
+
   button {
     width: 100%;
     box-sizing: border-box;
@@ -65,28 +67,7 @@ button:active {
 }
 
 @media (max-width: 480px) {
-  .course-row {
-    padding: 8px;
-    gap: 10px;
-  }
    button {
     padding: 0.5rem;
   }
-}
-
-/*tabelle*/
-.esami-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-}
-
-.esami-table th, .esami-table td {
-  border: 1px solid #ccc;
-  padding: 0.5rem;
-  text-align: left;
-}
-
-.esami-table th {
-  background-color: #e0f0ff;
 }

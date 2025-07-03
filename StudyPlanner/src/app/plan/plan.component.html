@@ -1,9 +1,9 @@
 <main class="container">
   @if (visualizzazione) {
     <button (click)="visualizzaEsami()">Visualizza esami disponibili alla prenotazione</button>
-    <section class="summary">
-      <h2 class="esami-titolo">Esami</h2>
-      <table class="esami-table">
+    <section class="riquadro">
+      <h2> Esami </h2>
+      <table class="esami">
         <thead>
           <tr>
             <th>Codice Corso</th>
@@ -30,13 +30,13 @@
     </section>
   } @else {
     <button (click)="visualizzaEsami()">Visualizza esami prenotati</button>
-    <section class="study-plan">
+    <section class="riquadro">
       <h3>Seleziona gli esami</h3>
       <form>
         <section class="search">
           <input type="text" placeholder="Cerca esame per codice o nome esame..." (input)="onSearch($event)" />
         </section>
-        <table class="esami-table">
+        <table class="esami">
           <thead>
             <tr>
               <th>Codice Corso</th>
