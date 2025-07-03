@@ -8,6 +8,13 @@ export interface CreateStudyPlanDto {
   course_id: number;
 }
 
+export interface StudyPlanCreateResponse {
+  student_id:  number;
+  course_id:   number;
+  course_name: string;
+  credits:     number;
+}
+
 export interface StudyPlan {
     student_id: number,
     course_id: number,
@@ -36,8 +43,8 @@ export class StudyPlanService {
         return this.http.get<StudyPlan[]>(`${this.apiUrl}/search`, { params });
     }
 
-    create(dto: CreateStudyPlanDto): Observable<StudyPlan> {
-        return this.http.post<StudyPlan>(this.apiUrl, dto);
+    create(dto: CreateStudyPlanDto): Observable<CreateStudyPlanDto> {
+        return this.http.post<CreateStudyPlanDto>(this.apiUrl, dto);
     }
 
 }

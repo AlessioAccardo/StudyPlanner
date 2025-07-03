@@ -1,5 +1,7 @@
 <main class="container">
-  @if (user?.role){
+
+  <!-- CREAZIONE RICHIESTE PROFESSORE -->
+  @if (user?.role === 'professore'){
   <section class="request-table">
     <h2>Richiesta Appello</h2>
     <form>
